@@ -1,0 +1,1 @@
+{"description":"凌極世界 crestylonworld 官方網站 —— Markdown 內容驅動的靜態站","license":"MIT","name":"crestylon-word","scripts":{"build":"node scripts/build.mjs","deploy":"npm run build && wrangler deploy","dev":"node scripts/build.mjs --watch"},"type":"module","version":"1.0.0"}
