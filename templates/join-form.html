@@ -1,0 +1,214 @@
+<!-- 加入我們表單：原樣移植自舊站 Custom Embed（欄位、placeholder、必填、送出目的地、回覆訊息皆與原始碼一致；僅 class 前綴改為 join- 以配合本站模板，f19「極凌世界」用字原樣保留） -->
+<div class="join-embed">
+  <style>
+    .join-embed .join-app { max-width: 720px; width: 100%; margin: 0 auto; }
+    .join-embed .join-form-box { background: rgba(232,224,212,0.03); border: 1px solid rgba(180,160,130,0.12); border-radius: 1.2rem; padding: 2rem; }
+    .join-embed .join-heading { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .join-embed .join-sub { font-size: 0.9rem; color: rgba(232,224,212,0.5); border-left: 3px solid #b4a082; padding-left: 0.75rem; margin-bottom: 1.8rem; font-style: italic; }
+    .join-embed .join-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; }
+    .join-embed .join-full { grid-column: 1 / -1; }
+    .join-embed label { display: block; font-size: 0.82rem; font-weight: 600; color: rgba(232,224,212,0.8); margin-bottom: 0.2rem; }
+    .join-embed label .join-req { color: #b4a082; }
+    .join-embed input, .join-embed select, .join-embed textarea { width: 100%; padding: 0.55rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(180,160,130,0.18); border-radius: 0.6rem; color: #e8e0d4; font-size: 0.95rem; font-family: 'Noto Serif TC', serif; transition: 0.2s; }
+    .join-embed input:focus, .join-embed select:focus, .join-embed textarea:focus { outline: none; border-color: #b4a082; box-shadow: 0 0 0 3px rgba(180,160,130,0.12); background: rgba(255,255,255,0.06); }
+    .join-embed textarea { resize: vertical; min-height: 56px; }
+    .join-embed .join-btn { width: 100%; padding: 0.8rem; margin-top: 1.2rem; background: #b4a082; color: #0c0c14; font-weight: 700; font-size: 1.05rem; border: none; border-radius: 2.5rem; cursor: pointer; font-family: 'Noto Serif TC', serif; letter-spacing: 0.06em; transition: 0.2s; }
+    .join-embed .join-btn:hover { background: #cbb59b; }
+    .join-embed .join-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .join-embed #join-res { margin-top: 1rem; padding: 0.6rem 1rem; border-radius: 0.6rem; text-align: center; font-size: 0.95rem; display: none; }
+    @media (max-width: 600px) {
+      .join-embed .join-grid { grid-template-columns: 1fr; gap: 0.8rem; }
+      .join-embed .join-form-box { padding: 1.2rem; }
+    }
+  </style>
+  <div class="join-app">
+    <div class="join-form-box">
+      <div class="join-heading">📝 加入我們</div>
+      <div class="join-sub">填寫這份表格，讓我們更認識你</div>
+      <form id="join-form">
+        <div class="join-grid">
+          <div>
+            <label>稱呼 <span class="join-req">*</span></label>
+            <input type="text" id="f1" required placeholder="你的名字或暱稱" />
+          </div>
+          <div>
+            <label>年齡</label>
+            <input type="number" id="f2" placeholder="例如 17" />
+          </div>
+          <div>
+            <label>性別</label>
+            <select id="f3">
+              <option value="">不想說</option>
+              <option value="男">男</option>
+              <option value="女">女</option>
+              <option value="非二元">非二元</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <div>
+            <label>聯絡方式 <span class="join-req">*</span></label>
+            <input type="text" id="f4" required placeholder="Email 或社群帳號" />
+          </div>
+          <div>
+            <label>居住地</label>
+            <input type="text" id="f5" placeholder="例如 台灣台北" />
+          </div>
+          <div>
+            <label>最高學歷</label>
+            <input type="text" id="f6" placeholder="目前就讀學校／科系" />
+          </div>
+          <div class="join-full">
+            <label>主修科系 / 專業</label>
+            <input type="text" id="f7" placeholder="你的專業領域" />
+          </div>
+          <div class="join-full">
+            <label>工作、實習或專案經驗</label>
+            <textarea id="f8" placeholder="簡述你參與過的專案或工作"></textarea>
+          </div>
+          <div class="join-full">
+            <label>獎項或比賽經歷</label>
+            <textarea id="f9" placeholder="如果有，請和我們分享"></textarea>
+          </div>
+          <div class="join-full">
+            <label>對哪些領域最有興趣？</label>
+            <input type="text" id="f10" placeholder="例如 科技、教育、藝術…" />
+          </div>
+          <div class="join-full">
+            <label>專長技能</label>
+            <input type="text" id="f11" placeholder="你擅長什麼？" />
+          </div>
+          <div class="join-full">
+            <label>希望在凌極世界發展的方向</label>
+            <input type="text" id="f12" placeholder="你想在這裡做什麼？" />
+          </div>
+          <div>
+            <label>主要技能熟鍊度自評</label>
+            <input type="number" id="f13" min="1" max="10" placeholder="1~10" />
+          </div>
+          <div>
+            <label>每日可投入專案時間</label>
+            <input type="number" id="f14" min="0" step="0.5" placeholder="小時" />
+          </div>
+          <div class="join-full">
+            <label>可提供的作品或專案連結</label>
+            <input type="url" id="f15" placeholder="https://…" />
+          </div>
+          <div class="join-full">
+            <label>最成功的一次專案經驗</label>
+            <textarea id="f16" placeholder="和我們聊聊你最驕傲的作品"></textarea>
+          </div>
+          <div class="join-full">
+            <label>其他想補充的資訊</label>
+            <textarea id="f17" placeholder="任何想讓我們知道的事"></textarea>
+          </div>
+          <div class="join-full">
+            <label>其他想補充的檔案</label>
+            <input type="url" id="f18" placeholder="Google Drive 或其它連結" />
+          </div>
+          <div class="join-full">
+            <label>為何想加入極凌世界？</label>
+            <textarea id="f19" placeholder="你的動機是什麼？"></textarea>
+          </div>
+          <div class="join-full">
+            <label>您理解的凌極世界是什麼</label>
+            <textarea id="f20" placeholder="說說你的看法"></textarea>
+          </div>
+          <div class="join-full">
+            <label>您對未來的人類有什麼期待</label>
+            <textarea id="f21" placeholder="自由發揮"></textarea>
+          </div>
+          <div class="join-full">
+            <label>您認為人類存在的意義是什麼</label>
+            <textarea id="f22"></textarea>
+          </div>
+          <div class="join-full">
+            <label>對您來說，對與錯是什麼?</label>
+            <textarea id="f23"></textarea>
+          </div>
+          <div class="join-full">
+            <label>你所看到的世界是什麼樣的</label>
+            <textarea id="f24"></textarea>
+          </div>
+          <div class="join-full">
+            <label>對您而言情緒與理性的關係是什麼?</label>
+            <textarea id="f25"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="join-btn" id="join-btn">✧ 提交申請 ✧</button>
+        <div id="join-res"></div>
+      </form>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var form = document.getElementById('join-form');
+      if (!form) return;
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var name = document.getElementById('f1').value.trim();
+        var contact = document.getElementById('f4').value.trim();
+        var res = document.getElementById('join-res');
+        var btn = document.getElementById('join-btn');
+        if (!name || !contact) {
+          res.style.display = 'block';
+          res.style.background = 'rgba(244,67,54,0.1)';
+          res.style.color = '#f44336';
+          res.textContent = '⚠️ 請填寫「稱呼」與「聯絡方式」';
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = '傳送中 …';
+        res.style.display = 'block';
+        res.style.background = 'rgba(255,193,7,0.08)';
+        res.style.color = '#ffc107';
+        res.textContent = '⏳ 送出中，請稍候';
+        var payload = {
+          name: name,
+          age: document.getElementById('f2').value,
+          gender: document.getElementById('f3').value,
+          contact: contact,
+          location: document.getElementById('f5').value,
+          education: document.getElementById('f6').value,
+          major: document.getElementById('f7').value,
+          workExp: document.getElementById('f8').value,
+          awardExp: document.getElementById('f9').value,
+          interests: document.getElementById('f10').value,
+          skills: document.getElementById('f11').value,
+          direction: document.getElementById('f12').value,
+          proficiency: document.getElementById('f13').value,
+          hours: document.getElementById('f14').value,
+          portfolio: document.getElementById('f15').value,
+          bestProject: document.getElementById('f16').value,
+          extraInfo: document.getElementById('f17').value,
+          fileLink: document.getElementById('f18').value,
+          whyJoin: document.getElementById('f19').value,
+          understand: document.getElementById('f20').value,
+          futureHope: document.getElementById('f21').value,
+          humanMeaning: document.getElementById('f22').value,
+          rightWrong: document.getElementById('f23').value,
+          worldView: document.getElementById('f24').value,
+          emotionReason: document.getElementById('f25').value
+        };
+        try {
+          await fetch('https://script.google.com/macros/s/AKfycbxRC4pHQo5pTzWVfi1FbQwhZjUtjlcDMKfZhb-OqIymOrLEZgNncsx4Lp8gWEvLQQvN_Q/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          res.style.background = 'rgba(139,195,74,0.1)';
+          res.style.color = '#8bc34a';
+          res.textContent = '✅ 申請已送出！我們會盡快與你聯繫。';
+          form.reset();
+        } catch (err) {
+          res.style.background = 'rgba(244,67,54,0.1)';
+          res.style.color = '#f44336';
+          res.textContent = '❌ 送出失敗，請稍後再試。錯誤：' + err.message;
+        } finally {
+          btn.disabled = false;
+          btn.textContent = '✧ 提交申請 ✧';
+        }
+      });
+    })();
+  </script>
+</div>
