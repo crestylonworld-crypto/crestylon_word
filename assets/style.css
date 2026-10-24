@@ -171,3 +171,22 @@ footer{border-top:1px solid var(--line);padding:56px 0 48px;text-align:center;ba
   p,li{font-size:16px}
   .oath-block{padding:40px 20px}
 }
+
+/* ---------- 示意圖 + 閱讀進度（2026-10-24 效果批） ---------- */
+.hero-figure{margin:8px 0 40px}
+main p img,
+.hero-figure img{
+  width:100%;display:block;border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:0 20px 60px -20px oklch(0.2 0.05 260 / .8);
+  transition:transform .4s ease,box-shadow .4s ease;
+}
+main p img:hover,.hero-figure img:hover{transform:translateY(-2px);box-shadow:0 24px 70px -20px var(--cyan-glow)}
+.figure-caption{font-size:13px;color:var(--moon-faint);letter-spacing:.06em;margin-top:10px;text-align:center}
+#read-progress{
+  position:fixed;top:0;left:0;height:3px;width:0;z-index:100;
+  background:linear-gradient(90deg,var(--cyan),var(--ember));
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-figure img{transition:none}
+  .hero-figure img:hover{transform:none}
+}
