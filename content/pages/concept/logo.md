@@ -11,7 +11,7 @@ description: 星芒、拱橋、頂端缺口、土壤 —— 四重意象與品�
 一個標誌，四重宇宙。
 :::
 
-![凌極世界 logo](/assets/logo.png)
+![凌極世界 logo 完整版](/assets/logo-full.jpg)
 
 ## 四重意象
 
