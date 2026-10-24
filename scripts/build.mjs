@@ -21,6 +21,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'content', 'pages');
 const DIST = join(ROOT, 'dist');
 const TPL = readFileSync(join(ROOT, 'templates', 'base.html'), 'utf8');
+const JOIN_FORM = readFileSync(join(ROOT, 'templates', 'join-form.html'), 'utf8');
 const SITE = JSON.parse(readFileSync(join(ROOT, 'site.json'), 'utf8'));
 
 /* ---------- frontmatter ---------- */
@@ -125,6 +126,8 @@ function mdToHtml(body) {
 }
 
 function renderBlock(kind, inner) {
+  // joinform：原樣輸出加入我們表單（舊站 Custom Embed 移植），不經 markdown 轉義
+  if (kind === 'joinform') return JOIN_FORM;
   const html = mdToHtml(inner);
   // cards：把連續的 h4+段落 轉成卡片
   if (kind === 'cards' || kind === 'timeline') {
