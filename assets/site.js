@@ -41,6 +41,32 @@
     targets.forEach(function (el) { io.observe(el); });
   }
 
+  // 七自由互動選擇器：文案來自 markdown 產生的 data-title / data-text，不在 JS 裡寫死
+  var freedomRoot = document.querySelector('.freedoms');
+  if (freedomRoot) {
+    var tabs = freedomRoot.querySelectorAll('.tabs button');
+    var panel = freedomRoot.querySelector('.panel');
+    var fade = panel ? panel.querySelector('.fade') : null;
+    var dots = freedomRoot.querySelector('.dots');
+    var current = 0;
+    var renderFreedom = function (i) {
+      current = (i + tabs.length) % tabs.length;
+      tabs.forEach(function (t, j) { t.setAttribute('aria-selected', j === current ? 'true' : 'false'); });
+      var t = tabs[current];
+      if (fade) {
+        fade.innerHTML = '<h3>' + t.getAttribute('data-title') + '</h3><p>' + t.getAttribute('data-text') + '</p>';
+        fade.style.animation = 'none'; void fade.offsetWidth; fade.style.animation = '';
+      }
+      if (dots) dots.innerHTML = Array.prototype.map.call(tabs, function (_, j) { return '<i class="' + (j === current ? 'on' : '') + '"></i>'; }).join('');
+    };
+    tabs.forEach(function (t, i) { t.addEventListener('click', function () { renderFreedom(i); }); });
+    var prevBtn = freedomRoot.querySelector('.freedom-prev');
+    var nextBtn = freedomRoot.querySelector('.freedom-next');
+    if (prevBtn) prevBtn.addEventListener('click', function () { renderFreedom(current - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { renderFreedom(current + 1); });
+    renderFreedom(0);
+  }
+
   // PWA：只註冊同源 sw.js；註冊失敗靜默忽略
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
     window.addEventListener('load', function () {

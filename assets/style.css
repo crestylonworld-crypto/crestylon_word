@@ -175,6 +175,60 @@ footer{border-top:1px solid var(--line);padding:56px 0 48px;text-align:center;ba
   .oath-block{padding:40px 20px}
 }
 
+/* ---------- 深空敘事 A 系統（2026-10-25 v1 全站版） ---------- */
+/* 首屏：收緊留白、標題一行化、第二行青色、橋線描繪、捲動提示 */
+.hero-block{padding:84px 0 64px}
+.hero-block h1{font-size:clamp(40px,6.5vw,76px);margin-bottom:16px}
+.hero-block h2{color:var(--moon-dim);margin:0 0 18px;font-size:clamp(20px,2.6vw,26px)}
+/* 只有首頁 hero 的第二行是標題續行，才放大成青色大字；其他頁的 hero h2 是副標 */
+body[data-section="home"] .hero-block h2{color:var(--cyan);font-size:clamp(40px,6.5vw,76px)}
+.hero-block h2 + p,.hero-block h1 + p{margin-top:8px}
+.bridge-svg{display:block;width:min(620px,88vw);margin:28px auto 0;overflow:visible}
+.bridge-svg path{fill:none;stroke:url(#bridgeGrad);stroke-width:4;stroke-linecap:round;stroke-dasharray:900;stroke-dashoffset:900;animation:draw 1.6s .2s cubic-bezier(.22,1,.36,1) forwards;filter:drop-shadow(0 0 8px var(--cyan-glow))}
+@keyframes draw{to{stroke-dashoffset:0}}
+.scroll-cue{display:block;margin-top:32px;color:var(--moon-faint);font-size:13px;letter-spacing:.2em}
+.scroll-cue span{display:block;margin:10px auto 0;width:22px;height:34px;border:1px solid var(--line);border-radius:12px;position:relative}
+.scroll-cue span::after{content:'';position:absolute;left:50%;top:6px;width:4px;height:8px;margin-left:-2px;border-radius:4px;background:var(--cyan);animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{transform:translateY(0);opacity:0}}
+/* 卡片：四張成組時改 2x2，不留孤張；hover 稍強 */
+.cards:has(> .card:nth-child(4):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 48px -16px var(--cyan-glow)}
+/* 章節分隔：章節 h2 上方加細線，節奏收緊 */
+.prose > h2{margin-top:72px}
+/* 七自由互動選擇器 */
+.freedoms{display:grid;grid-template-columns:280px 1fr;gap:24px;margin-top:32px}
+.freedoms .tabs{display:flex;flex-direction:column;gap:8px}
+.freedoms button{font-family:var(--sans);text-align:left;background:none;border:1px solid var(--line);border-radius:var(--r);color:var(--moon-dim);padding:14px 18px;cursor:pointer;font-size:15px;transition:border-color .25s,color .25s,background .25s,transform .25s}
+.freedoms button:hover{color:var(--moon);border-color:oklch(1 0 0 / .25);transform:translateX(4px)}
+.freedoms button[aria-selected="true"]{color:var(--cyan);border-color:var(--cyan);background:oklch(0.72 0.14 210 / .08)}
+.freedoms .panel{border:1px solid var(--line);border-radius:var(--r);padding:36px;background:var(--space-900);min-height:260px;display:flex;flex-direction:column}
+.freedoms .panel h3{font-size:clamp(26px,3.5vw,38px);margin:0 0 12px}
+.freedoms .panel p{font-size:18px;max-width:60ch;margin:0}
+.freedoms .panel .fade{animation:rise .45s cubic-bezier(.22,1,.36,1) both}
+.freedoms .panel .navrow{margin-top:auto;padding-top:24px;display:flex;align-items:center;gap:12px}
+.freedoms .panel .navrow button{background:none;border:1px solid var(--line);border-radius:var(--r);color:var(--moon-dim);padding:10px 16px;cursor:pointer;font-size:14px}
+.freedoms .panel .navrow button:hover{color:var(--cyan);border-color:var(--cyan);transform:none}
+.freedoms .dots{margin-left:auto;display:flex;gap:6px}
+.freedoms .dots i{width:8px;height:8px;border-radius:50%;background:var(--line);display:block}
+.freedoms .dots i.on{background:var(--cyan)}
+/* 進場動畫只做位移、不改透明度：動畫中途文字也不會半透明 */
+@keyframes rise{from{transform:translateY(14px)}to{transform:none}}
+.reveal{transition:transform .55s cubic-bezier(.22,1,.36,1)}
+@media (max-width:760px){
+  .hero-block{padding:64px 0 48px}
+  .hero-block h1{font-size:clamp(36px,10vw,56px)}
+  body[data-section="home"] .hero-block h2{font-size:clamp(36px,10vw,56px)}
+  .cards:has(> .card:nth-child(4):last-child){grid-template-columns:1fr}
+  .freedoms{grid-template-columns:1fr}
+  .freedoms .tabs{flex-direction:row;flex-wrap:wrap}
+  .freedoms button{flex:1 1 40%}
+  .freedoms button:hover{transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .bridge-svg path{stroke-dashoffset:0;animation:none}
+  .scroll-cue span::after{animation:none}
+}
+
 /* ---------- 示意圖 + 閱讀進度（2026-10-24 效果批） ---------- */
 .hero-figure{margin:8px 0 40px}
 main p img,
