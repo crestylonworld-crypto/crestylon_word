@@ -1,6 +1,6 @@
 ---
 title: 制度憲章與生態協議 v7.0
-section: team
+section: charter
 order: 10
 description: 人類效率協作永續文化發展會 · 制度憲章與生態協議 v7.0——本會不保障你免受壓迫，只保證你永遠擁有選擇的權力。
 ---
