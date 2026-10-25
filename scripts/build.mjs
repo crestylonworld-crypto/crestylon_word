@@ -136,12 +136,12 @@ function renderBlock(kind, inner) {
   if (kind === 'freedoms') {
     const items = html.split(/<h4[^>]*>/).slice(1).map(p => {
       const m = p.match(/^(.*?)<\/h4>([\s\S]*)$/);
-      return { title: m[1], text: m[2].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() };
+      return { title: m[1], body: m[2].trim() };
     });
     if (!items.length) return `<div class="freedoms">${html}</div>`;
-    const tabs = items.map((it, i) => `<button type="button" data-f="${i}" data-title="${escAttr(it.title)}" data-text="${escAttr(it.text)}" aria-selected="${i === 0 ? 'true' : 'false'}">${it.title}</button>`).join('');
+    const tabs = items.map((it, i) => `<button type="button" data-f="${i}" data-title="${escAttr(it.title)}" data-body="${escAttr(it.body)}" aria-selected="${i === 0 ? 'true' : 'false'}">${it.title}</button>`).join('');
     const dots = items.map((_, i) => `<i class="${i === 0 ? 'on' : ''}"></i>`).join('');
-    return `<div class="freedoms" id="freedoms"><div class="tabs" role="tablist">${tabs}</div><div class="panel" aria-live="polite"><div class="fade"><h3>${items[0].title}</h3><p>${items[0].text}</p></div><div class="navrow"><button type="button" class="freedom-prev">← 上一個</button><button type="button" class="freedom-next">下一個 →</button><span class="dots" aria-hidden="true">${dots}</span></div></div></div>`;
+    return `<div class="freedoms" id="freedoms"><div class="tabs" role="tablist">${tabs}</div><div class="panel" aria-live="polite"><div class="fade"><h3>${items[0].title}</h3>${items[0].body}</div><div class="navrow"><button type="button" class="freedom-prev">← 上一個</button><button type="button" class="freedom-next">下一個 →</button><span class="dots" aria-hidden="true">${dots}</span></div></div></div>`;
   }
   if (kind === 'hero') return `<div class="hero-block">${html}${BRIDGE_SVG}</div>`;
   // cards：把連續的 h4+段落 轉成卡片
