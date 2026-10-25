@@ -125,10 +125,25 @@ function mdToHtml(body) {
   return out.join('\n');
 }
 
+const BRIDGE_SVG = `<svg class="bridge-svg" viewBox="0 0 560 90" aria-hidden="true"><defs><linearGradient id="bridgeGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#F97316"/></linearGradient></defs><path d="M20 70 Q 140 10 280 40 T 540 20"/></svg><div class="scroll-cue">往下走，過橋<span></span></div>`;
+const escAttr = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
 function renderBlock(kind, inner) {
   // joinform：原樣輸出加入我們表單（舊站 Custom Embed 移植），不經 markdown 轉義
   if (kind === 'joinform') return JOIN_FORM;
   const html = mdToHtml(inner);
+  // freedoms：七自由互動選擇器（標題＋一句話取自 markdown，不編新文案）
+  if (kind === 'freedoms') {
+    const items = html.split(/<h4[^>]*>/).slice(1).map(p => {
+      const m = p.match(/^(.*?)<\/h4>([\s\S]*)$/);
+      return { title: m[1], text: m[2].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() };
+    });
+    if (!items.length) return `<div class="freedoms">${html}</div>`;
+    const tabs = items.map((it, i) => `<button type="button" data-f="${i}" data-title="${escAttr(it.title)}" data-text="${escAttr(it.text)}" aria-selected="${i === 0 ? 'true' : 'false'}">${it.title}</button>`).join('');
+    const dots = items.map((_, i) => `<i class="${i === 0 ? 'on' : ''}"></i>`).join('');
+    return `<div class="freedoms" id="freedoms"><div class="tabs" role="tablist">${tabs}</div><div class="panel" aria-live="polite"><div class="fade"><h3>${items[0].title}</h3><p>${items[0].text}</p></div><div class="navrow"><button type="button" class="freedom-prev">← 上一個</button><button type="button" class="freedom-next">下一個 →</button><span class="dots" aria-hidden="true">${dots}</span></div></div></div>`;
+  }
+  if (kind === 'hero') return `<div class="hero-block">${html}${BRIDGE_SVG}</div>`;
   // cards：把連續的 h4+段落 轉成卡片
   if (kind === 'cards' || kind === 'timeline') {
     const parts = html.split(/<h4[^>]*>/).slice(1).map(p => {
