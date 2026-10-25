@@ -106,8 +106,9 @@ body.menu-open .mobile-nav{display:flex}
 .prose > *:first-child{margin-top:0}
 
 /* ---------- 卡片 ---------- */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:36px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:16px;margin:36px 0;width:100%}
 .card{
+  min-width:0;overflow-wrap:break-word;
   border:1px solid var(--line);border-radius:var(--r);padding:28px;
   background:linear-gradient(180deg,var(--space-900),var(--space-950));
   transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
@@ -138,6 +139,7 @@ body.menu-open .mobile-nav{display:flex}
 /* ---------- CTA ---------- */
 .cta-block{text-align:center;margin:72px 0;padding:56px 24px;border:1px solid var(--line);border-radius:var(--r);background:var(--space-900)}
 .cta-block h2{margin-top:0}
+.cta-block p{max-width:none}
 .btn{display:inline-block;padding:14px 36px;border-radius:var(--r);font-size:15px;letter-spacing:.12em;font-weight:500;border:1px solid transparent;transition:transform .2s,box-shadow .2s;margin:6px}
 .btn.primary{background:var(--cyan);color:#04222b}
 .btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -8px var(--cyan-glow);border-color:transparent}
@@ -155,7 +157,8 @@ footer{border-top:1px solid var(--line);padding:56px 0 48px;text-align:center;ba
 .foot-note{font-size:12.5px;color:var(--moon-faint);letter-spacing:.08em}
 
 /* ---------- 捲動揭示 ---------- */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+/* 內容絕不靠 JS 才顯示：揭示只做位移淡入，初始就不隱藏，避免觀察器未觸發時整段變透明 */
+.reveal{opacity:1;transform:none;transition:transform .7s ease}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   .reveal{opacity:1;transform:none;transition:none}
@@ -182,6 +185,9 @@ main p img,
 }
 main p img:hover,.hero-figure img:hover{transform:translateY(-2px);box-shadow:0 24px 70px -20px var(--cyan-glow)}
 .figure-caption{font-size:13px;color:var(--moon-faint);letter-spacing:.06em;margin-top:10px;text-align:center}
+/* 示意圖下一段圖說置中，避免貼邊與單字孤行感 */
+.prose p:has(> img){max-width:none}
+.prose p:has(> img) + p{font-size:13px;color:var(--moon-faint);letter-spacing:.06em;text-align:center;max-width:none}
 #read-progress{
   position:fixed;top:0;left:0;height:3px;width:0;z-index:100;
   background:linear-gradient(90deg,var(--cyan),var(--ember));
