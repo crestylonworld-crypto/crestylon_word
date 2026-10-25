@@ -2,7 +2,7 @@
 title: 凌極世界 crestylonworld
 section: home
 order: 0
-description: 讓世界，包含各種理想世界。Crestylon · 2024 — 2028。
+description: 讓世界，包含各種理想世界。Crestylon · since 2024。
 ---
 
 ::: hero
@@ -16,7 +16,7 @@ description: 讓世界，包含各種理想世界。Crestylon · 2024 — 2028�
 
 **A World That Contains Worlds**
 
-**Crestylon · 2024 — 2028**
+**Crestylon · since 2024**
 :::
 
 ![橋與曙光示意圖：青色拱橋漸變為橙色，頂端留有缺口，下方是升起的曙光](/assets/illustrations/bridge-dawn.jpg)
