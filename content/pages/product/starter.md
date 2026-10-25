@@ -1,6 +1,6 @@
 ---
 title: 懶人包
-section: product
+section: page
 order: 1
 description: 讓世界，包含各種理想世界——三分鐘認識凌極世界。
 ---

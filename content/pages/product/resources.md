@@ -1,6 +1,6 @@
 ---
 title: 公開資料
-section: product
+section: page
 order: 4
 description: 免費取用的公開文件 —— 核心理念、白皮書、第一步。
 ---

@@ -1,6 +1,6 @@
 ---
 title: 眾織之書
-section: product
+section: page
 order: 2
 description: 讓不同的人，可以建立並生活在自己理想的世界中。這不是一個世界取代另一個世界的故事，這是無數世界同時存在的故事。
 ---

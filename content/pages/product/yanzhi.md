@@ -1,6 +1,6 @@
 ---
 title: 言織世界 —— 言織協議 v4.0
-section: product
+section: page
 order: 5
 description: 以語言共識為基礎的協作制度：七自由、三層架構、MCI 貢獻體系。
 ---
