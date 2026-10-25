@@ -54,7 +54,7 @@
       tabs.forEach(function (t, j) { t.setAttribute('aria-selected', j === current ? 'true' : 'false'); });
       var t = tabs[current];
       if (fade) {
-        fade.innerHTML = '<h3>' + t.getAttribute('data-title') + '</h3><p>' + t.getAttribute('data-text') + '</p>';
+        fade.innerHTML = '<h3>' + t.getAttribute('data-title') + '</h3>' + t.getAttribute('data-body');
         fade.style.animation = 'none'; void fade.offsetWidth; fade.style.animation = '';
       }
       if (dots) dots.innerHTML = Array.prototype.map.call(tabs, function (_, j) { return '<i class="' + (j === current ? 'on' : '') + '"></i>'; }).join('');

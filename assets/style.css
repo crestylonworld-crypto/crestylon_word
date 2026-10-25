@@ -201,9 +201,10 @@ body[data-section="home"] .hero-block h2{color:var(--cyan);font-size:clamp(40px,
 .freedoms button{font-family:var(--sans);text-align:left;background:none;border:1px solid var(--line);border-radius:var(--r);color:var(--moon-dim);padding:14px 18px;cursor:pointer;font-size:15px;transition:border-color .25s,color .25s,background .25s,transform .25s}
 .freedoms button:hover{color:var(--moon);border-color:oklch(1 0 0 / .25);transform:translateX(4px)}
 .freedoms button[aria-selected="true"]{color:var(--cyan);border-color:var(--cyan);background:oklch(0.72 0.14 210 / .08)}
-.freedoms .panel{border:1px solid var(--line);border-radius:var(--r);padding:36px;background:var(--space-900);min-height:260px;display:flex;flex-direction:column}
-.freedoms .panel h3{font-size:clamp(26px,3.5vw,38px);margin:0 0 12px}
-.freedoms .panel p{font-size:18px;max-width:60ch;margin:0}
+.freedoms .panel{border:1px solid var(--line);border-radius:var(--r);padding:36px;background:var(--space-900);min-height:320px;display:flex;flex-direction:column}
+.freedoms .panel h3{font-size:clamp(26px,3.5vw,38px);margin:0 0 16px}
+.freedoms .panel p{font-size:18px;max-width:60ch;margin:0 0 16px}
+.freedoms .panel p:last-child{margin-bottom:0}
 .freedoms .panel .fade{animation:rise .45s cubic-bezier(.22,1,.36,1) both}
 .freedoms .panel .navrow{margin-top:auto;padding-top:24px;display:flex;align-items:center;gap:12px}
 .freedoms .panel .navrow button{background:none;border:1px solid var(--line);border-radius:var(--r);color:var(--moon-dim);padding:10px 16px;cursor:pointer;font-size:14px}
