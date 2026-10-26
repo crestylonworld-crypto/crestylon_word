@@ -3,6 +3,16 @@
 (function () {
   'use strict';
 
+  // 卡片整張可點：點卡片任何位置都走標題連結（已是連結本身時不重複觸發）
+  document.querySelectorAll('.card').forEach(function (card) {
+    var link = card.querySelector('h3 a');
+    if (!link) return;
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('a')) return;
+      window.location.href = link.href;
+    });
+  });
+
   // 行動版選單
   var btn = document.querySelector('.menu-btn');
   if (btn) {
