@@ -79,7 +79,7 @@ nav.links a{color:var(--moon-dim);font-size:14px;letter-spacing:.12em;border:non
 nav.links a:hover{color:var(--moon)}
 nav.links a.active{color:var(--cyan)}
 nav.links a.active::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--cyan);border-radius:2px}
-.menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:var(--r);color:var(--moon);font-size:20px;padding:6px 12px;cursor:pointer;margin-left:auto}
+.menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:999px;color:var(--moon);font-size:20px;padding:6px 12px;cursor:pointer;margin-left:auto}
 .mobile-nav{display:none;flex-direction:column;padding:8px 24px 16px;gap:4px}
 .mobile-nav a{color:var(--moon-dim);padding:10px 4px;border-bottom:1px solid var(--line);font-size:15px}
 .mobile-nav a.active{color:var(--cyan)}
@@ -115,6 +115,7 @@ body.menu-open .mobile-nav{display:flex}
 }
 .card:hover{transform:translateY(-4px);border-color:oklch(1 0 0 / .22);box-shadow:0 12px 40px -12px var(--cyan-glow)}
 .card h3{margin:0 0 10px;font-size:20px}
+.card{cursor:pointer}
 .card h3 a{color:var(--moon);border:none}
 .card h3 a:hover{color:var(--cyan)}
 .card .k{color:var(--ember);font-size:11px;letter-spacing:.24em;display:block;margin-bottom:10px;font-family:var(--sans)}
@@ -140,7 +141,7 @@ body.menu-open .mobile-nav{display:flex}
 .cta-block{text-align:center;margin:72px 0;padding:56px 24px;border:1px solid var(--line);border-radius:var(--r);background:var(--space-900)}
 .cta-block h2{margin-top:0}
 .cta-block p{max-width:none}
-.btn{display:inline-block;padding:14px 36px;border-radius:var(--r);font-size:15px;letter-spacing:.12em;font-weight:500;border:1px solid transparent;transition:transform .2s,box-shadow .2s;margin:6px}
+.btn{display:inline-block;padding:14px 36px;border-radius:999px;font-size:15px;letter-spacing:.12em;font-weight:500;border:1px solid transparent;transition:transform .2s,box-shadow .2s;margin:6px}
 .btn.primary{background:var(--cyan);color:#04222b}
 .btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -8px var(--cyan-glow);border-color:transparent}
 .btn.ghost{border-color:var(--line);color:var(--moon)}
@@ -198,7 +199,7 @@ body[data-section="home"] .hero-block h2{color:var(--cyan);font-size:clamp(40px,
 /* 七自由互動選擇器 */
 .freedoms{display:grid;grid-template-columns:280px 1fr;gap:24px;margin-top:32px}
 .freedoms .tabs{display:flex;flex-direction:column;gap:8px}
-.freedoms button{font-family:var(--sans);text-align:left;background:none;border:1px solid var(--line);border-radius:var(--r);color:var(--moon-dim);padding:14px 18px;cursor:pointer;font-size:15px;transition:border-color .25s,color .25s,background .25s,transform .25s}
+.freedoms button{font-family:var(--sans);text-align:left;background:none;border:1px solid var(--line);border-radius:999px;color:var(--moon-dim);padding:14px 18px;cursor:pointer;font-size:15px;transition:border-color .25s,color .25s,background .25s,transform .25s}
 .freedoms button:hover{color:var(--moon);border-color:oklch(1 0 0 / .25);transform:translateX(4px)}
 .freedoms button[aria-selected="true"]{color:var(--cyan);border-color:var(--cyan);background:oklch(0.72 0.14 210 / .08)}
 .freedoms .panel{border:1px solid var(--line);border-radius:var(--r);padding:36px;background:var(--space-900);min-height:320px;display:flex;flex-direction:column}
@@ -207,7 +208,7 @@ body[data-section="home"] .hero-block h2{color:var(--cyan);font-size:clamp(40px,
 .freedoms .panel p:last-child{margin-bottom:0}
 .freedoms .panel .fade{animation:rise .45s cubic-bezier(.22,1,.36,1) both}
 .freedoms .panel .navrow{margin-top:auto;padding-top:24px;display:flex;align-items:center;gap:12px}
-.freedoms .panel .navrow button{background:none;border:1px solid var(--line);border-radius:var(--r);color:var(--moon-dim);padding:10px 16px;cursor:pointer;font-size:14px}
+.freedoms .panel .navrow button{background:none;border:1px solid var(--line);border-radius:999px;color:var(--moon-dim);padding:10px 16px;cursor:pointer;font-size:14px}
 .freedoms .panel .navrow button:hover{color:var(--cyan);border-color:var(--cyan);transform:none}
 .freedoms .dots{margin-left:auto;display:flex;gap:6px}
 .freedoms .dots i{width:8px;height:8px;border-radius:50%;background:var(--line);display:block}
