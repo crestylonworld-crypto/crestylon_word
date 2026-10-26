@@ -153,6 +153,12 @@ function renderBlock(kind, inner) {
     return `<div class="${kind === 'cards' ? 'cards' : 'timeline'}">` + parts.join('') + '</div>';
   }
   const cls = { hero: 'hero-block', oath: 'oath-block', cta: 'cta-block' }[kind] || 'custom-block';
+  if (kind === 'cta') {
+    // CTA 內的連結就是按鈕：第一顆主色、其餘幽靈色，整顆含 padding 都可點
+    let n = 0;
+    const btnHtml = html.replace(/<a /g, () => `<a class="btn ${++n === 1 ? 'primary' : 'ghost'}" `);
+    return `<div class="${cls}">${btnHtml}</div>`;
+  }
   return `<div class="${cls}">${html}</div>`;
 }
 
