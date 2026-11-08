@@ -102,7 +102,7 @@ body.menu-open .mobile-nav{display:flex}
 .bridge-line{display:block;margin:36px auto 0;width:min(560px,86vw);opacity:.55}
 
 /* ---------- 內容區 ---------- */
-.prose{padding:8px 0 96px}
+.prose{padding-top:8px;padding-bottom:96px}
 .prose > *:first-child{margin-top:0}
 
 /* ---------- 卡片 ---------- */
@@ -174,7 +174,10 @@ footer{border-top:1px solid var(--line);padding:56px 0 48px;text-align:center;ba
   .hero-block{padding:64px 0 52px}
   p,li{font-size:16px}
   .oath-block{padding:40px 20px}
+  .prose > h2{margin-top:48px}
 }
+/* 段落孤字抑制：換行時避免最後一行只剩一兩個字 */
+p,li{text-wrap:pretty}
 
 /* ---------- 深空敘事 A 系統（2026-10-25 v1 全站版） ---------- */
 /* 首屏：收緊留白、標題一行化、第二行青色、橋線描繪、捲動提示 */
