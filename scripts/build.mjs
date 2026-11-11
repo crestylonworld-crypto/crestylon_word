@@ -144,6 +144,21 @@ function renderBlock(kind, inner) {
     return `<div class="freedoms" id="freedoms"><div class="tabs" role="tablist">${tabs}</div><div class="panel" aria-live="polite"><div class="fade"><h3>${items[0].title}</h3>${items[0].body}</div><div class="navrow"><button type="button" class="freedom-prev">← 上一個</button><button type="button" class="freedom-next">下一個 →</button><span class="dots" aria-hidden="true">${dots}</span></div></div></div>`;
   }
   if (kind === 'hero') return `<div class="hero-block">${html}${BRIDGE_SVG}</div>`;
+  // cycle：橫向階段帶（編號＋標題＋說明，格間箭頭）；標題無編號時自動補序號
+  if (kind === 'cycle') {
+    const parts = html.split(/<h4[^>]*>/).slice(1).map(p => {
+      const m = p.match(/^(.*?)<\/h4>([\s\S]*)$/);
+      return { title: m[1], body: m[2] };
+    });
+    const steps = parts.map((it, i) => {
+      const mm = it.title.match(/^(.+?)\s*·\s*(.+)$/);
+      const num = mm ? mm[1] : String(i + 1).padStart(2, '0');
+      const name = mm ? mm[2] : it.title;
+      const arrow = i < parts.length - 1 ? '<span class="arrow" aria-hidden="true">→</span>' : '';
+      return `<div class="step"><span class="num">${num}</span><h4>${name}</h4>${it.body}${arrow}</div>`;
+    });
+    return `<div class="cycle">` + steps.join('') + '</div>';
+  }
   // cards：把連續的 h4+段落 轉成卡片
   if (kind === 'cards' || kind === 'timeline') {
     const parts = html.split(/<h4[^>]*>/).slice(1).map(p => {
@@ -230,8 +245,8 @@ function build() {
     const selfSlug = n.path.replace(/^\//, '').replace(/\/$/, '');
     const list = (bySection[n.key] || []).filter(p => p.slug !== 'index' && p.slug !== selfSlug);
     if (!list.length) continue;
-    const items = list.map(p => `<div class="card"><h3><a href="${p.url}">${p.meta.title || ''}</a></h3><p>${p.meta.description || ''}</p></div>`).join('');
-    let html = TPL.replaceAll('{{content}}', `<div class="hero-block"><div class="wrap"><h1>${n.label}</h1></div></div><div class="wrap prose"><div class="cards">${items}</div></div>`);
+    const items = list.map(p => `<a class="panel" href="${p.url}"><h3>${p.meta.title || ''}</h3><p>${p.meta.description || ''}</p><span class="go">進入 →</span></a>`).join('');
+    let html = TPL.replaceAll('{{content}}', `<div class="hero-block index-hero"><div class="wrap"><h1>${n.label}</h1></div></div><div class="wrap prose"><div class="panels">${items}</div></div>`);
     html = html
       .replaceAll('{{title}}', n.label + '｜' + SITE.name)
       .replaceAll('{{description}}', n.label)
