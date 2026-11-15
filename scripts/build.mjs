@@ -167,6 +167,37 @@ function renderBlock(kind, inner) {
     });
     return `<div class="${kind === 'cards' ? 'cards' : 'timeline'}">` + parts.join('') + '</div>';
   }
+  // pin：全幅定格幕（圖釘住，宣言句在上面經過）；第一段圖、其後段落為字幕行
+  if (kind === 'pin') {
+    const imgM = html.match(/<img[^>]*>/);
+    const img = imgM ? imgM[0] : '';
+    const rest = html.replace(/<p>\s*<img[^>]*>\s*<\/p>|<img[^>]*>/, '');
+    const lines = rest.split(/<\/p>/).map(s => s.replace(/<p[^>]*>/, '').trim()).filter(Boolean);
+    const lineHtml = lines.map((t, i) => `<p class="${i < 2 ? 'big' : 'small'}">${t}</p>`).join('');
+    return `<section class="pin"><div class="stage">${img}<div class="shade"></div><div class="lines">${lineHtml}</div></div></section>`;
+  }
+  // rows：編號列（標題可帶「01 / 04 · 」前綴，自動拆成編號＋標題）
+  if (kind === 'rows') {
+    const parts = html.split(/<h4[^>]*>/).slice(1).map((p, i) => {
+      const m = p.match(/^(.*?)<\/h4>([\s\S]*)$/);
+      const tm = m[1].match(/^(\d+)\s*\/\s*\d+\s*·\s*(.+)$/);
+      const num = tm ? tm[1] : String(i + 1).padStart(2, '0');
+      const title = tm ? tm[2] : m[1];
+      return `<div class="row"><span class="n">${num}</span><div><h3>${title}</h3>${m[2]}</div></div>`;
+    });
+    return `<div class="rows">` + parts.join('') + '</div>';
+  }
+  // silence：全黑靜默幕，只有一句話
+  if (kind === 'silence') return `<section class="silence">${html}</section>`;
+  // finale：終幕（背景圖壓暗＋宣言＋按鈕＋片尾小字）
+  if (kind === 'finale') {
+    const imgM = html.match(/<img[^>]*>/);
+    const img = imgM ? imgM[0].replace('<img', '<img class="bgimg" aria-hidden="true"') : '';
+    let rest = html.replace(/<p>\s*<img[^>]*>\s*<\/p>|<img[^>]*>/, '');
+    let n = 0;
+    rest = rest.replace(/<a /g, () => `<a class="btn ${++n === 1 ? 'primary' : 'ghost'}" `);
+    return `<section class="finale">${img}<div class="shade"></div><div class="fin-in">${rest}</div><div class="colophon">CRESTYLON · A WORLD THAT CONTAINS WORLDS · SINCE 2024</div></section>`;
+  }
   const cls = { hero: 'hero-block', oath: 'oath-block', cta: 'cta-block' }[kind] || 'custom-block';
   if (kind === 'cta') {
     // CTA 內的連結就是按鈕：第一顆主色、其餘幽靈色，整顆含 padding 都可點
