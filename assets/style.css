@@ -302,3 +302,11 @@ a.panel:hover{transform:translateY(-4px);border-color:oklch(1 0 0 / .25);box-sha
   .cycle{grid-template-columns:1fr}
   .cards:has(> .card:nth-child(6):last-child){grid-template-columns:1fr}
 }
+
+/* ---------- 首頁 hero：logo 橋標誌作背景（2026-11-15） ---------- */
+body[data-section="home"] .hero-block::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:url('/assets/logo-mark.png') center 60%/min(680px,94vw) no-repeat;
+  opacity:.5;
+}
+body[data-section="home"] .hero-block > *{position:relative;z-index:1}
