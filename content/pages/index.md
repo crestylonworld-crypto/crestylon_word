@@ -19,10 +19,6 @@ description: 讓世界，包含各種理想世界。Crestylon · since 2024。
 **Crestylon · since 2024**
 :::
 
-![橋與曙光示意圖：青色拱橋漸變為橙色，頂端留有缺口，下方是升起的曙光](/assets/illustrations/bridge-dawn.jpg)
-
-示意圖：橋與曙光（AI 生成示意圖，非官方 logo；官方 logo 在導覽列與 logo 理念頁）
-
 ## 先從這裡開始
 
 ::: cards
