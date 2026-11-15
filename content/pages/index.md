@@ -19,6 +19,16 @@ description: 讓世界，包含各種理想世界。Crestylon · since 2024。
 **Crestylon · since 2024**
 :::
 
+::: pin
+![橋與曙光示意圖：青色拱橋漸變為橙色，頂端留有缺口，下方是升起的曙光](/assets/illustrations/bridge-dawn.jpg)
+
+我們不試圖建造一個「最完美的世界」來取代現在的世界。
+
+我們試圖建造的，是一片讓各種理想都能生根的土壤。
+
+這些理想不必互相取代。它們可以同時存在，彼此學習，自然演化。
+:::
+
 ## 先從這裡開始
 
 ::: cards
@@ -73,7 +83,7 @@ description: 讓世界，包含各種理想世界。Crestylon · since 2024。
 
 ### 我們怎麼做到這件事？
 
-::: cards
+::: rows
 #### 01 / 04 · 言織 · 制度土壤
 一片去中心化的底層協議，讓任何個體或群體都能自由創建、複製、融合、退出制度。你可以建立一個以物易物的社群，也可以建立一個共居的村子，也可以建立一個以時間貨幣運作的市集。沒有審核，沒有許可，沒有限制。
 
@@ -144,6 +154,10 @@ description: 讓世界，包含各種理想世界。Crestylon · since 2024。
 
 > 這七種自由不是凌極世界「授予」的——是它承諾「不允許被侵犯」的。
 
+::: silence
+退出不是背叛，是選擇，也是遷徙。
+:::
+
 ## 05 · Current Status
 
 ### 現在做到哪了？
@@ -182,18 +196,12 @@ description: 讓世界，包含各種理想世界。Crestylon · since 2024。
 - [Threads · 凌澈](https://www.threads.com/@0xlingpatch?hl=zh-tw)
 - [X · 凌澈](https://x.com/0xlingpatch)
 
-::: cta
-## 來看看這片土壤
+::: finale
+![橋與曙光示意圖](/assets/illustrations/bridge-dawn.jpg)
 
-不用急，也不用承諾什麼。先看看，再決定要不要一起種。
+## 路不只一條
 
-[眾織之書](/product/book/) [加入我們](/join/)
+如果現有的世界讓你喘不過氣，這裡有一片土壤。不用急，也不用承諾什麼，先看看，再決定要不要一起種。你不一定要加入，但你至少要知道——路不只一條。
+
+[加入我們](/join/) [眾織之書](/product/book/)
 :::
-
-## 凌極世界
-
-**Crestylon · A World That Contains Worlds**
-
-如果現有的世界讓你喘不過氣，這裡有一片土壤。
-
-你不一定要加入，但你至少要知道——路不只一條。
