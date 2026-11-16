@@ -567,3 +567,99 @@
     });
     load();
   })();
+
+// ---------- a015 內頁 hero 星雲引擎＋視差＋揭示 ----------
+(function () {
+  const cv = document.querySelector('canvas.hero-gl');
+  const hero = document.querySelector('.hero-block');
+  if (!cv || !hero) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // 視差
+  const ghost = hero.querySelector('.hero-ghost');
+  const h1 = hero.querySelector('h1');
+  let ticking = false;
+  function parallax() {
+    ticking = false;
+    const y = scrollY;
+    if (y > innerHeight * 1.2) return;
+    if (ghost) ghost.style.transform = `translate(-50%, ${y * .16}px)`;
+    if (h1) h1.style.transform = `translateY(${y * .05}px)`;
+  }
+  if (!reduced) addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(parallax); } }, { passive: true });
+  // 揭示
+  document.body.classList.add('rv-on');
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('rv-in'); io.unobserve(e.target); } }), { threshold: .12 });
+  document.querySelectorAll('.prose > h2, .prose .card, .panels a.panel, .tl-item, .prose > blockquote').forEach(el => io.observe(el));
+  // WebGL（與首頁同一 shader 語言）
+  const gl = cv.getContext('webgl', { antialias: false, alpha: true });
+  if (!gl) return;
+  const vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  const fs = [
+    'precision highp float;',
+    'uniform vec2 R;uniform float T;uniform vec2 M;uniform float D;',
+    'float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}',
+    'float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);',
+    ' return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}',
+    'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p=p*2.0+vec2(17.3,9.1);a*=.5;}return v;}',
+    'float stars(vec2 uv,float scale,float th){',
+    ' vec2 g=uv*scale;vec2 id=floor(g);vec2 f=fract(g)-.5;',
+    ' float h=hash(id);vec2 off=vec2(hash(id+7.),hash(id+13.))-.5;',
+    ' float d=length(f-off*.7);',
+    ' float tw=.55+.45*sin(T*(1.5+h*2.5)+h*40.);',
+    ' return smoothstep(th,.0,d)*step(.82,h)*tw;}',
+    'void main(){',
+    ' vec2 uv=(gl_FragCoord.xy-.5*R)/min(R.x,R.y);',
+    ' vec2 muv=uv+M*.06;',
+    ' float t=T*.03;',
+    ' vec2 w=vec2(fbm(muv*1.6+vec2(t,-t*.6)),fbm(muv*1.6+vec2(5.2,1.3)-t*.5));',
+    ' float n=fbm(muv*1.9+w*2.6+vec2(t*.7,-t*.4));',
+    ' float n2=fbm(muv*3.6-vec2(t*.6,t*.3)+n);',
+    ' vec3 col=mix(vec3(.027,.051,.102),vec3(.086,.157,.247),smoothstep(.3,.85,n));',
+    ' col=mix(col,vec3(.13,.45,.62),smoothstep(.5,.92,n2)*.32);',
+    ' col=mix(col,vec3(.35,.75,.95),smoothstep(.8,1.,n*n2)*.2);',
+    ' float dawn=pow(max(0.,1.-length((uv-vec2(0.,-1.05))*vec2(1.,1.35))),3.2);',
+    ' col+=vec3(.98,.45,.15)*dawn*.55*D;',
+    ' col+=vec3(1.,.72,.42)*pow(dawn,3.)*.4*D;',
+    ' col+=vec3(1.)*stars(uv,42.,.09)*.8;',
+    ' col+=vec3(.85,.93,1.)*stars(uv+31.,90.,.06)*.55;',
+    ' float vig=smoothstep(1.65,.45,length(uv*vec2(1.,1.12)));',
+    ' col*=mix(.72,1.,vig);',
+    ' col+=(hash(gl_FragCoord.xy+ fract(T))-.5)*.045;',
+    ' gl_FragColor=vec4(col,1.);}'
+  ].join('\n');
+  function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+  const pr = gl.createProgram();
+  gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs));
+  gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(pr); gl.useProgram(pr);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(pr, 'p');
+  gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const uR = gl.getUniformLocation(pr, 'R'), uT = gl.getUniformLocation(pr, 'T'),
+        uM = gl.getUniformLocation(pr, 'M'), uD = gl.getUniformLocation(pr, 'D');
+  let mx = 0, my = 0, tx = 0, ty = 0;
+  addEventListener('pointermove', e => { tx = (e.clientX / innerWidth - .5) * 2; ty = (e.clientY / innerHeight - .5) * 2; }, { passive: true });
+  function size() {
+    const dpr = Math.min(devicePixelRatio || 1, 1.5) * .6;
+    cv.width = Math.max(2, hero.clientWidth * dpr); cv.height = Math.max(2, hero.clientHeight * dpr);
+    gl.viewport(0, 0, cv.width, cv.height);
+  }
+  size(); addEventListener('resize', size);
+  let visible = true, raf = 0;
+  new IntersectionObserver(es => { visible = es[0].isIntersecting; }, { threshold: 0 }).observe(hero);
+  const t0 = performance.now();
+  function frame() {
+    raf = requestAnimationFrame(frame);
+    if (!visible) return;
+    mx += (tx - mx) * .04; my += (ty - my) * .04;
+    gl.uniform2f(uR, cv.width, cv.height);
+    gl.uniform1f(uT, (performance.now() - t0) / 1000);
+    gl.uniform2f(uM, mx, -my);
+    gl.uniform1f(uD, .9);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  if (reduced) { gl.uniform2f(uR, cv.width, cv.height); gl.uniform1f(uT, 12); gl.uniform2f(uM, 0, 0); gl.uniform1f(uD, .9); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+  else frame();
+})();

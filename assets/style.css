@@ -811,3 +811,21 @@ body:not([data-section="home"]) .join-form-box{box-shadow:0 0 0 1px rgba(56,189,
 body:not([data-section="home"]) .join-btn, body:not([data-section="home"]) .forum-form #fSubmit{background:linear-gradient(120deg,#38BDF8,#818CF8);color:#081426;font-weight:700;border:none}
 ::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:rgba(125,211,252,.28);border-radius:6px}::-webkit-scrollbar-track{background:#0A1122}
 @media (prefers-reduced-motion:reduce){ body:not([data-section="home"]) .hero-block::before{animation:none} }
+/* a015 WebGL 星雲 hero＋稿紙層＋揭示 */
+body:not([data-section="home"]) .hero-gl{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+body:not([data-section="home"]) .hero-block::before{opacity:.3}
+body:not([data-section="home"]) .hero-block .wrap{position:relative;z-index:1}
+body:not([data-section="home"]) .hero-ghost{z-index:0}
+body:not([data-section="home"]) .hero-block h1{font-size:clamp(60px,9.6vw,124px)}
+body:not([data-section="home"]) main.prose{background:linear-gradient(180deg,rgba(248,250,252,.05),rgba(248,250,252,.016));border:1px solid rgba(160,200,240,.17);border-radius:28px;padding:64px clamp(22px,4.5vw,64px) 96px;margin-top:-64px;position:relative;box-shadow:0 40px 80px -50px rgba(2,8,20,.9),inset 0 1px 0 rgba(255,255,255,.07)}
+body.rv-on .prose > h2, body.rv-on .prose .card, body.rv-on .panels a.panel, body.rv-on .tl-item, body.rv-on .prose > blockquote{transform:translateY(26px);opacity:0}
+body.rv-on .prose > h2.rv-in, body.rv-on .prose .card.rv-in, body.rv-on .panels a.panel.rv-in, body.rv-on .tl-item.rv-in, body.rv-on .prose > blockquote.rv-in{transform:none;opacity:1;transition:transform .95s cubic-bezier(.16,1,.3,1),opacity .95s cubic-bezier(.16,1,.3,1)}
+@media (prefers-reduced-motion:reduce){ body.rv-on .prose > h2, body.rv-on .prose .card, body.rv-on .panels a.panel, body.rv-on .tl-item, body.rv-on .prose > blockquote{transform:none;opacity:1} }
+/* a015 手機出框修復：狀態表被全域 table min-width:560px 撐爆 */
+html, body{overflow-x:hidden;overflow-x:clip}
+body[data-section="home"] table{min-width:0}
+@media (max-width:640px){
+  body[data-section="home"] .status table{font-size:14.5px}
+  body[data-section="home"] .status th, body[data-section="home"] .status td.s-done, body[data-section="home"] .status td.s-plan{white-space:normal}
+  body[data-section="home"] .status th, body[data-section="home"] .status td{padding:13px 8px}
+}
