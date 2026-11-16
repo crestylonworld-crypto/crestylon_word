@@ -377,3 +377,249 @@ body[data-section="home"] .freedoms .panel h3{font-size:clamp(30px,4.4vw,46px)}
   .pin{height:auto}
   .pin .stage{position:static;height:70svh}
 }
+
+/* ===== a008 首頁 R7 層（光縫合版，2026-11-16 整合）：全部規則 scope 在 body[data-section="home"]，不影響其他頁 ===== */
+body[data-section="home"]{
+  --bg:#070D1A; --bg2:#0A1120; --moon:#F8FAFC; --dim:#B6C2D2; --faint:#7C8DA6;
+  --cyan:#38BDF8; --cyan2:#06B6D4; --ember:#F97316; --line:rgba(148,184,220,.16);
+  --serif:'Noto Serif TC',serif; --sans:'Noto Sans TC',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1); --spineX:84px;
+  background:var(--bg); color:var(--moon); font-size:17px; line-height:1.85; overflow-x:hidden;
+}
+body[data-section="home"] main, body[data-section="home"] main section{position:relative;z-index:3}
+/* 橋線脊椎（本版唯一主角） */
+body[data-section="home"] #spine{position:absolute;left:0;top:0;width:100%;pointer-events:none;z-index:1;overflow:visible}
+body[data-section="home"] #spine path{fill:none;stroke-linecap:round}
+body[data-section="home"] #spineMain{stroke:url(#spineGrad);stroke-width:2.5}
+body[data-section="home"] #spineFade{stroke:rgba(56,189,248,.7);stroke-width:2.5;stroke-dasharray:1 16}
+body[data-section="home"] .node{position:absolute;left:var(--spineX);width:13px;height:13px;margin-left:-6.5px;border-radius:50%;border:2px solid rgba(56,189,248,.45);background:var(--bg);z-index:2;transition:background .6s,box-shadow .6s,border-color .6s}
+body[data-section="home"] .node.lit{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 18px rgba(56,189,248,.75)}
+body[data-section="home"] .node.ember{border-color:rgba(249,115,22,.55)}
+body[data-section="home"] .node.ember.lit{background:var(--ember);border-color:var(--ember);box-shadow:0 0 18px rgba(249,115,22,.7)}
+body[data-section="home"] #penTip{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#E0F2FE;box-shadow:0 0 0 6px rgba(56,189,248,.18),0 0 22px 6px rgba(56,189,248,.65),0 0 44px 10px rgba(56,189,248,.25);z-index:4;pointer-events:none}
+body[data-section="home"] #penTip::after{content:'';position:absolute;inset:-14px;border-radius:50%;border:1px solid rgba(56,189,248,.35)}
+body[data-section="home"] .soil-dot{position:absolute;border-radius:50%;background:rgba(249,115,22,0);z-index:2;transition:background 1s}
+body[data-section="home"] .soil-dot.lit{background:rgba(249,115,22,.65);box-shadow:0 0 12px rgba(249,115,22,.5)}
+body[data-section="home"] main .wrap{max-width:1120px;margin:0 auto;padding:0 24px 0 132px;width:100%}
+body[data-section="home"] main .narrow{max-width:720px;margin:0 auto;padding:0 24px 0 132px;width:100%}
+body[data-section="home"] .rv{transform:translateY(26px);transition:transform 1.05s var(--ease)}
+body[data-section="home"] .rv.in{transform:none}
+/* HERO */
+body[data-section="home"] .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:110px 0 9vh;overflow:hidden}
+body[data-section="home"] #gl{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:.82}
+body[data-section="home"] .hero .veil{position:absolute;inset:0;background:radial-gradient(58% 34% at 50% 15%,rgba(56,189,248,.16),rgba(56,189,248,.05) 55%,transparent 78%),linear-gradient(180deg,rgba(7,13,26,.3),transparent 35%,transparent 60%,rgba(7,13,26,.65));pointer-events:none}
+body[data-section="home"] .bridge{position:absolute;left:50%;top:1%;transform:translateX(-50%);width:min(1240px,112vw);z-index:1;pointer-events:none;filter:drop-shadow(0 0 22px rgba(56,189,248,.25));-webkit-mask-image:linear-gradient(180deg,#000 0,#000 52%,rgba(0,0,0,.35) 74%,transparent 92%);mask-image:linear-gradient(180deg,#000 0,#000 52%,rgba(0,0,0,.35) 74%,transparent 92%)}
+body[data-section="home"] .bridge path, body[data-section="home"] .bridge circle{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.6s var(--ease)}
+body[data-section="home"].ready .bridge path, body[data-section="home"].ready .bridge circle{stroke-dashoffset:0}
+body[data-section="home"] .bridge .d1{transition-delay:.25s}
+body[data-section="home"] .bridge .d2{transition-delay:.55s}
+body[data-section="home"] .bridge .d3{transition-delay:.9s}
+body[data-section="home"] .hero .in{position:relative;z-index:3}
+body[data-section="home"] .eyebrow{color:var(--cyan);font-size:13px;letter-spacing:.34em;font-weight:700;margin-bottom:26px}
+body[data-section="home"] .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(40px,8.4vw,104px);line-height:1.16;letter-spacing:.045em}
+body[data-section="home"] .hero h1 .line{display:block;clip-path:inset(0 0 105% 0);transform:translateY(30px);transition:clip-path 1.25s var(--ease),transform 1.25s var(--ease)}
+body[data-section="home"] .hero h1 .line:nth-child(2){transition-delay:.14s}
+body[data-section="home"].ready .hero h1 .line{clip-path:inset(-8% 0 -8% 0);transform:none}
+body[data-section="home"] .hero h1 .cyan{color:var(--cyan)}
+body[data-section="home"] .hero .sub{margin-top:30px;color:var(--dim);font-size:clamp(16.5px,1.9vw,19.5px);max-width:33em;line-height:1.9;clip-path:inset(0 0 105% 0);transform:translateY(18px);transition:clip-path 1.2s var(--ease) .45s,transform 1.2s var(--ease) .45s}
+body[data-section="home"].ready .hero .sub{clip-path:inset(-8% 0 -8% 0);transform:none}
+body[data-section="home"] .hero .meta{margin-top:44px;display:flex;gap:34px;color:var(--faint);font-size:12.5px;letter-spacing:.26em;align-items:center;max-width:none;clip-path:inset(0 0 105% 0);transition:clip-path 1.2s var(--ease) .65s}
+body[data-section="home"].ready .hero .meta{clip-path:inset(-8% 0 -8% 0)}
+body[data-section="home"] .hero .meta::before{content:'';width:64px;height:1px;background:var(--cyan)}
+/* 章節頭 */
+body[data-section="home"] .chapter{position:relative;padding:12vh 0 0}
+body[data-section="home"] .chapter .no{color:var(--cyan);font-size:13px;letter-spacing:.34em;font-weight:700}
+body[data-section="home"] .chapter h2{font-family:var(--serif);font-weight:900;font-size:clamp(34px,5vw,56px);letter-spacing:.04em;line-height:1.25;margin-top:16px}
+body[data-section="home"] .chapter .q{color:var(--dim);font-size:18.5px;margin-top:14px;max-width:36em}
+/* 定格宣言 */
+body[data-section="home"] .pin{height:230vh;position:relative;width:auto;margin:0}
+body[data-section="home"] .pin .stage{position:sticky;top:0;height:100svh;overflow:hidden}
+body[data-section="home"] .pin img.bg{position:absolute;inset:0;width:100%;height:112%;object-fit:cover;filter:saturate(.85) contrast(1.08) brightness(.8);will-change:transform}
+body[data-section="home"] .pin .shade{position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(7,13,26,.05) 30%,rgba(7,13,26,.05) 62%,var(--bg) 100%)}
+body[data-section="home"] .pin .lines{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 24px;gap:5vh}
+body[data-section="home"] .pin .lines p{font-family:var(--serif);font-weight:900;font-size:clamp(25px,4.2vw,44px);line-height:1.55;letter-spacing:.05em;max-width:22em;text-shadow:0 4px 34px rgba(0,0,0,.7);color:var(--faint);transform:translateY(34px);transition:transform .9s var(--ease),color .9s var(--ease)}
+body[data-section="home"] .pin .lines p.on{color:var(--moon);transform:none}
+body[data-section="home"] .pin .lines p.small{font-family:var(--sans);font-weight:400;font-size:clamp(15px,1.8vw,18px)}
+body[data-section="home"] .pin .prog{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;gap:8px}
+body[data-section="home"] .pin .prog i{width:26px;height:2px;background:rgba(248,250,252,.25)}
+body[data-section="home"] .pin .prog i.on{background:var(--cyan)}
+body[data-section="home"] .pin .tag{position:absolute;top:12vh;left:50%;transform:translateX(-50%);color:var(--cyan);font-size:12.5px;letter-spacing:.34em;font-weight:700}
+/* 四道鎖鏈 */
+body[data-section="home"] .chains{margin-top:56px;border-top:1px solid var(--line)}
+body[data-section="home"] .chain{display:grid;grid-template-columns:200px 1fr 1fr;gap:34px;padding:40px 6px;border-bottom:1px solid var(--line);align-items:start}
+body[data-section="home"] .chain .cname{font-family:var(--serif);font-weight:900;font-size:clamp(24px,2.8vw,32px);letter-spacing:.1em}
+body[data-section="home"] .chain .cname small{display:block;font-family:var(--sans);font-weight:700;font-size:11.5px;color:var(--ember);letter-spacing:.3em;margin-bottom:10px}
+body[data-section="home"] .chain h3{font-size:12.5px;letter-spacing:.28em;color:var(--faint);margin-bottom:12px;font-weight:700}
+body[data-section="home"] .chain p{color:var(--dim);font-size:16.5px}
+body[data-section="home"] .chain .resp p{color:var(--moon)}
+body[data-section="home"] .chain .resp p b{color:var(--cyan);font-weight:700}
+/* 編號列 */
+body[data-section="home"] .rows{margin-top:56px;border-top:1px solid var(--line)}
+body[data-section="home"] .rows .r{display:grid;grid-template-columns:110px 1fr;gap:28px;padding:38px 6px;border-bottom:1px solid var(--line);align-items:baseline}
+body[data-section="home"] .rows .idx{font-family:var(--serif);font-weight:900;font-size:34px;color:transparent;-webkit-text-stroke:1px rgba(56,189,248,.55)}
+body[data-section="home"] .rows h3{font-family:var(--serif);font-weight:900;font-size:clamp(24px,3vw,32px);letter-spacing:.06em;margin-bottom:10px}
+body[data-section="home"] .rows h3 span{color:var(--cyan);font-size:.62em;letter-spacing:.2em;margin-left:12px;vertical-align:middle}
+body[data-section="home"] .rows p{color:var(--dim);font-size:16px;max-width:46em}
+/* MCI 算式幕 */
+body[data-section="home"] .formula{margin-top:64px;border:1px solid var(--line);border-radius:12px;padding:44px 40px;background:linear-gradient(160deg,rgba(56,189,248,.05),transparent 60%)}
+body[data-section="home"] .formula .flabel{color:var(--cyan);font-size:12.5px;letter-spacing:.32em;font-weight:700;margin-bottom:20px}
+body[data-section="home"] .formula .fbig{font-family:var(--serif);font-weight:900;font-size:clamp(24px,3.6vw,40px);letter-spacing:.05em;line-height:1.5}
+body[data-section="home"] .formula .fbig em{font-style:normal;color:var(--cyan)}
+body[data-section="home"] .formula table{width:100%;border-collapse:collapse;margin-top:30px;font-size:16px}
+body[data-section="home"] .formula td{padding:13px 8px;border-top:1px solid var(--line);color:var(--dim)}
+body[data-section="home"] .formula td.num{font-family:var(--serif);font-weight:900;font-size:21px;color:var(--moon);white-space:nowrap;text-align:right}
+
+/* fork 獨立時刻 */
+body[data-section="home"] .fork-moment{padding:11vh 0 3vh}
+body[data-section="home"] .fork-stage{border:1px solid var(--line);border-radius:14px;padding:36px 30px 18px;background:radial-gradient(130% 190% at 50% 0%,rgba(56,189,248,.055),rgba(56,189,248,.024) 58%,rgba(56,189,248,.02))}
+body[data-section="home"] .fork-stage svg{width:100%;height:auto;display:block}
+body[data-section="home"] .fork-stage path{fill:none;stroke-linecap:round}
+body[data-section="home"] .fork-cap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:8px;color:var(--dim);font-size:15.5px}
+body[data-section="home"] .fork-cap b{color:var(--moon);font-family:var(--serif)}
+body[data-section="home"] .fork-cap .r{text-align:right}
+/* 七自由索引＋全屏接管 */
+body[data-section="home"] .free-index{border-top:1px solid var(--line);margin-top:44px}
+body[data-section="home"] .free-index a{display:flex;gap:18px;align-items:baseline;padding:13px 8px;border-bottom:1px solid var(--line);color:inherit;text-decoration:none;font-size:15px}
+body[data-section="home"] .free-index a span:first-child{color:var(--faint);font-family:var(--serif);width:44px}
+body[data-section="home"] .free-index a b{font-family:var(--serif);letter-spacing:.12em;font-size:19px}
+body[data-section="home"] .free-index a em{font-style:normal;color:var(--dim)}
+body[data-section="home"] .takeover{min-height:88svh;display:flex;align-items:center;padding:7vh 0;border-bottom:1px solid var(--line);position:relative}
+body[data-section="home"] .takeover .tk-rn{font-family:var(--serif);font-size:clamp(64px,10vw,120px);color:transparent;-webkit-text-stroke:1px rgba(56,189,248,.4);line-height:1}
+body[data-section="home"] .takeover.on .tk-rn{color:rgba(56,189,248,.14)}
+body[data-section="home"] .takeover h3{font-family:var(--serif);font-weight:900;font-size:clamp(44px,7.5vw,84px);letter-spacing:.14em;line-height:1.2;margin:14px 0 6px}
+body[data-section="home"] .takeover .tk-head{color:var(--cyan);font-size:16px;letter-spacing:.06em}
+body[data-section="home"] .takeover .tk-mine{font-family:var(--serif);font-size:clamp(21px,3.2vw,32px);line-height:1.75;color:var(--moon);max-width:24em;margin-top:26px;border-left:3px solid var(--cyan);padding-left:20px}
+body[data-section="home"] .takeover .tk-body{color:var(--dim);font-size:16px;max-width:42em;margin-top:22px}
+body[data-section="home"] .takeover .tk-body p{margin-bottom:10px}
+body[data-section="home"] .freedom-note{margin-top:34px;font-family:var(--serif);font-size:clamp(19px,2.4vw,24px);line-height:1.7;color:var(--moon);border-left:3px solid var(--ember);padding-left:22px;max-width:34em}
+/* 六層逐層消散 */
+body[data-section="home"] .dissolve{padding:13.5vh 0 5vh}
+body[data-section="home"] .dissolve .d-layer{display:grid;grid-template-columns:150px 1fr 90px;gap:22px;align-items:center;padding:26px 6px;border-bottom:1px solid var(--line)}
+body[data-section="home"] .dissolve .d-mid{display:flex;flex-direction:column;gap:9px;min-width:0}
+body[data-section="home"] .dissolve .d-mid .d-line{display:block;width:100%}
+body[data-section="home"] .dissolve .d-desc{color:var(--dim);font-size:14.5px;line-height:1.75}
+body[data-section="home"] .dissolve .d-name{font-family:var(--serif);font-weight:900;letter-spacing:.14em;font-size:19px}
+body[data-section="home"] .dissolve .d-name small{display:block;font-family:var(--sans);font-weight:400;color:#A9BED6;font-size:12.5px;letter-spacing:.22em;margin-top:4px}
+body[data-section="home"] .dissolve .d-name small .dl-sep{letter-spacing:0}
+body[data-section="home"] .dissolve .d-line{height:3px;border-radius:2px;background:var(--cyan)}
+body[data-section="home"] .dissolve .d-state{color:var(--faint);font-size:13px;letter-spacing:.2em;text-align:right}
+body[data-section="home"] .dissolve .d-quote{font-family:var(--serif);font-size:clamp(20px,2.8vw,28px);line-height:1.8;margin-top:40px;max-width:26em}
+/* 銘文（引力常數） */
+body[data-section="home"] .inscription{min-height:88svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px;margin-top:6vh}
+body[data-section="home"] .inscription .lab{color:var(--faint);font-size:12px;letter-spacing:.4em;margin-bottom:34px}
+body[data-section="home"] .inscription p{font-family:var(--serif);font-weight:600;font-size:clamp(21px,3.2vw,34px);line-height:2.05;letter-spacing:.06em;max-width:26em;color:var(--moon)}
+/* 靜默 */
+body[data-section="home"] .silence{min-height:84svh;background:#000;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px;margin-top:10vh;width:auto;max-width:none}
+body[data-section="home"] .silence p{font-family:var(--serif);font-weight:900;font-size:clamp(26px,4.6vw,48px);letter-spacing:.08em;line-height:1.6;color:var(--moon)}
+/* 誠實：狀態表 */
+body[data-section="home"] .status{padding:14vh 0 2vh}
+body[data-section="home"] .status .stamp{color:var(--faint);font-size:12.5px;letter-spacing:.3em;margin-bottom:26px}
+body[data-section="home"] .status table{width:100%;border-collapse:collapse;font-size:16px}
+body[data-section="home"] .status th, body[data-section="home"] .status td{padding:16px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+body[data-section="home"] .status th{color:var(--faint);font-weight:500;font-size:13px;letter-spacing:.24em;white-space:nowrap}
+body[data-section="home"] .status td.s-done{color:var(--cyan);white-space:nowrap;font-weight:700}
+body[data-section="home"] .status td.s-plan{color:var(--faint);white-space:nowrap}
+body[data-section="home"] .status .after{margin-top:30px;color:var(--dim);font-size:16.5px}
+body[data-section="home"] .status .after p{margin-bottom:12px}
+/* 入口索引 */
+body[data-section="home"] .entries{margin-top:52px;border-top:1px solid var(--line)}
+body[data-section="home"] .entries a{display:grid;grid-template-columns:70px 1fr auto;gap:22px;align-items:baseline;padding:30px 8px;border-bottom:1px solid var(--line);color:inherit;text-decoration:none;transition:padding-left .5s var(--ease)}
+body[data-section="home"] .entries a:hover{padding-left:22px}
+body[data-section="home"] .entries .en{font-family:var(--serif);color:var(--faint);font-size:17px}
+body[data-section="home"] .entries h3{font-family:var(--serif);font-weight:900;font-size:clamp(25px,3.4vw,34px);letter-spacing:.08em}
+body[data-section="home"] .entries h3 small{display:block;font-family:var(--sans);font-weight:400;font-size:15px;color:var(--dim);letter-spacing:0;margin-top:6px}
+body[data-section="home"] .entries .arr{color:var(--cyan);font-size:22px}
+/* 小說 */
+body[data-section="home"] .novel{padding:16vh 0 0}
+body[data-section="home"] .novel .big{font-family:var(--serif);font-weight:900;font-size:clamp(40px,7vw,84px);letter-spacing:.1em;line-height:1.3}
+body[data-section="home"] .novel .intro{color:var(--dim);font-size:18px;margin-top:22px;max-width:32em;line-height:2}
+body[data-section="home"] .portals{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:52px}
+body[data-section="home"] .portal{border:1px solid var(--line);border-radius:10px;padding:36px 30px;text-decoration:none;color:inherit;background:linear-gradient(160deg,rgba(56,189,248,.06),transparent 55%);transition:border-color .5s,transform .5s var(--ease)}
+body[data-section="home"] .portal:hover{border-color:rgba(56,189,248,.5);transform:translateY(-4px)}
+body[data-section="home"] .portal .role{color:var(--cyan);font-size:12px;letter-spacing:.3em;font-weight:700}
+body[data-section="home"] .portal h3{font-family:var(--serif);font-weight:900;font-size:36px;letter-spacing:.16em;margin:12px 0 8px}
+body[data-section="home"] .portal p{color:var(--dim);font-size:15px}
+body[data-section="home"] .portal.ember{background:linear-gradient(160deg,rgba(249,115,22,.07),transparent 55%)}
+body[data-section="home"] .portal.ember .role{color:var(--ember)}
+body[data-section="home"] .portal.ember:hover{border-color:rgba(249,115,22,.5)}
+body[data-section="home"] .read-links{margin-top:26px;color:var(--dim);font-size:15px;display:flex;gap:28px;flex-wrap:wrap}
+body[data-section="home"] .read-links a{color:var(--moon);text-decoration:none;border-bottom:1px solid var(--cyan);padding-bottom:2px}
+/* 創世儀式 */
+body[data-section="home"] .ritual{padding:18vh 0 0;text-align:left}
+body[data-section="home"] .ritual .ask{font-family:var(--serif);font-weight:900;font-size:clamp(28px,4.4vw,48px);line-height:1.5;letter-spacing:.04em;max-width:20em}
+body[data-section="home"] .ritual form{margin-top:38px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+body[data-section="home"] .ritual input{background:rgba(248,250,252,.04);border:1px solid rgba(148,184,220,.35);border-radius:999px;color:var(--moon);font:inherit;font-size:17px;padding:16px 28px;min-width:min(420px,80vw);outline:none}
+body[data-section="home"] .ritual input:focus{border-color:var(--cyan)}
+body[data-section="home"] .ritual button{background:var(--cyan2);border:0;color:#fff;font:inherit;font-weight:700;font-size:16.5px;padding:16px 36px;border-radius:999px;cursor:pointer;letter-spacing:.08em}
+body[data-section="home"] .ritual .done-msg{margin-top:26px;font-family:var(--serif);font-size:clamp(20px,2.8vw,28px);color:var(--cyan);display:none}
+body[data-section="home"] .ritual .done-msg b{color:var(--moon)}
+/* 誓詞 */
+body[data-section="home"] .oath{min-height:80svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 24px;margin-top:8vh}
+body[data-section="home"] .oath .lab{color:var(--faint);font-size:12px;letter-spacing:.4em;margin-bottom:34px}
+body[data-section="home"] .oath p{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3vw,32px);line-height:2.1;letter-spacing:.05em;max-width:27em;color:var(--dim)}
+body[data-section="home"] .oath p b{color:var(--moon);font-weight:900}
+/* 終幕 */
+body[data-section="home"] .finale{position:relative;padding:24vh 24px 0;overflow:hidden;text-align:center;margin-top:10vh;width:auto;max-width:none}
+body[data-section="home"] .finale .bgimg{position:absolute;inset:0;width:100%;height:118%;object-fit:cover;filter:saturate(.8) contrast(1.05) brightness(.5);will-change:transform}
+body[data-section="home"] .finale .shade{position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 2%,rgba(7,13,26,.25) 45%,rgba(3,6,12,.9))}
+body[data-section="home"] .finale .in{position:relative;z-index:2;max-width:760px;margin:0 auto}
+body[data-section="home"] .finale .seal{width:72px;height:72px;object-fit:cover;border-radius:16px;margin-bottom:30px}
+body[data-section="home"] .finale h2{font-family:var(--serif);font-weight:900;font-size:clamp(40px,7vw,84px);letter-spacing:.06em;line-height:1.3}
+body[data-section="home"] .finale p{color:var(--dim);margin:26px auto 0;max-width:32em}
+body[data-section="home"] .finale .bridge-word{font-family:var(--serif);color:var(--faint);font-size:16.5px;margin-top:34px}
+body[data-section="home"] .cta{display:inline-block;margin-top:48px;background:var(--ember);color:#fff;font-weight:700;font-size:18px;padding:19px 52px;border-radius:999px;text-decoration:none;letter-spacing:.1em;box-shadow:0 18px 50px -12px rgba(249,115,22,.55)}
+body[data-section="home"] .finale .ghost-btn{display:inline-block;margin-top:48px;margin-left:16px;color:var(--moon);text-decoration:none;border:1px solid rgba(248,250,252,.35);padding:18px 40px;border-radius:999px;font-size:17px}
+body[data-section="home"] .colophon{position:relative;z-index:2;margin-top:16vh;padding:34px 24px 40px;color:var(--faint);font-size:12.5px;letter-spacing:.26em}
+/* 字型：英數標籤用舊站的 Cormorant Garamond（中文維持 Noto Serif TC／Noto Sans TC） */
+body[data-section="home"] .eyebrow, body[data-section="home"] .hero .meta, body[data-section="home"] .chapter .no, body[data-section="home"] .pin .tag, body[data-section="home"] .formula .flabel, body[data-section="home"] .inscription .lab, body[data-section="home"] .oath .lab, body[data-section="home"] .colophon, body[data-section="home"] .portal .role, body[data-section="home"] .status .stamp, body[data-section="home"] .chain h3, body[data-section="home"] .takeover .tk-rn, body[data-section="home"] .free-index a span:first-child, body[data-section="home"] .rows .idx, body[data-section="home"] .dissolve .d-state, body[data-section="home"] .entries .en{
+  font-family:'Cormorant Garamond','Noto Serif TC',serif}
+body[data-section="home"] .eyebrow{font-size:16.5px}
+body[data-section="home"] .chapter .no{font-size:16.5px}
+body[data-section="home"] .pin .tag{font-size:15.5px}
+body[data-section="home"] .hero .meta{font-size:15px}
+body[data-section="home"] .colophon{font-size:15px}
+body[data-section="home"] .portal .role{font-size:14.5px}
+body[data-section="home"] .inscription .lab, body[data-section="home"] .oath .lab{font-size:15px}
+body[data-section="home"] .status .stamp{font-size:15px}
+body[data-section="home"] .formula .flabel{font-size:15px}
+body[data-section="home"] .chain h3{font-size:14.5px}
+body[data-section="home"] .takeover .tk-rn{font-weight:600}
+@media (max-width:900px){
+  body[data-section="home"]{--spineX:20px}
+  body[data-section="home"] main .wrap, body[data-section="home"] main .narrow{padding-left:44px}
+}
+@media (max-width:760px){
+  body[data-section="home"] .eyebrow{font-size:14px;letter-spacing:.22em}
+  body[data-section="home"] .hero h1{font-size:9.2vw;letter-spacing:.01em}
+  body[data-section="home"] .chain{grid-template-columns:1fr;gap:14px}
+  body[data-section="home"] .rows .r{grid-template-columns:64px 1fr;gap:16px}
+  body[data-section="home"] .rows .idx{font-size:24px}
+  body[data-section="home"] .entries a{grid-template-columns:44px 1fr auto}
+  body[data-section="home"] .portals{grid-template-columns:1fr}
+  body[data-section="home"] .finale .ghost-btn{margin-left:0;margin-top:16px}
+  body[data-section="home"] #penTip{display:none}
+  body[data-section="home"] .hero .meta{flex-wrap:wrap;gap:10px 18px;letter-spacing:.14em}
+  body[data-section="home"] .hero .meta::before{width:28px}
+  body[data-section="home"] .takeover{min-height:auto;padding:9vh 0}
+  body[data-section="home"] .dissolve .d-layer{grid-template-columns:112px 1fr 52px;gap:10px;padding:22px 2px}
+  body[data-section="home"] .dissolve .d-name{font-size:18px;letter-spacing:.08em}
+  body[data-section="home"] .dissolve .d-name small{display:flex;flex-direction:column;gap:2px;font-size:11.5px;letter-spacing:.08em;line-height:1.5;margin-top:6px}
+  body[data-section="home"] .dissolve .d-name small .dl-sep{display:none}
+  body[data-section="home"] .dissolve .d-name small .dl-no, body[data-section="home"] .dissolve .d-name small .dl-cat{display:block;white-space:nowrap}
+  body[data-section="home"] .dissolve .d-state{font-size:11.5px;letter-spacing:.08em}
+  body[data-section="home"] .dissolve .d-desc{font-size:13px}
+  body[data-section="home"] .fork-cap{flex-direction:column;align-items:flex-start;gap:8px}
+  body[data-section="home"] .fork-cap .r{text-align:left}
+  body[data-section="home"] .fork-stage{padding:24px 18px 14px}
+  body[data-section="home"] .bridge{top:7%;width:96vw}
+  body[data-section="home"] .formula{padding:30px 22px}
+  body[data-section="home"] .formula td.num{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){
+  body[data-section="home"] .rv, body[data-section="home"] .hero h1 .line, body[data-section="home"] .hero .sub, body[data-section="home"] .hero .meta, body[data-section="home"] .bridge path, body[data-section="home"] .bridge circle{transform:none;transition:none;clip-path:none;stroke-dashoffset:0}
+  body[data-section="home"] .pin{height:auto}
+  body[data-section="home"] .pin .stage{position:static;height:78svh}
+  body[data-section="home"] .pin .lines p{color:var(--moon)}
+  body[data-section="home"] #spineFade{stroke-dasharray:none}
+  body[data-section="home"] #penTip{display:none}
+}

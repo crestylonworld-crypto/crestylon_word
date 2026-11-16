@@ -84,3 +84,213 @@
     });
   }
 })();
+
+// 首頁 R7 引擎（2026-11-16 整合）：只在首頁（有 #gl）時啟動。橋線脊椎＋WebGL 星雲＋定格宣言＋fork/dissolve scrub，共用單一時鐘。
+(function () {
+  'use strict';
+  if (!document.getElementById('gl')) return;
+  // ---------- 揭示 ----------
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .12 });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+  const tio = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('on', e.isIntersecting)), { rootMargin: '-38% 0px -38% 0px' });
+  document.querySelectorAll('.takeover').forEach(el => tio.observe(el));
+  // ---------- 創世儀式（純前端、不送出） ----------
+  const nameForm = document.getElementById('nameForm');
+  if (nameForm) nameForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const v = document.getElementById('nameInput').value.trim();
+    if (!v) return;
+    document.getElementById('doneName').textContent = v;
+    document.getElementById('doneMsg').style.display = 'block';
+  });
+  // ---------- WebGL 星雲＋曙光 ----------
+  let dawnTarget = .3, dawnCur = .3;
+  (function () {
+    const cv = document.getElementById('gl');
+    const gl = cv.getContext('webgl', { antialias: false, alpha: false });
+    if (!gl) { cv.style.background = 'radial-gradient(900px 600px at 50% 110%, #3A2415, #0A1120 70%)'; return; }
+    const vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+    const fs = [
+      'precision highp float;',
+      'uniform vec2 R;uniform float T;uniform vec2 M;uniform float D;',
+      'float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}',
+      'float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);',
+      ' return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}',
+      'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p=p*2.0+vec2(17.3,9.1);a*=.5;}return v;}',
+      'float stars(vec2 uv,float scale,float th){',
+      ' vec2 g=uv*scale;vec2 id=floor(g);vec2 f=fract(g)-.5;',
+      ' float h=hash(id);vec2 off=vec2(hash(id+7.),hash(id+13.))-.5;',
+      ' float d=length(f-off*.7);',
+      ' float tw=.55+.45*sin(T*(1.5+h*2.5)+h*40.);',
+      ' return smoothstep(th,.0,d)*step(.82,h)*tw;}',
+      'void main(){',
+      ' vec2 uv=(gl_FragCoord.xy-.5*R)/min(R.x,R.y);',
+      ' vec2 muv=uv+M*.06;',
+      ' float t=T*.03;',
+      ' vec2 w=vec2(fbm(muv*1.6+vec2(t,-t*.6)),fbm(muv*1.6+vec2(5.2,1.3)-t*.5));',
+      ' float n=fbm(muv*1.9+w*2.6+vec2(t*.7,-t*.4));',
+      ' float n2=fbm(muv*3.6-vec2(t*.6,t*.3)+n);',
+      ' vec3 col=mix(vec3(.027,.051,.102),vec3(.086,.157,.247),smoothstep(.3,.85,n));',
+      ' col=mix(col,vec3(.13,.45,.62),smoothstep(.5,.92,n2)*.32);',
+      ' col=mix(col,vec3(.35,.75,.95),smoothstep(.8,1.,n*n2)*.2);',
+      ' float dawn=pow(max(0.,1.-length((uv-vec2(0.,-1.05))*vec2(1.,1.35))),3.2);',
+      ' col+=vec3(.98,.45,.15)*dawn*.55*D;',
+      ' col+=vec3(1.,.72,.42)*pow(dawn,3.)*.4*D;',
+      ' col+=vec3(1.)*stars(uv,42.,.09)*.8;',
+      ' col+=vec3(.85,.93,1.)*stars(uv+31.,90.,.06)*.55;',
+      ' float vig=smoothstep(1.65,.45,length(uv*vec2(1.,1.12)));',
+      ' col*=mix(.72,1.,vig);',
+      ' col+=(hash(gl_FragCoord.xy+ fract(T))-.5)*.045;',
+      ' gl_FragColor=vec4(col,1.);}'
+    ].join('\n');
+    function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+    const pr = gl.createProgram();
+    gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs));
+    gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs));
+    gl.linkProgram(pr); gl.useProgram(pr);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, 'p');
+    gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const uR = gl.getUniformLocation(pr, 'R'), uT = gl.getUniformLocation(pr, 'T'),
+          uM = gl.getUniformLocation(pr, 'M'), uD = gl.getUniformLocation(pr, 'D');
+    let mx = 0, my = 0, tx = 0, ty = 0;
+    addEventListener('pointermove', e => { tx = (e.clientX / innerWidth - .5) * 2; ty = (e.clientY / innerHeight - .5) * 2; }, { passive: true });
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function resize() {
+      const s = .75, dpr = Math.min(devicePixelRatio || 1, 1.5);
+      cv.width = cv.clientWidth * dpr * s; cv.height = cv.clientHeight * dpr * s;
+      gl.viewport(0, 0, cv.width, cv.height);
+    }
+    addEventListener('resize', resize); resize();
+    let visible = true;
+    new IntersectionObserver(es => { visible = es[0].isIntersecting; }, { threshold: 0 }).observe(cv);
+    const t0 = performance.now();
+    (function loop() {
+      if (visible) {
+        mx += (tx - mx) * .03; my += (ty - my) * .03;
+        dawnCur += (dawnTarget - dawnCur) * .04;
+        gl.uniform2f(uR, cv.width, cv.height);
+        gl.uniform1f(uT, reduced ? 8 : (performance.now() - t0) / 1000);
+        gl.uniform2f(uM, mx, -my);
+        gl.uniform1f(uD, dawnCur);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+      }
+      if (!reduced) requestAnimationFrame(loop);
+    })();
+    setTimeout(() => document.body.classList.add('ready'), 120);
+  })();
+  // ---------- 橋線脊椎＋單一時鐘捲動編排 ----------
+  (function () {
+    const svg = document.getElementById('spine');
+    const main = document.getElementById('spineMain');
+    const penTip = document.getElementById('penTip');
+    const fade = document.getElementById('spineFade');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let mainLen = 0, built = false;
+    const nodeEls = [];
+    function spineX() { return innerWidth <= 900 ? 20 : 84; }
+    function build() {
+      const H = document.documentElement.scrollHeight;
+      const W = innerWidth;
+      const x = spineX();
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      svg.style.height = H + 'px';
+      const heroH = document.getElementById('m0').offsetHeight;
+      const fin = document.getElementById('finaleSec');
+      const finTop = fin.offsetTop;
+      const spineStart = heroH - 24;
+      main.setAttribute('d', 'M ' + x + ' ' + spineStart + ' L ' + x + ' ' + (finTop - 60));
+      fade.setAttribute('d', 'M ' + x + ' ' + (finTop - 60) + ' L ' + x + ' ' + (finTop + fin.offsetHeight * .45));
+      [main, fade].forEach(p => {
+        const L = p.getTotalLength();
+        p.style.strokeDasharray = (p === fade) ? ('1 16') : String(L);
+        if (p === main) mainLen = L;
+        if (p !== fade) p.style.strokeDashoffset = String(L);
+      });
+      nodeEls.forEach(n => n.el.remove()); nodeEls.length = 0;
+      document.querySelectorAll('[data-node]').forEach((sec, i) => {
+        const d = document.createElement('div');
+        d.className = 'node' + (i >= 5 ? ' ember' : '');
+        d.style.top = (sec.offsetTop + 90) + 'px';
+        document.body.appendChild(d);
+        nodeEls.push({ el: d, y: sec.offsetTop + 90 });
+      });
+      document.querySelectorAll('.soil-dot').forEach(n => n.remove());
+      for (let i = 0; i < 14; i++) {
+        const d = document.createElement('div');
+        d.className = 'soil-dot';
+        const s = 5 + (i % 4) * 2;
+        d.style.width = s + 'px'; d.style.height = s + 'px';
+        d.style.left = (8 + ((i * 61) % 84)) + '%';
+        d.style.top = (finTop + 120 + (i * 97) % Math.max(200, fin.offsetHeight - 260)) + 'px';
+        document.body.appendChild(d);
+        nodeEls.push({ el: d, y: parseFloat(d.style.top), soil: true });
+      }
+      built = true;
+    }
+    build();
+    addEventListener('resize', () => { built = false; build(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { build(); });
+    const pin = document.getElementById('m1');
+    const lines = pin.querySelectorAll('[data-line]');
+    const dots = pin.querySelectorAll('[data-dot]');
+    const pinImg = document.getElementById('pinImg');
+    const finImg = document.getElementById('finImg');
+    let smooth = scrollY, pinCur = 0;
+    const forkPaths = Array.from(document.querySelectorAll('#forkSvg path')).map(pp => {
+      const isMerge = pp.id === 'forkMerge';
+      const len = pp.getTotalLength();
+      if (!isMerge) { pp.style.strokeDasharray = String(len); pp.style.strokeDashoffset = String(len); }
+      else { pp.style.opacity = '0'; }
+      return { el: pp, len, merge: isMerge };
+    });
+    const forkCircles = Array.from(document.querySelectorAll('#forkSvg circle'));
+    forkCircles.forEach(c => { c.style.opacity = '0'; });
+    function prog(el, sy) {
+      const top = el.offsetTop;
+      return Math.min(1, Math.max(0, (sy - top) / Math.max(1, el.offsetHeight - innerHeight)));
+    }
+    function loop() {
+      smooth += (scrollY - smooth) * (reduced ? 1 : .085);
+      const H = document.documentElement.scrollHeight - innerHeight;
+      const p = H > 0 ? smooth / H : 0;
+      dawnTarget = .3 + .7 * Math.min(1, smooth / (innerHeight * 1.6));
+      if (built) {
+        const centerDoc = smooth + innerHeight * .55;
+        const frac = Math.min(1, Math.max(0, centerDoc / (document.documentElement.scrollHeight)));
+        const drawFrac = Math.min(1, frac * 1.06);
+        main.style.strokeDashoffset = String(mainLen * (1 - drawFrac));
+        try { const pt = main.getPointAtLength(mainLen * drawFrac); penTip.style.left = pt.x + 'px'; penTip.style.top = pt.y + 'px'; penTip.style.opacity = drawFrac >= 0.995 ? '0' : '1'; } catch (e) {}
+        const fs2 = document.getElementById('forkSec');
+        if (fs2 && forkPaths) { const fr2 = fs2.getBoundingClientRect();
+          const fp = Math.min(1, Math.max(0, (innerHeight * .88 - fr2.top) / (innerHeight * .75)));
+          forkPaths.forEach((fpItem, i) => { const draw = Math.min(1, Math.max(0, fp * 1.6 - i * 0.14));
+            if (fpItem.merge) { fpItem.el.style.opacity = String(Math.min(1, Math.max(0, (fp - .55) * 2.4))); }
+            else { fpItem.el.style.strokeDashoffset = String(fpItem.len * (1 - draw)); } });
+          forkCircles.forEach((c, i) => { c.style.opacity = String(Math.min(1, Math.max(0, fp * 1.6 - i * 0.5))); }); }
+        const ds = document.getElementById('dissolveSec');
+        if (ds) { const dp = Math.min(1, Math.max(0, (centerDoc - ds.offsetTop + innerHeight * 0.2) / Math.max(1, ds.offsetHeight)));
+          document.querySelectorAll('#dLayers .d-layer').forEach((row, i) => { const local = Math.min(1, Math.max(0, dp * 6 - i)); const line = row.querySelector('.d-line'); const st = row.querySelector('.d-state');
+            line.style.opacity = String(1 - local * 0.92); line.style.background = local > 0.5 ? 'rgba(124,141,166,.6)' : 'var(--cyan)'; line.style.height = (3 - local * 1.6) + 'px'; st.textContent = local >= 1 ? '已退場' : local > 0 ? '退場中' : '在場'; st.style.color = local >= 1 ? 'var(--ember)' : ''; row.querySelector('.d-name').style.opacity = String(1 - local * 0.45); }); }
+        fade.style.opacity = String(Math.max(0, 1 - Math.max(0, p - .9) * 6));
+        nodeEls.forEach(n => n.el.classList.toggle('lit', centerDoc > n.y));
+      }
+      pinCur += (prog(pin, smooth) - pinCur) * .1;
+      const lit = pinCur < .16 ? 0 : pinCur < .48 ? 1 : pinCur < .78 ? 2 : 3;
+      lines.forEach((el, i) => el.classList.toggle('on', i < lit));
+      dots.forEach((el, i) => el.classList.toggle('on', i < lit));
+      pinImg.style.transform = 'translateY(' + ((pinCur - .5) * -6) + '%)';
+      const fr = finImg.parentElement.getBoundingClientRect();
+      if (fr.top < innerHeight && fr.bottom > 0) {
+        const fp2 = Math.min(1, Math.max(0, (innerHeight - fr.top) / (innerHeight + fr.height)));
+        finImg.style.transform = 'translateY(' + ((fp2 - .5) * -9) + '%)';
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+  })();
+})();
