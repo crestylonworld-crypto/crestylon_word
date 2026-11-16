@@ -309,6 +309,8 @@
       set name(v) { try { localStorage.setItem('wf_name', v) } catch (e) {} },
       joined() { try { return JSON.parse(localStorage.getItem('wf_joined') || '[]') } catch (e) { return [] } },
       addJoined(id) { try { const a = store.joined(); a.push(id); localStorage.setItem('wf_joined', JSON.stringify(a)) } catch (e) {} },
+      mine() { try { return JSON.parse(localStorage.getItem('wf_mine') || '[]') } catch (e) { return [] } },
+      addMine(id) { try { const a = store.mine(); if (!a.includes(id)) { a.push(id); localStorage.setItem('wf_mine', JSON.stringify(a)); } } catch (e) {} },
       last() { try { return +localStorage.getItem('wf_last') || 0 } catch (e) { return 0 } },
       stamp() { try { localStorage.setItem('wf_last', Date.now()) } catch (e) {} }
     };
@@ -323,19 +325,42 @@
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.status === 204 ? null : r.json().catch(() => null);
     }
+    const isMine = row => store.mine().includes(row.id) || (!!store.name && row.author === store.name);
+    async function delRow(id) { await api('/rest/v1/world_forum_posts?id=eq.' + id, { method: 'DELETE' }); }
+    async function deletePost(p) {
+      if (!confirm('確定要刪除「' + p.title + '」嗎？底下的回覆也會一起刪除，無法復原。')) return;
+      try {
+        const reps = state.replies.filter(r => r.parent_id === p.id);
+        for (const r of reps) await delRow(r.id);
+        await delRow(p.id);
+        if (state.detail === p.id) closeDetail();
+        await load();
+      } catch (e) { $('formErr').textContent = '刪除失敗，稍後再試。'; }
+    }
     function replyItem(rp) {
       const box = el('div', 'fp-reply');
       const head = el('p', 'fp-reply-meta');
       head.appendChild(el('b', null, rp.author));
       head.appendChild(el('span', null, ' · ' + fmtTime(rp.created_at)));
+      if (isMine(rp)) {
+        const db = el('button', 'fp-del-reply', '刪除'); db.type = 'button';
+        db.addEventListener('click', async () => {
+          if (!confirm('確定要刪除這則回覆嗎？')) return;
+          try { await delRow(rp.id); await load(); if (state.detail) openDetail(state.detail); } catch (e) {}
+        });
+        head.appendChild(db);
+      }
       box.appendChild(head);
       box.appendChild(el('p', 'fp-reply-body', rp.body));
       return box;
     }
-    function postCard(p, replies) {
+    function postCard(p, replies, opts) {
+      opts = opts || {};
       const card = el('article', 'fpost');
       const head = el('div', 'fp-head');
-      head.appendChild(el('h4', 'fp-title', p.title));
+      const titleEl = el('h4', 'fp-title', p.title);
+      if (!opts.detail) { titleEl.classList.add('fp-title-link'); titleEl.addEventListener('click', () => openDetail(p.id)); }
+      head.appendChild(titleEl);
       const byline = el('div', 'fp-byline');
       const ava = el('span', 'fp-ava', (p.author || '？').trim().slice(0, 1) || '？');
       let hue = 0; for (const ch of (p.author || '')) hue = (hue * 31 + ch.charCodeAt(0)) % 360;
@@ -378,8 +403,18 @@
       });
       const rb = el('button', 'fp-btn', '回覆 · ' + replies.length); rb.type = 'button';
       acts.append(jb, fb, rb);
+      if (!opts.detail) {
+        const db2 = el('button', 'fp-btn', '詳情'); db2.type = 'button';
+        db2.addEventListener('click', () => openDetail(p.id));
+        acts.appendChild(db2);
+      }
+      if (isMine(p)) {
+        const del = el('button', 'fp-btn fp-del', '刪除'); del.type = 'button';
+        del.addEventListener('click', () => deletePost(p));
+        acts.appendChild(del);
+      }
       card.appendChild(acts);
-      const rbox = el('div', 'fp-replies'); rbox.hidden = true;
+      const rbox = el('div', 'fp-replies'); rbox.hidden = !opts.detail;
       const rlist = el('div', 'fp-reply-list');
       replies.forEach(rp => rlist.appendChild(replyItem(rp)));
       rbox.appendChild(rlist);
@@ -399,7 +434,7 @@
           const rows = await api('/rest/v1/world_forum_posts?select=*', { method: 'POST', headers: Object.assign({}, H, { Prefer: 'return=representation' }), body: JSON.stringify({ kind: 'reply', parent_id: p.id, author, body }) });
           store.name = author; store.stamp();
           const rp = rows && rows[0];
-          if (rp) { rlist.appendChild(replyItem(rp)); rb.textContent = '回覆 · ' + rlist.children.length; }
+          if (rp) { store.addMine(rp.id); rlist.appendChild(replyItem(rp)); rb.textContent = '回覆 · ' + rlist.children.length; }
           rinput.value = '';
         } catch (err) { $('formErr').textContent = '回覆送不出去，稍後再試。'; }
         rbtn.disabled = false;
@@ -409,7 +444,50 @@
       card.appendChild(rbox);
       return card;
     }
-    const state = { sort: 'new', posts: [], replies: [] };
+    const state = { sort: 'new', posts: [], replies: [], detail: null };
+    function openDetail(id) {
+      const p = byId[id];
+      if (!p || p.kind !== 'post') return;
+      state.detail = id;
+      try { history.replaceState(null, '', '#post-' + id); } catch (e) {}
+      const dEl = $('forumDetail'); if (!dEl) return;
+      $('forumForm').hidden = true;
+      const tb = document.querySelector('.forum-toolbar'); if (tb) tb.hidden = true;
+      listEl.hidden = true;
+      $('doneMsg').style.display = 'none';
+      dEl.hidden = false;
+      dEl.textContent = '';
+      const back = el('button', 'fp-btn fp-back', '← 回到廣場'); back.type = 'button';
+      back.addEventListener('click', closeDetail);
+      dEl.appendChild(back);
+      if (p.fork_of && byId[p.fork_of]) {
+        const pl = el('button', 'fp-btn fp-back', '分支自「' + byId[p.fork_of].title + '」→'); pl.type = 'button';
+        pl.addEventListener('click', () => openDetail(p.fork_of));
+        dEl.appendChild(pl);
+      }
+      const reps = state.replies.filter(r => r.parent_id === p.id);
+      dEl.appendChild(postCard(p, reps, { detail: true }));
+      const forks = state.posts.filter(x => x.fork_of === p.id);
+      if (forks.length) {
+        dEl.appendChild(el('h3', 'fd-sec', '從這套制度分支出去的版本'));
+        forks.forEach(f => {
+          const item = el('button', 'fd-fork'); item.type = 'button';
+          item.appendChild(el('b', null, f.title));
+          item.appendChild(el('span', null, f.author + ' · 加入 ' + f.joins));
+          item.addEventListener('click', () => openDetail(f.id));
+          dEl.appendChild(item);
+        });
+      }
+      dEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function closeDetail() {
+      state.detail = null;
+      try { history.replaceState(null, '', location.pathname); } catch (e) {}
+      const dEl = $('forumDetail'); if (dEl) { dEl.hidden = true; dEl.textContent = ''; }
+      $('forumForm').hidden = false;
+      const tb = document.querySelector('.forum-toolbar'); if (tb) tb.hidden = false;
+      listEl.hidden = false;
+    }
     function paint() {
       const posts = state.posts.slice();
       if (state.sort === 'hot') posts.sort((a, b) => (b.joins - a.joins) || (a.created_at < b.created_at ? 1 : -1));
@@ -428,6 +506,8 @@
         state.posts = rows.filter(r => r.kind === 'post');
         state.replies = rows.filter(r => r.kind === 'reply').reverse();
         paint();
+        if (state.detail && byId[state.detail]) openDetail(state.detail);
+        else if (!state.detail && location.hash.indexOf('#post-') === 0) { const hid = location.hash.slice(6); if (byId[hid]) openDetail(hid); }
       } catch (e) {
         listEl.textContent = '';
         listEl.appendChild(el('p', 'forum-empty', '廣場暫時連不上，稍後再試。'));
@@ -452,7 +532,8 @@
       try {
         const payload = { kind: 'post', author, title, problem, body };
         if (forkOf) payload.fork_of = forkOf;
-        await api('/rest/v1/world_forum_posts', { method: 'POST', headers: Object.assign({}, H, { Prefer: 'return=minimal' }), body: JSON.stringify(payload) });
+        const created = await api('/rest/v1/world_forum_posts?select=*', { method: 'POST', headers: Object.assign({}, H, { Prefer: 'return=representation' }), body: JSON.stringify(payload) });
+        if (created && created[0]) store.addMine(created[0].id);
         store.name = author; store.stamp();
         $('doneName').textContent = title;
         $('doneMsg').style.display = 'block';
