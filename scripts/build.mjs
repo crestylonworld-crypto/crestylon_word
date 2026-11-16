@@ -156,6 +156,7 @@ const FORUM_HTML = `<div class="forum" id="forumSec">
     </div>
   </div>
   <div class="forum-list" id="forumList"><p class="forum-loading">正在載入眾織廣場…</p></div>
+  <div class="forum-detail" id="forumDetail" hidden></div>
 </div>`;
 
 function renderBlock(kind, inner) {
