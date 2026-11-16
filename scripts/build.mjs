@@ -136,16 +136,23 @@ const FORUM_HTML = `<div class="forum" id="forumSec">
     <div class="fstat"><b id="statReplies">–</b><span>回覆</span></div>
   </div>
   <form id="forumForm" class="forum-form composer">
-    <div class="ff-row">
-      <input id="fAuthor" type="text" maxlength="30" autocomplete="off" placeholder="你的暱稱" aria-label="你的暱稱">
-      <input id="fTitle" type="text" maxlength="60" autocomplete="off" placeholder="新制度的名稱" aria-label="新制度的名稱">
-    </div>
-    <textarea id="fProblem" maxlength="500" rows="3" placeholder="你不喜歡、想改革的制度問題" aria-label="想改革的制度問題"></textarea>
-    <textarea id="fBody" maxlength="2000" rows="4" placeholder="你的改革方案" aria-label="改革方案"></textarea>
-    <p class="fork-note" id="forkNote" hidden>分支自「<b id="forkTitle"></b>」——寫下你的版本。<button type="button" id="forkCancel">取消分支</button></p>
-    <div class="ff-actions">
-      <button type="submit" id="fSubmit">宣告</button>
-      <p class="form-err" id="formErr" role="alert"></p>
+    <button type="button" class="composer-teaser" id="composerTeaser" aria-label="發起提案">
+      <span class="fp-ava" id="teaserAva">？</span>
+      <span class="teaser-text">提出你想改革的制度問題，寫下你的方案…</span>
+      <span class="teaser-cta">發起提案</span>
+    </button>
+    <div class="ff-fields">
+      <div class="ff-row">
+        <input id="fAuthor" type="text" maxlength="30" autocomplete="off" placeholder="你的暱稱" aria-label="你的暱稱">
+        <input id="fTitle" type="text" maxlength="60" autocomplete="off" placeholder="新制度的名稱" aria-label="新制度的名稱">
+      </div>
+      <textarea id="fProblem" maxlength="500" rows="3" placeholder="你不喜歡、想改革的制度問題" aria-label="想改革的制度問題"></textarea>
+      <textarea id="fBody" maxlength="2000" rows="4" placeholder="你的改革方案" aria-label="改革方案"></textarea>
+      <p class="fork-note" id="forkNote" hidden>分支自「<b id="forkTitle"></b>」——寫下你的版本。<button type="button" id="forkCancel">取消分支</button></p>
+      <div class="ff-actions">
+        <button type="submit" id="fSubmit">宣告</button>
+        <p class="form-err" id="formErr" role="alert"></p>
+      </div>
     </div>
   </form>
   <p class="done-msg" id="doneMsg">「<b id="doneName"></b>」——宣告，就存在。</p>
@@ -299,6 +306,16 @@ function build() {
     const EB = { concept: 'CONCEPT · 形象理念', product: 'PRODUCT · 核心產品', plan: 'PLAN · 團隊計畫', team: 'TEAM · 團隊憲章', faq: 'FAQ · 常見問題', join: 'JOIN · 加入我們', community: 'COMMUNITY · 眾織廣場' };
     const eb = EB[p.slug] || EB[p.slug.split('/')[0]];
     if (eb) html = html.replace('<div class="hero-block">', `<div class="hero-block"><p class="page-eyebrow">${eb}</p>`);
+    // 憲章頁：自動產生篇目（TOC），插在第一個內文 h2 之前（第一個 h2 是 hero 副標，跳過）
+    if (p.slug === 'team/charter') {
+      const heads = [...html.matchAll(/<h2 id="([^"]+)">([^<]+)<\/h2>/g)];
+      if (heads.length > 2) {
+        const items = heads.slice(1).map(m => `<li><a href="#${m[1]}">${m[2]}</a></li>`).join('');
+        const toc = `<nav class="doc-toc"><p class="toc-eyebrow">INDEX · 篇目</p><ol>${items}</ol></nav>`;
+        const at = heads[1].index;
+        html = html.slice(0, at) + toc + html.slice(at);
+      }
+    }
     html = html
       .replaceAll('{{title}}', p.meta.title || SITE.name)
       .replaceAll('{{description}}', p.meta.description || SITE.description)
