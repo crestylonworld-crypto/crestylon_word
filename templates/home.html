@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=a008">
+<link rel="icon" href="/assets/logo.png" type="image/png">
+</head>
+<body data-section="{{section}}">
+<!-- 首頁專屬模板（R7 光縫合版，2026-11-16 整合）：版面與文案正本在此檔，content/pages/index.md 只提供 frontmatter。文案皆為既有原文與正典引文，不得編造。 -->
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand-link" href="/">
+      <img class="logo" src="/assets/logo.png" alt="凌極世界 logo" onerror="this.outerHTML='<span class=&quot;logo-ph&quot;>[logo]</span>'">
+      <span class="brand">{{siteName}}<small>{{enName}}</small></span>
+    </a>
+    <nav class="links" aria-label="主導覽">{{nav}}</nav>
+    <button class="menu-btn" aria-label="開啟選單" aria-expanded="false">☰</button>
+  </div>
+  <nav class="mobile-nav" aria-label="行動版導覽">{{nav}}</nav>
+</header>
+
+<svg id="spine" aria-hidden="true">
+  <defs><linearGradient id="spineGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#38BDF8"/><stop offset=".75" stop-color="#38BDF8"/><stop offset="1" stop-color="#F97316"/>
+  </linearGradient></defs>
+  <path id="spineMain" d=""/>
+  <path id="spineFade" d=""/>
+</svg>
+<div id="penTip" aria-hidden="true"></div>
+
+<main>
+<section class="hero" id="m0">
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <div class="veil"></div>
+  <svg class="bridge" viewBox="0 0 1280 420" fill="none" aria-hidden="true">
+    <defs><linearGradient id="bg1" x1="0" y1="0" x2="1280" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22D3EE"/><stop offset=".52" stop-color="#7DD3FC"/><stop offset="1" stop-color="#FB923C"/>
+    </linearGradient></defs>
+    <path class="d1" pathLength="1" d="M40 372 Q640 84 1240 372" stroke="url(#bg1)" stroke-width="5" stroke-linecap="round"/>
+    <path class="d2" pathLength="1" d="M40 372 Q640 150 1240 372" stroke="url(#bg1)" stroke-width="2.4" opacity=".65"/>
+    <path class="d3" pathLength="1" d="M215 300 L215 356 M390 238 L390 344 M565 205 L565 340 M715 205 L715 340 M890 238 L890 344 M1065 300 L1065 356" stroke="url(#bg1)" stroke-width="2.4" opacity=".8"/>
+    <circle class="d3" pathLength="1" cx="40" cy="372" r="11" stroke="url(#bg1)" stroke-width="3.4"/>
+    <circle class="d3" pathLength="1" cx="1240" cy="372" r="11" stroke="url(#bg1)" stroke-width="3.4"/>
+  </svg>
+  <div class="in wrap">
+    <p class="eyebrow">CRESTYLON · SINCE 2024</p>
+    <h1><span class="line">讓世界</span><span class="line">包含各種<span class="cyan">理想世界</span></span></h1>
+    <p class="sub">我們相信，理想的社會不該只有一種樣貌。每個人心中都有一個「如果世界可以更好」的樣子——凌極世界要做的，是讓這些理想世界能夠同時存在。</p>
+    <p class="meta"><span>A WORLD THAT CONTAINS WORLDS</span><span>向下探索 ↓</span></p>
+  </div>
+</section>
+
+<section class="pin" id="m1">
+  <div class="stage">
+    <img class="bg" id="pinImg" src="/assets/illustrations/bridge-dawn.jpg" alt="橋與曙光示意圖">
+    <div class="shade"></div>
+    <p class="tag">01 · CORE MISSION</p>
+    <div class="lines">
+      <p data-line>我們不試圖建造一個「最完美的世界」來取代現在的世界。</p>
+      <p data-line>我們試圖建造的，是一片讓各種理想都能生根的土壤。</p>
+      <p class="small" data-line>這些理想不必互相取代。它們可以同時存在，彼此學習，自然演化。</p>
+    </div>
+    <div class="prog"><i data-dot></i><i data-dot></i><i data-dot></i></div>
+  </div>
+</section>
+
+<section class="chapter" id="m2" data-node>
+  <div class="wrap">
+    <p class="no rv">CHAPTER 02 · WHY</p>
+    <h2 class="rv">為什麼需要這件事？</h2>
+    <p class="q rv">想創造另一種生活？法律、稅務、土地，處處都是門檻</p>
+    <div class="chains">
+      <div class="chain rv"><div class="cname"><small>鎖鏈 · 一</small>貢獻隱形</div>
+        <div><h3>現在的世界</h3><p>只有一種「成功」的定義：學歷、薪水、房產</p></div>
+        <div class="resp"><h3>凌極世界的回應</h3><p><b>看見</b>　讓努力可以被看見：不是只有賺錢才算貢獻</p></div></div>
+      <div class="chain rv"><div class="cname"><small>鎖鏈 · 二</small>退出成本</div>
+        <div><h3>現在的世界</h3><p>不喜歡？沒有別的選項，只能忍受或移民</p></div>
+        <div class="resp"><h3>凌極世界的回應</h3><p><b>遷徙</b>　讓人可以自由遷徙：退出不是背叛，是選擇</p></div></div>
+      <div class="chain rv"><div class="cname"><small>鎖鏈 · 三</small>規則壟斷</div>
+        <div><h3>現在的世界</h3><p>只有一個「制度」可以選：現行法律、貨幣、教育體系</p></div>
+        <div class="resp"><h3>凌極世界的回應</h3><p><b>修改</b>　讓規則可以自由修改：像開源程式碼一樣分支</p></div></div>
+      <div class="chain rv"><div class="cname"><small>鎖鏈 · 四</small>永恆強制</div>
+        <div><h3>現在的世界</h3><p>只有一套「生活」的路徑：讀書、工作、退休</p></div>
+        <div class="resp"><h3>凌極世界的回應</h3><p><b>共存</b>　讓理想可以同時存在：不是取代，而是共存</p></div></div>
+      <div class="chain rv"><div class="cname"><small>回應 · 五</small>自由誕生</div>
+        <div><h3>現在的世界</h3><p>想創造另一種生活？法律、稅務、土地，處處都是門檻</p></div>
+        <div class="resp"><h3>凌極世界的回應</h3><p><b>誕生</b>　讓制度可以自由誕生：一句話就能建立新社群</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="m3" data-node>
+  <div class="wrap">
+    <p class="no rv">CHAPTER 03 · HOW</p>
+    <h2 class="rv">我們怎麼做到這件事？</h2>
+    <div class="rows">
+      <div class="r rv"><span class="idx">01</span><div><h3>言織<span>制度土壤</span></h3><p>一片去中心化的底層協議，讓任何個體或群體都能自由創建、複製、融合、退出制度。你可以建立一個以物易物的社群，也可以建立一個共居的村子，也可以建立一個以時間貨幣運作的市集。沒有審核，沒有許可，沒有限制。</p></div></div>
+      <div class="r rv"><span class="idx">02</span><div><h3>MCI<span>貢獻記錄</span></h3><p>一套跨制度的價值翻譯層。你在社區裡的付出、你分享的知識、你對別人的陪伴——這些在傳統世界裡沒人記錄，但在凌極世界裡會被記錄。當你需要幫助的時候，這些記錄幫你開門。</p></div></div>
+      <div class="r rv"><span class="idx">03</span><div><h3>可攜工具箱<span>帶著走</span></h3><p>你累積的聲譽、記錄、貨幣——這些是你生命的沉積。離開一個制度時，你可以帶著它們走。退出不是歸零，是遷徙。你在 A 社群建立的信譽，可以帶到 B 社群作為參考。</p></div></div>
+      <div class="r rv"><span class="idx">04</span><div><h3>多重歸屬<span>不用選邊</span></h3><p>你可以同時屬於多個社群。白天在 A 社群工作，晚上去 B 社群學習，週末到 C 社群種菜。没人會說你「不專心」或「背叛了誰」。你的人生本來就可以有很多面向。</p></div></div>
+    </div>
+    <div class="formula rv">
+      <p class="flabel">MCI · 算式</p>
+      <p class="fbig">最終 MCI＝<em>基礎</em>×<em>慣性乘數</em>×<em>職業負擔乘數</em></p>
+      <table>
+        <tr><td>資深醫生常規手術</td><td class="num">85×1.0×1.5＝127.5</td></tr>
+        <tr><td>新人首次獨立完成</td><td class="num">85×2.0×1.5＝255</td></tr>
+        <tr><td>疫情清潔工</td><td class="num">25×1.0×2.5＝62.5</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="fork-moment" id="forkSec">
+  <div class="wrap">
+    <p class="no rv" style="color:var(--cyan);font-size:13px;letter-spacing:.34em;font-weight:700">分支 · 融合</p>
+    <h2 class="rv" style="font-family:var(--serif);font-weight:900;font-size:clamp(30px,4.6vw,48px);margin-top:14px">一條線，分開再匯流</h2>
+    <div class="fork-stage rv">
+      <svg id="forkSvg" viewBox="0 0 900 300" aria-hidden="true">
+        <path id="forkMain" d="M30 150 L300 150" stroke="#38BDF8" stroke-width="3"/>
+        <path id="forkUp" d="M300 150 C 430 150, 470 60, 600 60" stroke="#38BDF8" stroke-width="2.4"/>
+        <path id="forkDown" d="M300 150 C 430 150, 470 240, 600 240" stroke="#F97316" stroke-width="2.4" opacity=".85"/>
+        <path id="forkMerge" d="M600 60 C 720 60, 720 150, 870 150 M600 240 C 720 240, 720 150, 870 150" stroke="rgba(248,250,252,.55)" stroke-width="1.6" stroke-dasharray="4 8"/>
+        <circle cx="300" cy="150" r="7" fill="#070D1A" stroke="#38BDF8" stroke-width="2.5"/>
+        <circle cx="870" cy="150" r="7" fill="#070D1A" stroke="#F97316" stroke-width="2.5"/>
+      </svg>
+      <div class="fork-cap"><p><b>分支</b>　讓規則可以自由修改：像開源程式碼一樣分支</p><p class="r"><b>融合</b>　不同社群可以合併，像物種交配。</p></div>
+    </div>
+    <p class="rv" style="color:var(--dim);margin-top:18px;max-width:40em">制度不是財產，是種子。看到別人做得好，你可以拿去種，種出屬於你的樣子。</p>
+  </div>
+</section>
+
+<section class="chapter" id="m4" data-node>
+  <div class="wrap">
+    <p class="no rv">CHAPTER 04 · SEVEN FREEDOMS</p>
+    <h2 class="rv">七種不可剝奪的自由</h2>
+    <div class="free-index rv">
+      <a href="#f1"><span>I</span><b>創世</b><em>建立新制度，不用任何人同意。</em></a>
+      <a href="#f2"><span>II</span><b>退出</b><em>離開任何制度，不會被懲罰。</em></a>
+      <a href="#f3"><span>III</span><b>分支</b><em>複製別人的制度，改成自己的版本。</em></a>
+      <a href="#f4"><span>IV</span><b>攜帶</b><em>你的聲譽和記錄，可以帶著走。</em></a>
+      <a href="#f5"><span>V</span><b>歸屬</b><em>同時屬於多個地方，不用選邊站。</em></a>
+      <a href="#f6"><span>VI</span><b>融合</b><em>不同社群可以合併，像物種交配。</em></a>
+      <a href="#f7"><span>VII</span><b>遺忘</b><em>制度可以自然消亡，不需永遠存在。</em></a>
+    </div>
+  </div>
+  <div class="wrap">
+    <article class="takeover" id="f1"><div><p class="tk-rn">I</p><h3>創世</h3><p class="tk-head">建立新制度，不用任何人同意。</p><p class="tk-mine">「從此，當我腦中浮現一個更好的世界，我的第一反應是：我該從哪裡開始」</p><div class="tk-body"><p>你可以一句話建立一個新的社群、新的規則、新的生活方式。不用申請，不用審核。宣告，就存在。</p><p>宣告你的規則、發行你的貨幣、設計你的治理模型——這些是你的權利，不是特權。讓你的理想，有誕生的第一口氣。</p></div></div></article>
+    <article class="takeover" id="f2"><div><p class="tk-rn">II</p><h3>退出</h3><p class="tk-head">離開任何制度，不會被懲罰。</p><div class="tk-body"><p>你可以離開任何制度，不會被沒收。任何制度都不能扣留你的資產，不能對你施加跨制度的懲罰。</p><p>退出不是背叛，是選擇，也是遷徙。退出成本是衡量制度正當性的唯一有效指標。</p></div></div></article>
+    <article class="takeover" id="f3"><div><p class="tk-rn">III</p><h3>分支</h3><p class="tk-head">複製別人的制度，改成自己的版本。</p><p class="tk-mine">「我不需要在內部革命，我可以直接分叉」</p><div class="tk-body"><p>制度不是財產，是種子。看到別人做得好，你可以拿去種，種出屬於你的樣子。</p><p>任何制度的規則與程式碼，都可以被自由複製、修改、重組、衍生。沒有人能壟斷規則。</p></div></div></article>
+    <article class="takeover" id="f4"><div><p class="tk-rn">IV</p><h3>攜帶</h3><p class="tk-head">你的聲譽和記錄，可以帶著走。</p><p class="tk-mine">「我的過去，不會被任何邊界沒收」</p><div class="tk-body"><p>你累積的聲譽、貨幣、教育認證、身份記錄——這些是你生命的沉積，不該在你離開時被歸零。</p><p>你的工具箱可以隨你穿越制度邊界，讓你在不同理想世界之間自由遷徙。退出不是歸零，是遷徙。</p></div></div></article>
+    <article class="takeover" id="f5"><div><p class="tk-rn">V</p><h3>歸屬</h3><p class="tk-head">同時屬於多個地方，不用選邊站。</p><p class="tk-mine">「我的忠誠不再是一種抵押品」</p><p class="tk-mine">「我的身份不是單選題」</p><div class="tk-body"><p>你可以同時屬於多個世界。白天在 A 社群工作，晚上去 B 社群學習，週末到 C 社群種菜。你的忠誠，只屬於你自己。</p><p>沒有人能要求你宣誓排他性的忠誠。你的身份不是單選題。</p></div></div></article>
+    <article class="takeover" id="f6"><div><p class="tk-rn">VI</p><h3>融合</h3><p class="tk-head">不同社群可以合併，像物種交配。</p><div class="tk-body"><p>不同的理想世界可以合併、可以互相學習、可以基因交換。融合不是吞併，是自願的結合。</p><p>讓不同的夢，可以一起長出新的可能。</p></div></div></article>
+    <article class="takeover" id="f7"><div><p class="tk-rn">VII</p><h3>遺忘</h3><p class="tk-head">制度可以自然消亡，不需永遠存在。</p><p class="tk-mine">「結束，是完成」</p><div class="tk-body"><p>制度可以自然消亡。完成使命之後，優雅地關閉自己。沒有制度有義務永遠存在。</p><p>結束，是完成，不是失敗。</p></div></div></article>
+    <p class="freedom-note rv">這七種自由不是凌極世界「授予」的——是它承諾「不允許被侵犯」的。</p>
+  </div>
+</section>
+
+<section class="inscription" data-node>
+  <div>
+    <p class="lab rv">引力常數</p>
+    <p class="rv">任何個體或群體，在任何時刻，皆有權創建、複製、攜帶、歸屬、融合、退出或沉積任何內部規則的協作制度……</p>
+  </div>
+</section>
+
+<section class="silence"><p class="rv">退出不是背叛，<br>是選擇，也是遷徙。</p></section>
+
+<section class="status" id="m5" data-node>
+  <div class="narrow">
+    <p class="no rv" style="color:var(--cyan);font-size:13px;letter-spacing:.34em;font-weight:700">CHAPTER 05 · CURRENT STATUS</p>
+    <h2 class="rv" style="font-family:var(--serif);font-weight:900;font-size:clamp(32px,4.6vw,48px);letter-spacing:.04em;margin-top:14px">現在做到哪了？</h2>
+    <p class="stamp rv" style="margin-top:30px">狀態表 · 最後更新 2026-11</p>
+    <table class="rv">
+      <tr><th>項目</th><th>狀態</th></tr>
+      <tr><td>白皮書</td><td class="s-done">完成 · 數萬字</td></tr>
+      <tr><td>官方網站</td><td class="s-done">已上線 · 就是你正在看的這個</td></tr>
+      <tr><td>建造者</td><td class="s-done">十五歲</td></tr>
+      <tr><td>第一筆廣告收入</td><td class="s-done">24 美元</td></tr>
+      <tr><td>小說</td><td class="s-done">日更中 · 連載中</td></tr>
+      <tr><td>GitHub 倉庫</td><td class="s-done">正在接受 commit</td></tr>
+      <tr><td>其他制度工具</td><td class="s-plan">規劃中 · 還沒有一樣可以真正使用</td></tr>
+    </table>
+    <div class="after rv">
+      <p>凌極世界不是一個國家、一個公司、一個平台。它是一片讓制度可以自由誕生、演化、融合、消亡的土壤。</p>
+      <p>它不定義何謂「良好生活」，不仲裁制度內部的紛爭。它只做一件事：確保這片土壤永遠存在，確保你永遠可以重新開始。</p>
+      <p>我們不保證成功。但我們承諾：每一步，永遠可以被檢視，永遠可以被修正。包括我們自己。</p>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="m6" style="padding-top:10vh" data-node>
+  <div class="wrap">
+    <p class="no rv">START HERE · 先從這裡開始</p>
+    <div class="entries">
+      <a href="/concept/" class="rv"><span class="en">A</span><h3>形象理念<small>命名、logo、宣言——這座橋長什麼樣子，為什麼是這個樣子。</small></h3><span class="arr">→</span></a>
+      <a href="/product/starter/" class="rv"><span class="en">B</span><h3>懶人包<small>三分鐘認識凌極世界：MCI、資源三通道、六層架構、言織土壤。</small></h3><span class="arr">→</span></a>
+      <a href="/product/book/" class="rv"><span class="en">C</span><h3>眾織之書<small>讓不同的人，可以建立並生活在自己理想的世界中。</small></h3><span class="arr">→</span></a>
+      <a href="/join/" class="rv"><span class="en">D</span><h3>加入我們<small>邊界的存在，是為了標記跨越的起點。只填稱呼與聯絡方式就可以開始。</small></h3><span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="novel" id="m7" data-node>
+  <div class="wrap">
+    <p class="no rv" style="color:var(--cyan);font-size:13px;letter-spacing:.34em;font-weight:700">CHAPTER 06 · NARRATIVE · 連載中</p>
+    <h2 class="big rv">穩定中的劇震</h2>
+    <p class="intro rv">在制度土壤尚未完全長成之前，有兩個人在它的邊緣徘徊。一個寫協議，一個查檔案。他們的故事，正在連載中。</p>
+    <div class="portals">
+      <a class="portal rv" href="https://sungyan-workshop.pages.dev/"><span class="role">MALE LEAD · 言織協議</span><h3>宋言</h3><p>開發者工房 · 一個寫協議的人</p></a>
+      <a class="portal ember rv" href="https://auditors-archive.pages.dev/"><span class="role">FEMALE LEAD · 稽查檔案</span><h3>凌澈</h3><p>調查者檔案館 · 一個查檔案的人</p></a>
+    </div>
+    <p class="read-links rv"><a href="https://quarterfull.io/novel/YK4w9aAD323evMRn?qf_ref=UQK1x02pR0K-l_omAFkrpgpwVgnwsmTuKYh0lcgRR8NG3A">QuarterFull 開始閱讀</a><a href="https://www.penana.com/story/228233/%E7%A9%A9%E5%AE%9A%E4%B8%AD%E7%9A%84%E6%93%9A%E9%9C%87/">Penana 開始閱讀</a><span>連載中 · 穩定中的劇震</span></p>
+  </div>
+</section>
+
+<section class="ritual" data-node>
+  <div class="wrap">
+    <p class="no rv" style="color:var(--cyan);font-size:13px;letter-spacing:.34em;font-weight:700">創世 · 體驗</p>
+    <p class="ask rv">你想建立一套新制度。請命名它。</p>
+    <form id="nameForm" class="rv">
+      <input id="nameInput" type="text" autocomplete="off" aria-label="新制度的名稱">
+      <button type="submit">宣告</button>
+    </form>
+    <p class="done-msg" id="doneMsg">「<b id="doneName"></b>」——宣告，就存在。</p>
+  </div>
+</section>
+
+<section class="oath">
+  <div>
+    <p class="lab rv">建造者誓詞</p>
+    <p class="rv">我，自願成為一座橋的建造者。<b>我的報酬是橋的存在，我的成功是橋的消失。</b>我將不從過橋者手中索取權力。橋若化為城門，即為監獄。</p>
+  </div>
+</section>
+
+<section class="dissolve" id="dissolveSec">
+  <div class="wrap">
+    <p class="no rv" style="color:var(--cyan);font-size:13px;letter-spacing:.34em;font-weight:700">橋的退場 · 六層</p>
+    <h2 class="rv" style="font-family:var(--serif);font-weight:900;font-size:clamp(30px,4.6vw,48px);margin-top:14px">橋逐層退場，把畫面讓給土壤</h2>
+    <p class="rv" style="color:var(--dim);margin-top:16px;max-width:36em">六層的退役不是同時發生，而是依序觸發。</p>
+    <div id="dLayers">
+      <div class="d-layer"><span class="d-name">地基<small><span class="dl-no">第一層</span><span class="dl-sep"> · </span><span class="dl-cat">價值與憲章</span></small></span><span class="d-mid"><span class="d-line"></span><span class="d-desc">當言織成功運轉，憲章轉化為土壤中的一套參考模板。</span></span><span class="d-state">在場</span></div>
+      <div class="d-layer"><span class="d-name">骨架<small><span class="dl-no">第二層</span><span class="dl-sep"> · </span><span class="dl-cat">治理與協議</span></small></span><span class="d-mid"><span class="d-line"></span><span class="d-desc">言織啟動時，核心治理層執行權力解散令。</span></span><span class="d-state">在場</span></div>
+      <div class="d-layer"><span class="d-name">血液<small><span class="dl-no">第三層</span><span class="dl-sep"> · </span><span class="dl-cat">經濟與貢獻</span></small></span><span class="d-mid"><span class="d-line"></span><span class="d-desc">資源豐沛到一定程度，MCI 在該區域逐月衰減、最終失效。</span></span><span class="d-state">在場</span></div>
+      <div class="d-layer"><span class="d-name">基因<small><span class="dl-no">第四層</span><span class="dl-sep"> · </span><span class="dl-cat">教育與心靈</span></small></span><span class="d-mid"><span class="d-line"></span><span class="d-desc">當言織誕生，課程體系、智識引擎、契約協作網絡全部開源，成為言織土壤上的公共教育基礎設施。</span></span><span class="d-state">在場</span></div>
+      <div class="d-layer"><span class="d-name">神經<small><span class="dl-no">第五層</span><span class="dl-sep"> · </span><span class="dl-cat">技術與智能</span></small></span><span class="d-mid"><span class="d-line"></span><span class="d-desc">當言織誕生，神經渲染引擎開源，成為言織所有制度共享的空間感知傳輸標準。</span></span><span class="d-state">在場</span></div>
+      <div class="d-layer"><span class="d-name">肉身<small><span class="dl-no">第六層</span><span class="dl-sep"> · </span><span class="dl-cat">實體與生活</span></small></span><span class="d-mid"><span class="d-line"></span><span class="d-desc">言織誕生後，實體資產移交基金會與社區自治組織。</span></span><span class="d-state">在場</span></div>
+    </div>
+    <p class="d-quote rv">橋的使命是讓第一批人安全渡過去，然後橋可以消失</p>
+  </div>
+</section>
+
+<section class="finale" id="finaleSec">
+  <img class="bgimg" id="finImg" src="/assets/illustrations/bridge-dawn.jpg" alt="" aria-hidden="true">
+  <div class="shade"></div>
+  <div class="in">
+    <img class="seal rv" src="/assets/logo.png" alt="凌極世界 logo">
+    <h2 class="rv">路不只一條</h2>
+    <p class="rv">如果現有的世界讓你喘不過氣，這裡有一片土壤。不用急，也不用承諾什麼，先看看，再決定要不要一起種。你不一定要加入，但你至少要知道——路不只一條。</p>
+    <p class="bridge-word rv">橋的使命是讓第一批人安全渡過去，然後橋可以消失</p>
+    <div class="rv"><a class="cta" href="/join/">加入我們</a><a class="ghost-btn" href="/product/book/">眾織之書</a></div>
+  </div>
+  <div class="colophon">CRESTYLON · A WORLD THAT CONTAINS WORLDS · SINCE 2024</div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-brand">{{siteName}} <span>{{enName}}</span></div>
+    <div class="foot-contact">{{emails}}<br>Instagram {{instagram}}</div>
+    <div class="foot-note">{{footerNote}}</div>
+  </div>
+</footer>
+
+<script src="/assets/site.js?v=a008" defer></script>
+</body>
+</html>
