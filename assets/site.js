@@ -96,154 +96,15 @@
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
   const tio = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('on', e.isIntersecting)), { rootMargin: '-38% 0px -38% 0px' });
   document.querySelectorAll('.takeover').forEach(el => tio.observe(el));
-  // ---------- 眾織廣場（創世討論串，Supabase 儲存） ----------
-  (function forum() {
-    const listEl = document.getElementById('forumList');
-    if (!listEl) return;
-    const SB = 'https://bcdanvmuffxgtezopyib.supabase.co';
-    const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJjZGFudm11ZmZ4Z3Rlem9weWliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3OTEzNTMsImV4cCI6MjEwNzM2NzM1M30.EZtkULSRB_qwVyDl86MOhGf_ihKAAMy7q3fwuKYX0JI';
-    const H = { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' };
-    const $ = id => document.getElementById(id);
-    const store = {
-      get name() { try { return localStorage.getItem('wf_name') || '' } catch (e) { return '' } },
-      set name(v) { try { localStorage.setItem('wf_name', v) } catch (e) {} },
-      joined() { try { return JSON.parse(localStorage.getItem('wf_joined') || '[]') } catch (e) { return [] } },
-      addJoined(id) { try { const a = store.joined(); a.push(id); localStorage.setItem('wf_joined', JSON.stringify(a)) } catch (e) {} },
-      last() { try { return +localStorage.getItem('wf_last') || 0 } catch (e) { return 0 } },
-      stamp() { try { localStorage.setItem('wf_last', Date.now()) } catch (e) {} }
-    };
-    let forkOf = null, byId = {};
-    const fmtTime = ts => {
-      const d = new Date(ts), p = n => String(n).padStart(2, '0');
-      return d.getFullYear() + '/' + p(d.getMonth() + 1) + '/' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
-    };
-    const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
-    async function api(path, opts) {
-      const r = await fetch(SB + path, Object.assign({ headers: H }, opts || {}));
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.status === 204 ? null : r.json().catch(() => null);
-    }
-    function replyItem(rp) {
-      const box = el('div', 'fp-reply');
-      const head = el('p', 'fp-reply-meta');
-      head.appendChild(el('b', null, rp.author));
-      head.appendChild(el('span', null, ' · ' + fmtTime(rp.created_at)));
-      box.appendChild(head);
-      box.appendChild(el('p', 'fp-reply-body', rp.body));
-      return box;
-    }
-    function postCard(p, replies) {
-      const card = el('article', 'fpost');
-      const head = el('div', 'fp-head');
-      head.appendChild(el('h4', 'fp-title', p.title));
-      const meta = el('p', 'fp-meta');
-      let mt = p.author + ' · ' + fmtTime(p.created_at);
-      if (p.fork_of && byId[p.fork_of]) mt += ' · 分支自「' + byId[p.fork_of].title + '」';
-      meta.textContent = mt;
-      head.appendChild(meta);
-      card.appendChild(head);
-      card.appendChild(el('p', 'fp-label', '想改革的問題'));
-      card.appendChild(el('p', 'fp-text', p.problem));
-      card.appendChild(el('p', 'fp-label', '改革方案'));
-      card.appendChild(el('p', 'fp-text', p.body));
-      const acts = el('div', 'fp-actions');
-      const joined = store.joined().includes(p.id);
-      const jb = el('button', 'fp-btn fp-join' + (joined ? ' on' : ''), (joined ? '已加入' : '加入') + ' · ' + p.joins);
-      jb.type = 'button';
-      if (joined) jb.disabled = true;
-      jb.addEventListener('click', async () => {
-        jb.disabled = true;
-        try {
-          const v = await api('/rest/v1/rpc/world_forum_join', { method: 'POST', body: JSON.stringify({ p_id: p.id }) });
-          p.joins = typeof v === 'number' ? v : p.joins + 1;
-          store.addJoined(p.id);
-          jb.textContent = '已加入 · ' + p.joins;
-          jb.classList.add('on');
-        } catch (e) { jb.disabled = false; }
-      });
-      const fb = el('button', 'fp-btn', '分支'); fb.type = 'button';
-      fb.addEventListener('click', () => {
-        forkOf = p.id;
-        $('forkTitle').textContent = p.title;
-        $('forkNote').hidden = false;
-        $('fTitle').value = '';
-        $('forumForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        $('fTitle').focus();
-      });
-      const rb = el('button', 'fp-btn', '回覆 · ' + replies.length); rb.type = 'button';
-      acts.append(jb, fb, rb);
-      card.appendChild(acts);
-      const rbox = el('div', 'fp-replies'); rbox.hidden = true;
-      const rlist = el('div', 'fp-reply-list');
-      replies.forEach(rp => rlist.appendChild(replyItem(rp)));
-      rbox.appendChild(rlist);
-      const rform = el('form', 'fp-reply-form');
-      const rinput = el('textarea'); rinput.maxLength = 1000; rinput.rows = 2; rinput.placeholder = '寫下你的回覆'; rinput.setAttribute('aria-label', '回覆內容');
-      const rbtn = el('button', 'fp-btn fp-send', '送出回覆'); rbtn.type = 'submit';
-      rform.append(rinput, rbtn);
-      rform.addEventListener('submit', async e => {
-        e.preventDefault();
-        const author = ($('fAuthor').value || '').trim() || store.name;
-        const body = rinput.value.trim();
-        if (!author) { $('fAuthor').focus(); $('formErr').textContent = '先在上方填你的暱稱，再回覆。'; return; }
-        if (!body) return;
-        if (Date.now() - store.last() < 15000) { $('formErr').textContent = '先等一下，15 秒後再送出。'; return; }
-        rbtn.disabled = true;
-        try {
-          const rows = await api('/rest/v1/world_forum_posts?select=*', { method: 'POST', headers: Object.assign({}, H, { Prefer: 'return=representation' }), body: JSON.stringify({ kind: 'reply', parent_id: p.id, author, body }) });
-          store.name = author; store.stamp();
-          const rp = rows && rows[0];
-          if (rp) { rlist.appendChild(replyItem(rp)); rb.textContent = '回覆 · ' + rlist.children.length; }
-          rinput.value = '';
-        } catch (err) { $('formErr').textContent = '回覆送不出去，稍後再試。'; }
-        rbtn.disabled = false;
-      });
-      rbox.appendChild(rform);
-      rb.addEventListener('click', () => { rbox.hidden = !rbox.hidden; if (!rbox.hidden) rinput.focus(); });
-      card.appendChild(rbox);
-      return card;
-    }
-    async function load() {
-      try {
-        const rows = await api('/rest/v1/world_forum_posts?select=*&order=created_at.desc&limit=300');
-        byId = {}; rows.forEach(r => byId[r.id] = r);
-        const posts = rows.filter(r => r.kind === 'post');
-        const replies = rows.filter(r => r.kind === 'reply').reverse();
-        listEl.textContent = '';
-        if (!posts.length) { listEl.appendChild(el('p', 'forum-empty', '廣場還很安靜——第一個制度，由你宣告。')); return; }
-        posts.forEach(p => listEl.appendChild(postCard(p, replies.filter(r => r.parent_id === p.id))));
-      } catch (e) {
-        listEl.textContent = '';
-        listEl.appendChild(el('p', 'forum-empty', '廣場暫時連不上，稍後再試。'));
-      }
-    }
-    const form = $('forumForm');
-    if (store.name) $('fAuthor').value = store.name;
-    $('forkCancel').addEventListener('click', () => { forkOf = null; $('forkNote').hidden = true; });
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      const err = $('formErr'); err.textContent = '';
-      const author = $('fAuthor').value.trim(), title = $('fTitle').value.trim(),
-        problem = $('fProblem').value.trim(), body = $('fBody').value.trim();
-      if (!author || !title || !problem || !body) { err.textContent = '暱稱、制度名稱、想改革的問題、改革方案，四個都要填。'; return; }
-      if (Date.now() - store.last() < 20000) { err.textContent = '先等一下，20 秒後再宣告下一個。'; return; }
-      const btn = $('fSubmit'); btn.disabled = true; btn.textContent = '宣告中…';
-      try {
-        const payload = { kind: 'post', author, title, problem, body };
-        if (forkOf) payload.fork_of = forkOf;
-        await api('/rest/v1/world_forum_posts', { method: 'POST', headers: Object.assign({}, H, { Prefer: 'return=minimal' }), body: JSON.stringify(payload) });
-        store.name = author; store.stamp();
-        $('doneName').textContent = title;
-        $('doneMsg').style.display = 'block';
-        $('fTitle').value = ''; $('fProblem').value = ''; $('fBody').value = '';
-        forkOf = null; $('forkNote').hidden = true;
-        await load();
-        $('doneMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } catch (err2) { err.textContent = '宣告失敗，稍後再試。'; }
-      btn.disabled = false; btn.textContent = '宣告';
-    });
-    load();
-  })();
+  // ---------- 創世儀式（純前端、不送出） ----------
+  const nameForm = document.getElementById('nameForm');
+  if (nameForm) nameForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const v = document.getElementById('nameInput').value.trim();
+    if (!v) return;
+    document.getElementById('doneName').textContent = v;
+    document.getElementById('doneMsg').style.display = 'block';
+  });
   // ---------- WebGL 星雲＋曙光 ----------
   let dawnTarget = .3, dawnCur = .3;
   (function () {
@@ -433,3 +294,174 @@
     loop();
   })();
 })();
+
+// ---------- 眾織廣場（獨立頁論壇引擎，Supabase 儲存） ----------
+  // ---------- 眾織廣場（創世討論串，Supabase 儲存） ----------
+  (function forum() {
+    const listEl = document.getElementById('forumList');
+    if (!listEl) return;
+    const SB = 'https://bcdanvmuffxgtezopyib.supabase.co';
+    const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJjZGFudm11ZmZ4Z3Rlem9weWliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3OTEzNTMsImV4cCI6MjEwNzM2NzM1M30.EZtkULSRB_qwVyDl86MOhGf_ihKAAMy7q3fwuKYX0JI';
+    const H = { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' };
+    const $ = id => document.getElementById(id);
+    const store = {
+      get name() { try { return localStorage.getItem('wf_name') || '' } catch (e) { return '' } },
+      set name(v) { try { localStorage.setItem('wf_name', v) } catch (e) {} },
+      joined() { try { return JSON.parse(localStorage.getItem('wf_joined') || '[]') } catch (e) { return [] } },
+      addJoined(id) { try { const a = store.joined(); a.push(id); localStorage.setItem('wf_joined', JSON.stringify(a)) } catch (e) {} },
+      last() { try { return +localStorage.getItem('wf_last') || 0 } catch (e) { return 0 } },
+      stamp() { try { localStorage.setItem('wf_last', Date.now()) } catch (e) {} }
+    };
+    let forkOf = null, byId = {};
+    const fmtTime = ts => {
+      const d = new Date(ts), p = n => String(n).padStart(2, '0');
+      return d.getFullYear() + '/' + p(d.getMonth() + 1) + '/' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+    };
+    const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+    async function api(path, opts) {
+      const r = await fetch(SB + path, Object.assign({ headers: H }, opts || {}));
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.status === 204 ? null : r.json().catch(() => null);
+    }
+    function replyItem(rp) {
+      const box = el('div', 'fp-reply');
+      const head = el('p', 'fp-reply-meta');
+      head.appendChild(el('b', null, rp.author));
+      head.appendChild(el('span', null, ' · ' + fmtTime(rp.created_at)));
+      box.appendChild(head);
+      box.appendChild(el('p', 'fp-reply-body', rp.body));
+      return box;
+    }
+    function postCard(p, replies) {
+      const card = el('article', 'fpost');
+      const head = el('div', 'fp-head');
+      head.appendChild(el('h4', 'fp-title', p.title));
+      const byline = el('div', 'fp-byline');
+      const ava = el('span', 'fp-ava', (p.author || '？').trim().slice(0, 1) || '？');
+      let hue = 0; for (const ch of (p.author || '')) hue = (hue * 31 + ch.charCodeAt(0)) % 360;
+      ava.style.background = 'hsl(' + hue + ' 45% 30%)';
+      byline.appendChild(ava);
+      const meta = el('p', 'fp-meta');
+      let mt = p.author + ' · ' + fmtTime(p.created_at);
+      if (p.fork_of && byId[p.fork_of]) mt += ' · 分支自「' + byId[p.fork_of].title + '」';
+      meta.textContent = mt;
+      byline.appendChild(meta);
+      head.appendChild(byline);
+      card.appendChild(head);
+      card.appendChild(el('p', 'fp-label', '想改革的問題'));
+      card.appendChild(el('p', 'fp-text', p.problem));
+      card.appendChild(el('p', 'fp-label', '改革方案'));
+      card.appendChild(el('p', 'fp-text', p.body));
+      const acts = el('div', 'fp-actions');
+      const joined = store.joined().includes(p.id);
+      const jb = el('button', 'fp-btn fp-join' + (joined ? ' on' : ''), (joined ? '已加入' : '加入') + ' · ' + p.joins);
+      jb.type = 'button';
+      if (joined) jb.disabled = true;
+      jb.addEventListener('click', async () => {
+        jb.disabled = true;
+        try {
+          const v = await api('/rest/v1/rpc/world_forum_join', { method: 'POST', body: JSON.stringify({ p_id: p.id }) });
+          p.joins = typeof v === 'number' ? v : p.joins + 1;
+          store.addJoined(p.id);
+          jb.textContent = '已加入 · ' + p.joins;
+          jb.classList.add('on');
+        } catch (e) { jb.disabled = false; }
+      });
+      const fb = el('button', 'fp-btn', '分支'); fb.type = 'button';
+      fb.addEventListener('click', () => {
+        forkOf = p.id;
+        $('forkTitle').textContent = p.title;
+        $('forkNote').hidden = false;
+        $('fTitle').value = '';
+        $('forumForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        $('fTitle').focus();
+      });
+      const rb = el('button', 'fp-btn', '回覆 · ' + replies.length); rb.type = 'button';
+      acts.append(jb, fb, rb);
+      card.appendChild(acts);
+      const rbox = el('div', 'fp-replies'); rbox.hidden = true;
+      const rlist = el('div', 'fp-reply-list');
+      replies.forEach(rp => rlist.appendChild(replyItem(rp)));
+      rbox.appendChild(rlist);
+      const rform = el('form', 'fp-reply-form');
+      const rinput = el('textarea'); rinput.maxLength = 1000; rinput.rows = 2; rinput.placeholder = '寫下你的回覆'; rinput.setAttribute('aria-label', '回覆內容');
+      const rbtn = el('button', 'fp-btn fp-send', '送出回覆'); rbtn.type = 'submit';
+      rform.append(rinput, rbtn);
+      rform.addEventListener('submit', async e => {
+        e.preventDefault();
+        const author = ($('fAuthor').value || '').trim() || store.name;
+        const body = rinput.value.trim();
+        if (!author) { $('fAuthor').focus(); $('formErr').textContent = '先在上方填你的暱稱，再回覆。'; return; }
+        if (!body) return;
+        if (Date.now() - store.last() < 15000) { $('formErr').textContent = '先等一下，15 秒後再送出。'; return; }
+        rbtn.disabled = true;
+        try {
+          const rows = await api('/rest/v1/world_forum_posts?select=*', { method: 'POST', headers: Object.assign({}, H, { Prefer: 'return=representation' }), body: JSON.stringify({ kind: 'reply', parent_id: p.id, author, body }) });
+          store.name = author; store.stamp();
+          const rp = rows && rows[0];
+          if (rp) { rlist.appendChild(replyItem(rp)); rb.textContent = '回覆 · ' + rlist.children.length; }
+          rinput.value = '';
+        } catch (err) { $('formErr').textContent = '回覆送不出去，稍後再試。'; }
+        rbtn.disabled = false;
+      });
+      rbox.appendChild(rform);
+      rb.addEventListener('click', () => { rbox.hidden = !rbox.hidden; if (!rbox.hidden) rinput.focus(); });
+      card.appendChild(rbox);
+      return card;
+    }
+    const state = { sort: 'new', posts: [], replies: [] };
+    function paint() {
+      const posts = state.posts.slice();
+      if (state.sort === 'hot') posts.sort((a, b) => (b.joins - a.joins) || (a.created_at < b.created_at ? 1 : -1));
+      listEl.textContent = '';
+      const sp = $('statPosts'), sj = $('statJoins'), sr = $('statReplies');
+      if (sp) sp.textContent = state.posts.length;
+      if (sj) sj.textContent = state.posts.reduce((n, p) => n + (p.joins || 0), 0);
+      if (sr) sr.textContent = state.replies.length;
+      if (!posts.length) { listEl.appendChild(el('p', 'forum-empty', '廣場還很安靜——第一個制度，由你宣告。')); return; }
+      posts.forEach(p => listEl.appendChild(postCard(p, state.replies.filter(r => r.parent_id === p.id))));
+    }
+    async function load() {
+      try {
+        const rows = await api('/rest/v1/world_forum_posts?select=*&order=created_at.desc&limit=300');
+        byId = {}; rows.forEach(r => byId[r.id] = r);
+        state.posts = rows.filter(r => r.kind === 'post');
+        state.replies = rows.filter(r => r.kind === 'reply').reverse();
+        paint();
+      } catch (e) {
+        listEl.textContent = '';
+        listEl.appendChild(el('p', 'forum-empty', '廣場暫時連不上，稍後再試。'));
+      }
+    }
+    document.querySelectorAll('.ftab').forEach(t => t.addEventListener('click', () => {
+      state.sort = t.getAttribute('data-sort');
+      document.querySelectorAll('.ftab').forEach(x => x.classList.toggle('on', x === t));
+      paint();
+    }));
+    const form = $('forumForm');
+    if (store.name) $('fAuthor').value = store.name;
+    $('forkCancel').addEventListener('click', () => { forkOf = null; $('forkNote').hidden = true; });
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const err = $('formErr'); err.textContent = '';
+      const author = $('fAuthor').value.trim(), title = $('fTitle').value.trim(),
+        problem = $('fProblem').value.trim(), body = $('fBody').value.trim();
+      if (!author || !title || !problem || !body) { err.textContent = '暱稱、制度名稱、想改革的問題、改革方案，四個都要填。'; return; }
+      if (Date.now() - store.last() < 20000) { err.textContent = '先等一下，20 秒後再宣告下一個。'; return; }
+      const btn = $('fSubmit'); btn.disabled = true; btn.textContent = '宣告中…';
+      try {
+        const payload = { kind: 'post', author, title, problem, body };
+        if (forkOf) payload.fork_of = forkOf;
+        await api('/rest/v1/world_forum_posts', { method: 'POST', headers: Object.assign({}, H, { Prefer: 'return=minimal' }), body: JSON.stringify(payload) });
+        store.name = author; store.stamp();
+        $('doneName').textContent = title;
+        $('doneMsg').style.display = 'block';
+        $('fTitle').value = ''; $('fProblem').value = ''; $('fBody').value = '';
+        forkOf = null; $('forkNote').hidden = true;
+        await load();
+        $('doneMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err2) { err.textContent = '宣告失敗，稍後再試。'; }
+      btn.disabled = false; btn.textContent = '宣告';
+    });
+    load();
+  })();
