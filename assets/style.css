@@ -787,3 +787,27 @@ body .fpost .fp-text{font-size:16.5px;line-height:1.85}
   body .fp-rail .fp-btn{width:auto}
 }
 body .fp-rail .fp-btn{white-space:nowrap;padding:8px 2px;font-size:13.5px}
+/* a014 清新×震撼：內頁電影化 */
+body:not([data-section="home"]) .hero-block{position:relative;overflow:hidden;padding-top:19vh;padding-bottom:15vh}
+body:not([data-section="home"]) .hero-block::before{content:"";position:absolute;inset:-22%;background:radial-gradient(42% 52% at 78% 8%,rgba(56,189,248,.17),transparent 62%),radial-gradient(36% 44% at 8% 88%,rgba(99,102,241,.13),transparent 60%),radial-gradient(55% 34% at 50% 112%,rgba(249,115,22,.08),transparent 65%);animation:nebulaDrift 26s ease-in-out infinite alternate;pointer-events:none}
+@keyframes nebulaDrift{from{transform:translate3d(-2.5%,-1.5%,0) scale(1)}to{transform:translate3d(2.5%,2%,0) scale(1.07)}}
+body:not([data-section="home"]) .hero-ghost{position:absolute;top:5%;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(96px,17.5vw,264px);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(125,211,252,.14);letter-spacing:.02em;pointer-events:none;user-select:none}
+body:not([data-section="home"]) .hero-block h1{position:relative;font-size:clamp(54px,8.6vw,102px);background:linear-gradient(180deg,#FFFFFF 20%,#CDE9FF 58%,#7DD3FC 105%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+body:not([data-section="home"]) .hero-block h2, body:not([data-section="home"]) .hero-block p, body:not([data-section="home"]) .hero-block .page-eyebrow, body:not([data-section="home"]) .hero-block .scroll-cue, body:not([data-section="home"]) .hero-block .bridge-svg{position:relative}
+body:not([data-section="home"]) .prose{font-size:17.5px;line-height:2.02;color:#C9D8EC}
+body:not([data-section="home"]) .prose > h2{font-size:clamp(34px,5vw,54px);margin-top:118px}
+body:not([data-section="home"]) .prose > h2::after{content:"";display:block;width:72px;height:3px;margin-top:20px;border-radius:2px;background:linear-gradient(90deg,var(--cyan),rgba(56,189,248,0))}
+body:not([data-section="home"]) .card, body:not([data-section="home"]) a.panel{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018));border:1px solid rgba(160,200,240,.26);border-radius:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 24px 48px -30px rgba(2,8,20,.8)}
+body:not([data-section="home"]) .card h4{font-size:21px}
+body:not([data-section="home"]) a.panel{counter-increment:pn;position:relative;overflow:hidden}
+body:not([data-section="home"]) .panels{counter-reset:pn}
+body:not([data-section="home"]) a.panel::after{content:counter(pn,decimal-leading-zero);position:absolute;top:8px;right:20px;font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:600;color:rgba(125,211,252,.16);line-height:1}
+body:not([data-section="home"]) a.panel:hover, body:not([data-section="home"]) .card:has(h3 a):hover{transform:translateY(-6px);border-color:rgba(56,189,248,.55)}
+body[data-section="faq"] .prose > h2{border-top:1px solid rgba(148,184,220,.2);padding-top:52px;font-size:clamp(27px,3.6vw,38px)}
+body[data-section="faq"] .prose > h2::before{font-size:42px;margin-bottom:10px}
+body:not([data-section="home"]) .timeline::before{background:linear-gradient(180deg,transparent,var(--cyan) 12%,rgba(56,189,248,.25) 88%,transparent);box-shadow:0 0 18px rgba(56,189,248,.45)}
+body:not([data-section="home"]) .tl-item h3{font-size:24px}
+body:not([data-section="home"]) .join-form-box{box-shadow:0 0 0 1px rgba(56,189,248,.14),0 34px 70px -34px rgba(56,189,248,.35)}
+body:not([data-section="home"]) .join-btn, body:not([data-section="home"]) .forum-form #fSubmit{background:linear-gradient(120deg,#38BDF8,#818CF8);color:#081426;font-weight:700;border:none}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:rgba(125,211,252,.28);border-radius:6px}::-webkit-scrollbar-track{background:#0A1122}
+@media (prefers-reduced-motion:reduce){ body:not([data-section="home"]) .hero-block::before{animation:none} }
