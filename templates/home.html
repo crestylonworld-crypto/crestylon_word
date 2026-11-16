@@ -219,15 +219,26 @@
   </div>
 </section>
 
-<section class="ritual" data-node>
+<section class="ritual forum" data-node id="forumSec">
   <div class="wrap">
     <p class="no rv" style="color:var(--cyan);font-size:13px;letter-spacing:.34em;font-weight:700">創世 · 體驗</p>
     <p class="ask rv">你想建立一套新制度。請命名它。</p>
-    <form id="nameForm" class="rv">
-      <input id="nameInput" type="text" autocomplete="off" aria-label="新制度的名稱">
-      <button type="submit">宣告</button>
+    <p class="forum-sub rv">先說一個你不喜歡、想改革的制度問題，再寫下你的改革方案。宣告，就存在——其他人可以加入你的制度，也可以從它分支，長出自己的版本。</p>
+    <form id="forumForm" class="forum-form rv">
+      <div class="ff-row">
+        <input id="fAuthor" type="text" maxlength="30" autocomplete="off" placeholder="你的暱稱" aria-label="你的暱稱">
+        <input id="fTitle" type="text" maxlength="60" autocomplete="off" placeholder="新制度的名稱" aria-label="新制度的名稱">
+      </div>
+      <textarea id="fProblem" maxlength="500" rows="3" placeholder="你不喜歡、想改革的制度問題" aria-label="想改革的制度問題"></textarea>
+      <textarea id="fBody" maxlength="2000" rows="4" placeholder="你的改革方案" aria-label="改革方案"></textarea>
+      <p class="fork-note" id="forkNote" hidden>分支自「<b id="forkTitle"></b>」——寫下你的版本。<button type="button" id="forkCancel">取消分支</button></p>
+      <div class="ff-actions">
+        <button type="submit" id="fSubmit">宣告</button>
+        <p class="form-err" id="formErr" role="alert"></p>
+      </div>
     </form>
     <p class="done-msg" id="doneMsg">「<b id="doneName"></b>」——宣告，就存在。</p>
+    <div class="forum-list" id="forumList"><p class="forum-loading">正在載入眾織廣場…</p></div>
   </div>
 </section>
 
