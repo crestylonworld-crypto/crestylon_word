@@ -129,9 +129,40 @@ function mdToHtml(body) {
 const BRIDGE_SVG = `<svg class="bridge-svg" viewBox="0 0 560 90" aria-hidden="true"><defs><linearGradient id="bridgeGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#F97316"/></linearGradient></defs><path d="M20 70 Q 140 10 280 40 T 540 20"/></svg><div class="scroll-cue">往下走，過橋<span></span></div>`;
 const escAttr = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+const FORUM_HTML = `<div class="forum" id="forumSec">
+  <div class="forum-stats">
+    <div class="fstat"><b id="statPosts">–</b><span>制度提案</span></div>
+    <div class="fstat"><b id="statJoins">–</b><span>加入人次</span></div>
+    <div class="fstat"><b id="statReplies">–</b><span>回覆</span></div>
+  </div>
+  <form id="forumForm" class="forum-form composer">
+    <div class="ff-row">
+      <input id="fAuthor" type="text" maxlength="30" autocomplete="off" placeholder="你的暱稱" aria-label="你的暱稱">
+      <input id="fTitle" type="text" maxlength="60" autocomplete="off" placeholder="新制度的名稱" aria-label="新制度的名稱">
+    </div>
+    <textarea id="fProblem" maxlength="500" rows="3" placeholder="你不喜歡、想改革的制度問題" aria-label="想改革的制度問題"></textarea>
+    <textarea id="fBody" maxlength="2000" rows="4" placeholder="你的改革方案" aria-label="改革方案"></textarea>
+    <p class="fork-note" id="forkNote" hidden>分支自「<b id="forkTitle"></b>」——寫下你的版本。<button type="button" id="forkCancel">取消分支</button></p>
+    <div class="ff-actions">
+      <button type="submit" id="fSubmit">宣告</button>
+      <p class="form-err" id="formErr" role="alert"></p>
+    </div>
+  </form>
+  <p class="done-msg" id="doneMsg">「<b id="doneName"></b>」——宣告，就存在。</p>
+  <div class="forum-toolbar">
+    <div class="forum-tabs" role="tablist" aria-label="排序">
+      <button type="button" class="ftab on" data-sort="new">最新</button>
+      <button type="button" class="ftab" data-sort="hot">最多加入</button>
+    </div>
+  </div>
+  <div class="forum-list" id="forumList"><p class="forum-loading">正在載入眾織廣場…</p></div>
+</div>`;
+
 function renderBlock(kind, inner) {
   // joinform：原樣輸出加入我們表單（舊站 Custom Embed 移植），不經 markdown 轉義
   if (kind === 'joinform') return JOIN_FORM;
+  // forum：眾織廣場（社群討論串，互動由 site.js 論壇引擎驅動）
+  if (kind === 'forum') return FORUM_HTML;
   const html = mdToHtml(inner);
   // freedoms：七自由互動選擇器（標題＋一句話取自 markdown，不編新文案）
   if (kind === 'freedoms') {
@@ -263,6 +294,10 @@ function build() {
     }
     // 先注入內容，再替換佔位符（內容裡也可用 {{emails}} 等）
     let html = TPL.replaceAll('{{content}}', mdToHtml(p.body));
+    // 內頁 hero 眉題（比照首頁章節眉題：Cormorant 英文＋中文分區名）
+    const EB = { concept: 'CONCEPT · 形象理念', product: 'PRODUCT · 核心產品', plan: 'PLAN · 團隊計畫', team: 'TEAM · 團隊憲章', faq: 'FAQ · 常見問題', join: 'JOIN · 加入我們', community: 'COMMUNITY · 眾織廣場' };
+    const eb = EB[p.slug] || EB[p.slug.split('/')[0]];
+    if (eb) html = html.replace('<div class="hero-block">', `<div class="hero-block"><p class="page-eyebrow">${eb}</p>`);
     html = html
       .replaceAll('{{title}}', p.meta.title || SITE.name)
       .replaceAll('{{description}}', p.meta.description || SITE.description)
@@ -291,7 +326,8 @@ function build() {
     const list = (bySection[n.key] || []).filter(p => p.slug !== 'index' && p.slug !== selfSlug);
     if (!list.length) continue;
     const items = list.map(p => `<a class="panel" href="${p.url}"><h3>${p.meta.title || ''}</h3><p>${p.meta.description || ''}</p><span class="go">進入 →</span></a>`).join('');
-    let html = TPL.replaceAll('{{content}}', `<div class="hero-block index-hero"><div class="wrap"><h1>${n.label}</h1></div></div><div class="wrap prose"><div class="panels">${items}</div></div>`);
+    const EB2 = { concept: 'CONCEPT', product: 'PRODUCT', plan: 'PLAN' };
+    let html = TPL.replaceAll('{{content}}', `<div class="hero-block index-hero"><div class="wrap"><p class="page-eyebrow">${EB2[n.key] || ''} · ${n.label}</p><h1>${n.label}</h1></div></div><div class="wrap prose"><div class="panels">${items}</div></div>`);
     html = html
       .replaceAll('{{title}}', n.label + '｜' + SITE.name)
       .replaceAll('{{description}}', n.label)
