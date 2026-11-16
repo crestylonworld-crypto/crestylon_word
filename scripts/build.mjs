@@ -21,6 +21,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'content', 'pages');
 const DIST = join(ROOT, 'dist');
 const TPL = readFileSync(join(ROOT, 'templates', 'base.html'), 'utf8');
+const HOME_TPL = readFileSync(join(ROOT, 'templates', 'home.html'), 'utf8');
 const JOIN_FORM = readFileSync(join(ROOT, 'templates', 'join-form.html'), 'utf8');
 const SITE = JSON.parse(readFileSync(join(ROOT, 'site.json'), 'utf8'));
 
@@ -247,6 +248,19 @@ function build() {
   const written = new Set();
   const render = (p) => {
     const sec = p.meta.section || '';
+    // 首頁走專屬模板（templates/home.html，R7 版面正本）；index.md 只提供 frontmatter
+    if (p.slug === 'index') {
+      return HOME_TPL
+        .replaceAll('{{title}}', p.meta.title || SITE.name)
+        .replaceAll('{{description}}', p.meta.description || SITE.description)
+        .replaceAll('{{siteName}}', SITE.name)
+        .replaceAll('{{enName}}', SITE.enName)
+        .replaceAll('{{nav}}', buildNav(sec))
+        .replaceAll('{{emails}}', SITE.contact.email.map(e => `<a href="mailto:${e}">${e}</a>`).join(' ・ '))
+        .replaceAll('{{instagram}}', SITE.contact.instagram)
+        .replaceAll('{{footerNote}}', SITE.footerNote)
+        .replaceAll('{{section}}', sec);
+    }
     // 先注入內容，再替換佔位符（內容裡也可用 {{emails}} 等）
     let html = TPL.replaceAll('{{content}}', mdToHtml(p.body));
     html = html
