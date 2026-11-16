@@ -623,3 +623,45 @@ body[data-section="home"] .takeover .tk-rn{font-weight:600}
   body[data-section="home"] #spineFade{stroke-dasharray:none}
   body[data-section="home"] #penTip{display:none}
 }
+/* a009 眾織廣場（創世討論串） */
+body[data-section="home"] .forum-sub{color:var(--dim);margin-top:22px;max-width:38em;line-height:1.9}
+body[data-section="home"] .forum-form{margin-top:34px;display:flex;flex-direction:column;gap:14px;max-width:760px}
+body[data-section="home"] .forum-form .ff-row{display:flex;gap:14px;flex-wrap:wrap}
+body[data-section="home"] .forum-form input, body[data-section="home"] .forum-form textarea{background:rgba(248,250,252,.04);border:1px solid rgba(148,184,220,.35);border-radius:18px;color:var(--moon);font:inherit;font-size:16px;padding:14px 20px;outline:none;width:100%}
+body[data-section="home"] .forum-form .ff-row input{flex:1 1 220px;width:auto;min-width:0;border-radius:999px;padding:14px 24px}
+body[data-section="home"] .forum-form textarea{resize:vertical;line-height:1.8}
+body[data-section="home"] .forum-form input:focus, body[data-section="home"] .forum-form textarea:focus{border-color:var(--cyan)}
+body[data-section="home"] .forum-form input::placeholder, body[data-section="home"] .forum-form textarea::placeholder{color:var(--faint)}
+body[data-section="home"] .fork-note{color:var(--cyan);font-size:15px}
+body[data-section="home"] .fork-note b{color:var(--moon)}
+body[data-section="home"] .fork-note button{background:none;border:1px solid rgba(148,184,220,.4);color:var(--dim);border-radius:999px;padding:4px 14px;margin-left:10px;cursor:pointer;font:inherit;font-size:13.5px}
+body[data-section="home"] .ff-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+body[data-section="home"] .ff-actions button{background:var(--cyan2);border:0;color:#fff;font:inherit;font-weight:700;font-size:16.5px;padding:15px 42px;border-radius:999px;cursor:pointer;letter-spacing:.08em}
+body[data-section="home"] .ff-actions button:disabled{opacity:.55;cursor:wait}
+body[data-section="home"] .form-err{color:#F59E0B;font-size:14.5px;min-height:1em}
+body[data-section="home"] .forum-list{margin-top:8vh;max-width:860px}
+body[data-section="home"] .forum-loading, body[data-section="home"] .forum-empty{color:var(--faint);padding:30px 0;border-top:1px solid rgba(148,184,220,.18)}
+body[data-section="home"] .fpost{border-top:1px solid rgba(148,184,220,.18);padding:34px 0 30px}
+body[data-section="home"] .fp-title{font-family:var(--serif);font-weight:900;font-size:clamp(24px,3.4vw,34px);letter-spacing:.03em;color:var(--moon)}
+body[data-section="home"] .fp-meta{color:var(--faint);font-size:13.5px;letter-spacing:.06em;margin-top:8px}
+body[data-section="home"] .fp-label{color:var(--cyan);font-size:12.5px;font-weight:700;letter-spacing:.28em;margin-top:24px}
+body[data-section="home"] .fp-text{color:var(--dim);line-height:1.9;margin-top:8px;white-space:pre-wrap;word-break:break-word}
+body[data-section="home"] .fp-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+body[data-section="home"] .fp-btn{background:none;border:1px solid rgba(148,184,220,.4);color:var(--moon);border-radius:999px;padding:9px 22px;cursor:pointer;font:inherit;font-size:14.5px;letter-spacing:.05em}
+body[data-section="home"] .fp-btn:hover{border-color:var(--cyan)}
+body[data-section="home"] .fp-btn.on{border-color:var(--cyan);color:var(--cyan)}
+body[data-section="home"] .fp-btn:disabled{opacity:.65;cursor:default}
+body[data-section="home"] .fp-replies{margin-top:22px;border-left:2px solid rgba(56,189,248,.3);padding-left:20px}
+body[data-section="home"] .fp-reply{padding:12px 0;border-bottom:1px solid rgba(148,184,220,.1)}
+body[data-section="home"] .fp-reply-meta{color:var(--faint);font-size:13px}
+body[data-section="home"] .fp-reply-meta b{color:var(--moon)}
+body[data-section="home"] .fp-reply-body{color:var(--dim);line-height:1.85;margin-top:5px;white-space:pre-wrap;word-break:break-word}
+body[data-section="home"] .fp-reply-form{display:flex;gap:12px;margin-top:16px;align-items:flex-start;flex-wrap:wrap}
+body[data-section="home"] .fp-reply-form textarea{flex:1 1 260px;background:rgba(248,250,252,.04);border:1px solid rgba(148,184,220,.35);border-radius:14px;color:var(--moon);font:inherit;font-size:15px;padding:11px 16px;outline:none;resize:vertical}
+body[data-section="home"] .fp-reply-form textarea:focus{border-color:var(--cyan)}
+/* a009 覆寫：擋下舊 .ritual form/button/input 規則對廣場元件的污染 */
+body[data-section="home"] .forum form.forum-form{align-items:stretch}
+body[data-section="home"] .forum .fp-btn{background:none;border:1px solid rgba(148,184,220,.4);color:var(--moon);padding:9px 22px;font-size:14.5px;font-weight:400;letter-spacing:.05em;min-width:0}
+body[data-section="home"] .forum .fp-btn:hover{border-color:var(--cyan)}
+body[data-section="home"] .forum .fp-btn.on{border-color:var(--cyan);color:var(--cyan)}
+body[data-section="home"] .forum .fp-reply-form{margin-top:16px}
