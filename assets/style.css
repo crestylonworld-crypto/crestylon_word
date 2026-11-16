@@ -740,3 +740,50 @@ body .fd-fork span{color:var(--faint);font-size:13.5px;white-space:nowrap}
   body:not([data-section="home"]) .hero-block .bridge-svg{animation:none}
 }
 body .forum [hidden]{display:none!important}
+/* a012 憲章文件化 */
+body[data-section="charter"] .prose{max-width:880px;margin:0 auto}
+body[data-section="charter"] .prose > h2{border-top:1px solid rgba(148,184,220,.22);padding-top:56px;margin-top:96px;scroll-margin-top:110px}
+body[data-section="charter"] .prose > h2::before{content:none}
+body[data-section="charter"] .doc-toc{border:1px solid rgba(148,184,220,.28);border-radius:20px;background:rgba(248,250,252,.025);padding:28px 34px;margin:8px 0 12px}
+body[data-section="charter"] .toc-eyebrow{font-family:'Cormorant Garamond',serif;letter-spacing:.34em;font-size:13px;color:var(--cyan);margin:0 0 16px}
+body[data-section="charter"] .doc-toc ol{columns:2;column-gap:44px;margin:0;padding-left:22px}
+body[data-section="charter"] .doc-toc li{margin:0 0 10px;break-inside:avoid}
+body[data-section="charter"] .doc-toc li::marker{font-family:'Cormorant Garamond',serif;color:var(--cyan)}
+body[data-section="charter"] .doc-toc a{color:#C9D6E8;text-decoration:none}
+body[data-section="charter"] .doc-toc a:hover{color:var(--cyan)}
+body[data-section="charter"] .prose > ul{list-style:none;padding-left:0}
+body[data-section="charter"] .prose > ul > li{border-left:2px solid rgba(56,189,248,.32);padding:2px 0 2px 22px;margin:0 0 22px}
+body[data-section="charter"] .prose > ul > li ul{list-style:circle;padding-left:22px}
+body[data-section="charter"] .prose li > strong{font-family:var(--serif);font-size:17.5px;color:var(--moon)}
+body[data-section="charter"] .prose > h3{border-left:3px solid var(--cyan);padding-left:16px;margin-top:52px}
+body[data-section="charter"] .oath-block{margin-top:88px}
+@media (max-width:720px){ body[data-section="charter"] .doc-toc ol{columns:1} }
+/* a012 廣場：提案為主視覺 */
+body .forum{max-width:920px;margin:0 auto}
+body .forum-stats{gap:0;border:1px solid rgba(148,184,220,.18);border-radius:16px;overflow:hidden;margin:0 0 26px}
+body .fstat{padding:14px 10px}
+body .fstat b{font-size:26px}
+body .composer{padding:14px}
+body .composer-teaser{display:flex;align-items:center;gap:14px;width:100%;background:rgba(248,250,252,.04);border:1px solid rgba(148,184,220,.3);border-radius:999px;padding:9px 10px 9px 12px;cursor:pointer;color:inherit;font:inherit;text-align:left}
+body .composer-teaser:hover{border-color:rgba(56,189,248,.55)}
+body .composer-teaser .fp-ava{flex:none}
+body .teaser-text{flex:1;color:var(--faint);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body .teaser-cta{flex:none;background:var(--cyan);color:#06202E;font-weight:700;font-size:14px;border-radius:999px;padding:8px 18px}
+body .forum-form.collapsed .ff-fields{display:none}
+body .forum-form:not(.collapsed) .composer-teaser{display:none}
+body .forum-form .ff-fields{padding:10px 8px 6px}
+body .forum-list{display:flex;flex-direction:column;gap:22px;margin-top:28px}
+body .fpost{display:flex;gap:24px;padding:30px 32px}
+body .fp-rail{flex:none;width:78px;display:flex;flex-direction:column;align-items:center;gap:10px;border-right:1px solid rgba(148,184,220,.18);padding-right:24px}
+body .fp-jcount{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600;color:var(--moon);line-height:1}
+body .fp-rail .fp-btn{width:100%;text-align:center}
+body .fp-main{flex:1;min-width:0}
+body .fpost .fp-title{font-size:clamp(23px,3vw,29px)}
+body .fpost .fp-text{font-size:16.5px;line-height:1.85}
+@media (max-width:640px){
+  body .fpost{flex-direction:column;gap:16px;padding:24px 22px}
+  body .fp-rail{flex-direction:row;width:auto;border-right:none;border-bottom:1px solid rgba(148,184,220,.18);padding:0 0 14px;justify-content:flex-start}
+  body .fp-jcount{font-size:30px}
+  body .fp-rail .fp-btn{width:auto}
+}
+body .fp-rail .fp-btn{white-space:nowrap;padding:8px 2px;font-size:13.5px}

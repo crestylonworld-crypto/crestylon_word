@@ -357,6 +357,7 @@
     function postCard(p, replies, opts) {
       opts = opts || {};
       const card = el('article', 'fpost');
+      const main = el('div', 'fp-main');
       const head = el('div', 'fp-head');
       const titleEl = el('h4', 'fp-title', p.title);
       if (!opts.detail) { titleEl.classList.add('fp-title-link'); titleEl.addEventListener('click', () => openDetail(p.id)); }
@@ -372,14 +373,15 @@
       meta.textContent = mt;
       byline.appendChild(meta);
       head.appendChild(byline);
-      card.appendChild(head);
-      card.appendChild(el('p', 'fp-label', '想改革的問題'));
-      card.appendChild(el('p', 'fp-text', p.problem));
-      card.appendChild(el('p', 'fp-label', '改革方案'));
-      card.appendChild(el('p', 'fp-text', p.body));
+      main.appendChild(head);
+      main.appendChild(el('p', 'fp-label', '想改革的問題'));
+      main.appendChild(el('p', 'fp-text', p.problem));
+      main.appendChild(el('p', 'fp-label', '改革方案'));
+      main.appendChild(el('p', 'fp-text', p.body));
       const acts = el('div', 'fp-actions');
       const joined = store.joined().includes(p.id);
-      const jb = el('button', 'fp-btn fp-join' + (joined ? ' on' : ''), (joined ? '已加入' : '加入') + ' · ' + p.joins);
+      const jcount = el('b', 'fp-jcount', p.joins);
+      const jb = el('button', 'fp-btn fp-join' + (joined ? ' on' : ''), joined ? '已加入' : '加入');
       jb.type = 'button';
       if (joined) jb.disabled = true;
       jb.addEventListener('click', async () => {
@@ -388,12 +390,14 @@
           const v = await api('/rest/v1/rpc/world_forum_join', { method: 'POST', body: JSON.stringify({ p_id: p.id }) });
           p.joins = typeof v === 'number' ? v : p.joins + 1;
           store.addJoined(p.id);
-          jb.textContent = '已加入 · ' + p.joins;
+          jcount.textContent = p.joins;
+          jb.textContent = '已加入';
           jb.classList.add('on');
         } catch (e) { jb.disabled = false; }
       });
       const fb = el('button', 'fp-btn', '分支'); fb.type = 'button';
       fb.addEventListener('click', () => {
+        $('forumForm').classList.remove('collapsed');
         forkOf = p.id;
         $('forkTitle').textContent = p.title;
         $('forkNote').hidden = false;
@@ -402,7 +406,9 @@
         $('fTitle').focus();
       });
       const rb = el('button', 'fp-btn', '回覆 · ' + replies.length); rb.type = 'button';
-      acts.append(jb, fb, rb);
+      const rail = el('div', 'fp-rail');
+      rail.append(jcount, jb);
+      acts.append(fb, rb);
       if (!opts.detail) {
         const db2 = el('button', 'fp-btn', '詳情'); db2.type = 'button';
         db2.addEventListener('click', () => openDetail(p.id));
@@ -413,7 +419,7 @@
         del.addEventListener('click', () => deletePost(p));
         acts.appendChild(del);
       }
-      card.appendChild(acts);
+      main.appendChild(acts);
       const rbox = el('div', 'fp-replies'); rbox.hidden = !opts.detail;
       const rlist = el('div', 'fp-reply-list');
       replies.forEach(rp => rlist.appendChild(replyItem(rp)));
@@ -441,7 +447,8 @@
       });
       rbox.appendChild(rform);
       rb.addEventListener('click', () => { rbox.hidden = !rbox.hidden; if (!rbox.hidden) rinput.focus(); });
-      card.appendChild(rbox);
+      main.appendChild(rbox);
+      card.append(rail, main);
       return card;
     }
     const state = { sort: 'new', posts: [], replies: [], detail: null };
@@ -520,6 +527,20 @@
     }));
     const form = $('forumForm');
     if (store.name) $('fAuthor').value = store.name;
+    const teaser = $('composerTeaser');
+    if (teaser) {
+      $('forumForm').classList.add('collapsed');
+      const ta = $('teaserAva');
+      if (ta && store.name) {
+        ta.textContent = store.name.trim().slice(0, 1) || '？';
+        let hue = 0; for (const ch of store.name) hue = (hue * 31 + ch.charCodeAt(0)) % 360;
+        ta.style.background = 'hsl(' + hue + ' 45% 30%)';
+      }
+      teaser.addEventListener('click', () => {
+        $('forumForm').classList.remove('collapsed');
+        ($('fAuthor').value ? $('fTitle') : $('fAuthor')).focus();
+      });
+    }
     $('forkCancel').addEventListener('click', () => { forkOf = null; $('forkNote').hidden = true; });
     form.addEventListener('submit', async e => {
       e.preventDefault();
