@@ -305,7 +305,7 @@ function build() {
     // 內頁 hero 眉題（比照首頁章節眉題：Cormorant 英文＋中文分區名）
     const EB = { concept: 'CONCEPT · 形象理念', product: 'PRODUCT · 核心產品', plan: 'PLAN · 團隊計畫', team: 'TEAM · 團隊憲章', faq: 'FAQ · 常見問題', join: 'JOIN · 加入我們', community: 'COMMUNITY · 眾織廣場' };
     const eb = EB[p.slug] || EB[p.slug.split('/')[0]];
-    if (eb) html = html.replace('<div class="hero-block">', `<div class="hero-block"><span class="hero-ghost" aria-hidden="true">${eb.split(' ')[0]}</span><p class="page-eyebrow">${eb}</p>`);
+    if (eb) html = html.replace('<div class="hero-block">', `<div class="hero-block"><canvas class="hero-gl" aria-hidden="true"></canvas><span class="hero-ghost" aria-hidden="true">${eb.split(' ')[0]}</span><p class="page-eyebrow">${eb}</p>`);
     // 憲章頁：自動產生篇目（TOC），插在第一個內文 h2 之前（第一個 h2 是 hero 副標，跳過）
     if (p.slug === 'team/charter') {
       const heads = [...html.matchAll(/<h2 id="([^"]+)">([^<]+)<\/h2>/g)];
@@ -345,7 +345,7 @@ function build() {
     if (!list.length) continue;
     const items = list.map(p => `<a class="panel" href="${p.url}"><h3>${p.meta.title || ''}</h3><p>${p.meta.description || ''}</p><span class="go">進入 →</span></a>`).join('');
     const EB2 = { concept: 'CONCEPT', product: 'PRODUCT', plan: 'PLAN' };
-    let html = TPL.replaceAll('{{content}}', `<div class="hero-block index-hero"><span class="hero-ghost" aria-hidden="true">${(EB2[n.key] || '').split(' ')[0]}</span><div class="wrap"><p class="page-eyebrow">${EB2[n.key] || ''} · ${n.label}</p><h1>${n.label}</h1></div></div><div class="wrap prose"><div class="panels">${items}</div></div>`);
+    let html = TPL.replaceAll('{{content}}', `<div class="hero-block index-hero"><canvas class="hero-gl" aria-hidden="true"></canvas><span class="hero-ghost" aria-hidden="true">${(EB2[n.key] || '').split(' ')[0]}</span><div class="wrap"><p class="page-eyebrow">${EB2[n.key] || ''} · ${n.label}</p><h1>${n.label}</h1></div></div><div class="wrap prose"><div class="panels">${items}</div></div>`);
     html = html
       .replaceAll('{{title}}', n.label + '｜' + SITE.name)
       .replaceAll('{{description}}', n.label)
