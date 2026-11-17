@@ -829,3 +829,8 @@ body[data-section="home"] table{min-width:0}
   body[data-section="home"] .status th, body[data-section="home"] .status td.s-done, body[data-section="home"] .status td.s-plan{white-space:normal}
   body[data-section="home"] .status th, body[data-section="home"] .status td{padding:13px 8px}
 }
+/* a016 hero 全幅出血＋邊緣霧化（修寬螢幕矩形硬邊） */
+body:not([data-section="home"]) .hero-block{width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;padding-bottom:10vh}
+body:not([data-section="home"]) .hero-gl, body:not([data-section="home"]) .hero-block::before{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 7%,#000 76%,transparent 99%);mask-image:linear-gradient(180deg,transparent 0,#000 7%,#000 76%,transparent 99%)}
+body:not([data-section="home"]) .prose > .hero-block + h2{margin-top:60px}
+body[data-section="home"] .pin .prog{display:none}
