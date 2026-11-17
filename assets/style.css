@@ -822,7 +822,11 @@ body.rv-on .prose > h2, body.rv-on .prose .card, body.rv-on .panels a.panel, bod
 body.rv-on .prose > h2.rv-in, body.rv-on .prose .card.rv-in, body.rv-on .panels a.panel.rv-in, body.rv-on .tl-item.rv-in, body.rv-on .prose > blockquote.rv-in{transform:none;opacity:1;transition:transform .95s cubic-bezier(.16,1,.3,1),opacity .95s cubic-bezier(.16,1,.3,1)}
 @media (prefers-reduced-motion:reduce){ body.rv-on .prose > h2, body.rv-on .prose .card, body.rv-on .panels a.panel, body.rv-on .tl-item, body.rv-on .prose > blockquote{transform:none;opacity:1} }
 /* a015 手機出框修復：狀態表被全域 table min-width:560px 撐爆 */
-html, body{overflow-x:hidden;overflow-x:clip}
+/* a018：overflow-x 只准設在 body、嚴禁用在 html——設在 html 會傳播到 viewport 並弄壞
+   position:sticky（a015 的 html,body 雙設讓 pin 定格與七自由 takeover 全部失效、pin 容器
+   230vh 只剩 100vh 有內容、其餘成整片空白）。body 單獨 overflow-x:clip 不建 scroll container、
+   sticky 正常（2026-11-17 探針實測：body-only stageTop=0 ✓、html 加入即 -735 ✗）。 */
+body{overflow-x:clip}
 body[data-section="home"] table{min-width:0}
 @media (max-width:640px){
   body[data-section="home"] .status table{font-size:14.5px}
