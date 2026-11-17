@@ -3,6 +3,7 @@ title: INN 星際新聞網
 section: product
 order: 3
 description: INN 星際聯邦官方新聞網——AI 編輯部全天候運作的雙語新聞平台。
+lead: INN 是已經上線的新聞站，由 AI 編輯部全天候整理新聞。這是凌極世界目前真的能點開來用的產品之一。
 ---
 
 ::: hero
