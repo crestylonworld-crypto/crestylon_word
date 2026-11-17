@@ -856,3 +856,36 @@ body .ftab.on{background:linear-gradient(120deg,rgba(56,189,248,.85),rgba(129,14
 .btn.primary::after, .btn.ember::after, body .ff-actions button::after, body[data-section="home"] .ritual button::after, body[data-section="home"] .cta::after, body:not([data-section="home"]) .join-btn::after, body .ftab.on::after{content:"";position:absolute;top:0;bottom:0;left:0;width:45%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-240%) skewX(-18deg);pointer-events:none}
 .btn.primary:hover::after, .btn.ember:hover::after, body .ff-actions button:hover::after, body[data-section="home"] .ritual button:hover::after, body[data-section="home"] .cta:hover::after, body:not([data-section="home"]) .join-btn:hover::after, body .ftab.on:hover::after{transform:translateX(340%) skewX(-18deg);transition:transform .8s cubic-bezier(.16,1,.3,1)}
 @media (prefers-reduced-motion:reduce){ .btn, body .ff-actions button, body .fp-btn, body .ftab, .freedoms button{transition:none} .btn:hover, body .fp-btn:hover, .freedoms button:hover{transform:none} }
+
+/* ===== a019 朋友版：提亮＋白話導讀＋圖說（回應：都是字、沒有圖、好暗、看不懂） ===== */
+/* 提亮：內頁底色、內文、稿紙、星雲 */
+body:not([data-section="home"]){background-color:#0C1730;background-image:radial-gradient(1100px 700px at 85% -5%,rgba(56,189,248,.14),transparent 60%),radial-gradient(900px 650px at 8% 12%,rgba(129,140,248,.10),transparent 60%),radial-gradient(1200px 900px at 50% 115%,rgba(249,115,22,.055),transparent 60%);background-attachment:fixed}
+body:not([data-section="home"]) .prose{color:#DCE9F9}
+body:not([data-section="home"]) main.prose{background:linear-gradient(180deg,rgba(248,250,252,.085),rgba(248,250,252,.03));border-color:rgba(160,200,240,.26)}
+body:not([data-section="home"]) .hero-gl{filter:brightness(1.16) saturate(1.06)}
+body:not([data-section="home"]) .hero-ghost{opacity:.6}
+/* 提亮：首頁變數（--faint 是全站小字與未點亮宣言的底色） */
+body[data-section="home"]{--bg:#0A1424;--dim:#CBD8EA;--faint:#95AAC6}
+/* 白話導讀卡 */
+body .lead-card{max-width:760px;margin:36px auto 8px;background:linear-gradient(180deg,rgba(56,189,248,.10),rgba(56,189,248,.04));border:1px solid rgba(125,211,252,.35);border-left:4px solid #38BDF8;border-radius:16px;padding:20px 24px;text-align:left}
+body .lead-eyebrow{font-family:'Cormorant Garamond',serif;font-size:12px;letter-spacing:.3em;color:#7DD3FC;margin:0 0 8px}
+body .lead-text{font-size:16.5px;line-height:1.95;color:#E8F1FC;margin:0}
+/* figure 圖說 */
+body .prose figure.fig{margin:38px 0}
+body .prose figure.fig img{width:100%;height:auto;display:block;border-radius:20px;border:1px solid rgba(160,200,240,.22);box-shadow:0 30px 60px -30px rgba(2,8,20,.85)}
+body .prose figure.fig figcaption{text-align:center;color:#9FB4D0;font-size:13.5px;letter-spacing:.08em;margin-top:12px}
+/* 首頁白話段 */
+body[data-section="home"] .plain{position:relative;padding:16vh 24px 14vh;background:linear-gradient(180deg,#0A1424,#0E1C33 55%,#0A1424)}
+body[data-section="home"] .plain-in{max-width:1060px;margin:0 auto}
+body[data-section="home"] .plain-eyebrow{font-family:'Cormorant Garamond',serif;letter-spacing:.34em;font-size:12.5px;color:#7DD3FC;text-align:center;margin:0}
+body[data-section="home"] .plain h2{font-family:var(--serif);font-weight:900;font-size:clamp(34px,5vw,54px);text-align:center;color:var(--moon);margin:18px 0 26px;letter-spacing:.04em}
+body[data-section="home"] .plain-lead{font-size:clamp(18px,2.2vw,22px);line-height:2;text-align:center;color:#DCE9F9;max-width:44em;margin:0 auto}
+body[data-section="home"] .plain-lead strong{color:#fff;border-bottom:2px solid rgba(249,115,22,.55)}
+body[data-section="home"] .plain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}
+body[data-section="home"] .plain-card{background:linear-gradient(180deg,rgba(248,250,252,.07),rgba(248,250,252,.03));border:1px solid rgba(160,200,240,.2);border-radius:20px;padding:26px 24px}
+body[data-section="home"] .plain-num{font-family:'Cormorant Garamond',serif;color:#7DD3FC;font-size:15px;letter-spacing:.2em}
+body[data-section="home"] .plain-card h3{font-family:var(--serif);font-size:21px;color:var(--moon);margin:10px 0}
+body[data-section="home"] .plain-card p{color:#C4D4EA;line-height:1.9;font-size:15.5px;margin:0}
+body[data-section="home"] .plain-more{text-align:center;color:#A9BEDC;margin-top:44px;line-height:1.9}
+body[data-section="home"] .plain-more a{color:#7DD3FC}
+@media(max-width:820px){body[data-section="home"] .plain-grid{grid-template-columns:1fr}}
