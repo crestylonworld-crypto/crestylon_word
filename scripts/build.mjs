@@ -302,6 +302,22 @@ function build() {
     }
     // 先注入內容，再替換佔位符（內容裡也可用 {{emails}} 等）
     let html = TPL.replaceAll('{{content}}', mdToHtml(p.body));
+    // a019：獨立圖片段落升級為 figure＋圖說（alt 即圖說）
+    html = html.replace(/<p><img src="([^"]+)" alt="([^"]*)" loading="lazy"><\/p>/g,
+      (m, src, alt) => `<figure class="fig"><img src="${src}" alt="${alt}" loading="lazy">${alt ? `<figcaption>${alt}</figcaption>` : ''}</figure>`);
+    // a019：白話導讀卡（frontmatter lead:）插在 hero-block 之後
+    if (p.meta.lead) {
+      const lead = `<aside class="lead-card"><p class="lead-eyebrow">白話導讀 · START HERE</p><p class="lead-text">${p.meta.lead.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</p></aside>`;
+      const hs = html.indexOf('<div class="hero-block">');
+      if (hs >= 0) {
+        let depth = 0, i = hs, end = -1;
+        const tagRe = /<div\b|<\/div>/g; tagRe.lastIndex = hs;
+        let tm;
+        while ((tm = tagRe.exec(html))) { if (tm[0] === '<div') depth++; else { depth--; if (depth === 0) { end = tagRe.lastIndex; break; } } }
+        if (end > 0) html = html.slice(0, end) + lead + html.slice(end);
+        else html = html.replace('<div class="wrap prose">', '<div class="wrap prose">' + lead);
+      }
+    }
     // 內頁 hero 眉題（比照首頁章節眉題：Cormorant 英文＋中文分區名）
     const EB = { concept: 'CONCEPT · 形象理念', product: 'PRODUCT · 核心產品', plan: 'PLAN · 團隊計畫', team: 'TEAM · 團隊憲章', faq: 'FAQ · 常見問題', join: 'JOIN · 加入我們', community: 'COMMUNITY · 眾織廣場' };
     const eb = EB[p.slug] || EB[p.slug.split('/')[0]];
