@@ -3,6 +3,7 @@ title: Logo 設計理念
 section: concept
 order: 2
 description: 把 v1.0 至 v4.0 的精神，化作一個符號——橋與彼岸、言織土壤、選擇自由、預設消亡。
+lead: 這頁拆解 Logo 的設計——橋、土壤、選擇與消亡，怎麼被畫進一個符號裡。
 ---
 
 ::: hero

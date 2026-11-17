@@ -3,6 +3,7 @@ title: 命名理念
 section: concept
 order: 1
 description: 「凌極」二字與 Crestylon 詞源 —— 以堅實根基超越邊界、釋放潛能。
+lead: 這頁解釋「凌極」和 Crestylon 這兩個名字是怎麼來的、各自代表什麼意思。
 ---
 
 ::: hero

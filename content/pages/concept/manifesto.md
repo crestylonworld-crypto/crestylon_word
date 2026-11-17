@@ -3,6 +3,7 @@ title: 宣言 · 2026
 section: concept
 order: 3
 description: 凌極世界宣言——橋的彼岸，2026。
+lead: 這是凌極世界的宣言——我們相信世界不該只有一種活法。這一頁講的是信念；規則的細節在「制度憲章」那一頁。
 ---
 
 ::: hero
@@ -16,6 +17,8 @@ description: 凌極世界宣言——橋的彼岸，2026。
 
 向下探索
 :::
+
+![一條路分叉成許多路，每條路通往一個不同的聚落——分支與融合示意圖](/assets/illustrations/branching-paths.jpg)
 
 ## 壹 · 洞察 · 我們所見
 
