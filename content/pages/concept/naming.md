@@ -6,6 +6,8 @@ description: 「凌極」二字與 Crestylon 詞源 —— 以堅實根基超越
 lead: 這頁解釋「凌極」和 Crestylon 這兩個名字是怎麼來的、各自代表什麼意思。
 ---
 
+![夜空中，光的筆觸緩緩成形——上方是一座橋，下方是一台織機](/assets/illustrations/naming-strokes.jpg)
+
 ::: hero
 # 命名理念
 
