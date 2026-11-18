@@ -300,11 +300,23 @@ function build() {
         .replaceAll('{{footerNote}}', SITE.footerNote)
         .replaceAll('{{section}}', sec);
     }
-    // 先注入內容，再替換佔位符（內容裡也可用 {{emails}} 等）
-    let html = TPL.replaceAll('{{content}}', mdToHtml(p.body));
+    // 先處理內容（figure 升級＋章節底圖），再注入模板（內容裡也可用 {{emails}} 等）
+    let content = mdToHtml(p.body);
     // a019：獨立圖片段落升級為 figure＋圖說（alt 即圖說）
-    html = html.replace(/<p><img src="([^"]+)" alt="([^"]*)" loading="lazy"><\/p>/g,
+    content = content.replace(/<p><img src="([^"]+)" alt="([^"]*)" loading="lazy"><\/p>/g,
       (m, src, alt) => `<figure class="fig"><img src="${src}" alt="${alt}" loading="lazy">${alt ? `<figcaption>${alt}</figcaption>` : ''}</figure>`);
+    // a028：章節底圖——以 h2 切段，每段第一張圖改為該段底圖（logo 本體除外）
+    const FIGRE = /<figure class="fig"><img src="([^"]+)" alt="[^"]*" loading="lazy">(?:<figcaption>[^<]*<\/figcaption>)?<\/figure>/g;
+    content = content.split(/(?=<h2 id=")/).map(chunk => {
+      const figs = [...chunk.matchAll(FIGRE)].filter(m => !m[1].includes('logo-full'));
+      if (!figs.length) return chunk;
+      return figs.map((m, i) => {
+        const head = i === 0 ? chunk.slice(0, m.index) : '';
+        const tail = chunk.slice(m.index + m[0].length, i + 1 < figs.length ? figs[i + 1].index : chunk.length);
+        return `<div class="bg-sec"><img class="sec-bg" src="${m[1]}" alt="" aria-hidden="true"><div class="sec-shade"></div><div class="bg-sec-in">${head}${tail}</div></div>`;
+      }).join('');
+    }).join('');
+    let html = TPL.replaceAll('{{content}}', content);
     // a019：白話導讀卡（frontmatter lead:）插在 hero-block 之後
     if (p.meta.lead) {
       const lead = `<aside class="lead-card"><p class="lead-eyebrow">白話導讀 · START HERE</p><p class="lead-text">${p.meta.lead.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</p></aside>`;
@@ -328,7 +340,9 @@ function build() {
       if (heads.length > 2) {
         const items = heads.slice(1).map(m => `<li><a href="#${m[1]}">${m[2]}</a></li>`).join('');
         const toc = `<nav class="doc-toc"><p class="toc-eyebrow">INDEX · 篇目</p><ol>${items}</ol></nav>`;
-        const at = heads[1].index;
+        let at = heads[1].index;
+        const pre = html.slice(0, at);
+        if (pre.endsWith('<div class="bg-sec-in">')) { const w = pre.lastIndexOf('<div class="bg-sec">'); if (w > 0) at = w; }
         html = html.slice(0, at) + toc + html.slice(at);
       }
     }
