@@ -120,10 +120,14 @@ Life+ 平台、共享研發大樓、街區智慧節點。言織誕生後，實�
 
 ## 十年藍圖
 
+![同一片山坡走過四季：左邊的小樹苗一路長成右邊的大樹，春花、夏綠、秋楓與冬雪都在畫面裡](/assets/illustrations/starter-ten-years.jpg)
+
 懶人包的原頁以「十年藍圖」收束，指向更長的路徑。完整的來時路與未來路，見[執行計畫](/plan/roadmap/)；完整的世界觀論述，見[白皮書 v4.0](/concept/whitepaper-v4/) 與[白皮書 v3.0](/concept/whitepaper-v3/)。
 
 ::: cta
 ## 一起去看看磚塊
+
+![一雙手把一塊陶磚舉向晨光端詳，身後一道矮牆正一塊一塊砌起來](/assets/illustrations/starter-brick.jpg)
 
 [成為建造者](/join/) [一起去看看磚塊](https://drive.google.com/drive/folders/1mkbiHfzNMsQp4hsZWxoUskyr6VMeBX5) [眾織之書](/product/book/)
 :::
