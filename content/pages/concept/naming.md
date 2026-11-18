@@ -45,10 +45,14 @@ lead: 這頁解釋「凌極」和 Crestylon 這兩個名字是怎麼來的、各
 
 ## 卷首語
 
+![一支筆懸在全白的紙上方，筆尖正凝著一滴墨，第一個字還沒落下](/assets/illustrations/naming-preface.jpg)
+
 > **凌者，登高也；極者，至遠也。**
 > **凌極者，登高以望遠，立近以圖遠。**
 
 ## 形象理念怎麼讀
+
+![長卷在桌上展開，畫裡的河谷活了過來，河水流出紙面、淌下桌沿](/assets/illustrations/naming-how-to-read.jpg)
 
 ::: cards
 #### 命名
