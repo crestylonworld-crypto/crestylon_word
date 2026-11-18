@@ -1013,3 +1013,8 @@ html.theming *, html.theming *::before, html.theming *::after{transition:backgro
 html[data-theme="light"] .hero-block p{color:#C9D8EC}
 html[data-theme="light"] .hero-block .scroll-cue{color:#95AAC6}
 html[data-theme="light"] .hero-block .scroll-cue span{border-color:rgba(160,200,240,.45)}
+
+/* ===== a023：首頁終幕按鈕列對齊（flex 置中）＋補懶人包 ===== */
+body[data-section="home"] .finale .fin-btns{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:48px}
+body[data-section="home"] .finale .fin-btns .cta{margin-top:0}
+body[data-section="home"] .finale .fin-btns .ghost-btn{margin:0}
