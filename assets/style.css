@@ -889,3 +889,92 @@ body[data-section="home"] .plain-card p{color:#C4D4EA;line-height:1.9;font-size:
 body[data-section="home"] .plain-more{text-align:center;color:#A9BEDC;margin-top:44px;line-height:1.9}
 body[data-section="home"] .plain-more a{color:#7DD3FC}
 @media(max-width:820px){body[data-section="home"] .plain-grid{grid-template-columns:1fr}}
+
+/* ===== a020 深淺模式（淺色＝晨紙；深色為預設，html 無 data-theme 或 =dark 時不生效） ===== */
+:root{color-scheme:dark}
+html[data-theme="light"]{color-scheme:light}
+/* 切換鈕 */
+.theme-btn{position:relative;overflow:hidden;width:38px;height:38px;border-radius:999px;border:1px solid rgba(148,184,220,.4);background:rgba(248,250,252,.05);cursor:pointer;display:grid;place-items:center;margin-right:10px;transition:transform .5s cubic-bezier(.34,1.56,.64,1),border-color .3s,background .3s;flex:none}
+.theme-btn:hover{transform:translateY(-1px) scale(1.06);border-color:rgba(125,211,252,.7)}
+.theme-btn:active{transform:translateY(1px) scale(.94);transition-duration:.07s}
+.theme-ico{font-size:17px;line-height:1;pointer-events:none}
+.theme-ico-sun{color:#FBBF24}
+.theme-ico-moon{color:#7DD3FC;display:none}
+html[data-theme="light"] .theme-btn{border-color:rgba(28,43,69,.25);background:rgba(255,255,255,.6)}
+html[data-theme="light"] .theme-ico-sun{display:none}
+html[data-theme="light"] .theme-ico-moon{display:block;color:#43536B}
+/* —— 淺色：全站骨架 —— */
+html[data-theme="light"] body{background:#F3EFE6;color:#22314E}
+html[data-theme="light"] body:not([data-section="home"]){background-color:#F3EFE6;background-image:radial-gradient(1100px 700px at 85% -5%,rgba(56,189,248,.16),transparent 60%),radial-gradient(900px 650px at 8% 12%,rgba(129,140,248,.12),transparent 60%),radial-gradient(1200px 900px at 50% 115%,rgba(249,115,22,.07),transparent 60%)}
+html[data-theme="light"] header.site{background:rgba(250,248,242,.85);border-bottom:1px solid rgba(28,43,69,.12)}
+html[data-theme="light"] header.site .brand{color:#16233C}
+html[data-theme="light"] header.site .brand small{color:#0E7490}
+html[data-theme="light"] header.site .links a{color:#43536B}
+html[data-theme="light"] header.site .links a:hover{color:#0E7490}
+html[data-theme="light"] header.site .links a.active{color:#0E7490}
+html[data-theme="light"] .mobile-nav{background:rgba(250,248,242,.97)}
+html[data-theme="light"] .mobile-nav a{color:#22314E}
+html[data-theme="light"] .menu-btn{color:#22314E}
+html[data-theme="light"] footer .foot-brand{color:#16233C}
+html[data-theme="light"] footer .foot-contact, html[data-theme="light"] footer .foot-note{color:#5A6B84}
+html[data-theme="light"] footer .foot-colophon{color:#8A99B0}
+/* —— 淺色：內頁正文與稿紙 —— */
+html[data-theme="light"] body:not([data-section="home"]) .prose{color:#2A3850}
+html[data-theme="light"] body:not([data-section="home"]) main.prose{background:linear-gradient(180deg,#FDFBF6,#FAF7EF);border-color:rgba(28,43,69,.14);box-shadow:0 40px 80px -50px rgba(80,66,30,.35),inset 0 1px 0 #fff}
+html[data-theme="light"] .prose > h2{color:#16233C}
+html[data-theme="light"] .prose > h3{color:#1E2F4D}
+html[data-theme="light"] .prose a{color:#0E7490}
+html[data-theme="light"] .prose blockquote{color:#43536B;border-left-color:rgba(14,116,144,.5)}
+html[data-theme="light"] .prose table th{color:#5A6B84}
+html[data-theme="light"] .prose table th, html[data-theme="light"] .prose table td{border-bottom-color:rgba(28,43,69,.16)}
+html[data-theme="light"] .prose code{background:rgba(28,43,69,.08);color:#9A3412}
+html[data-theme="light"] .prose hr{border-top-color:rgba(28,43,69,.16)}
+html[data-theme="light"] .page-eyebrow{color:#0E7490}
+html[data-theme="light"] body .lead-card{background:linear-gradient(180deg,rgba(14,116,144,.09),rgba(14,116,144,.04));border-color:rgba(14,116,144,.4);border-left-color:#0E7490}
+html[data-theme="light"] body .lead-eyebrow{color:#0E7490}
+html[data-theme="light"] body .lead-text{color:#22314E}
+html[data-theme="light"] body .prose figure.fig img{border-color:rgba(28,43,69,.16);box-shadow:0 30px 60px -30px rgba(80,66,30,.4)}
+html[data-theme="light"] body .prose figure.fig figcaption{color:#71809A}
+/* —— 淺色：卡片與面板 —— */
+html[data-theme="light"] .card, html[data-theme="light"] a.panel{background:linear-gradient(180deg,#FFFFFF,#FAF7EF);border-color:rgba(28,43,69,.14);color:#2A3850;box-shadow:0 18px 40px -24px rgba(80,66,30,.35)}
+html[data-theme="light"] .card h3, html[data-theme="light"] a.panel h3{color:#16233C}
+html[data-theme="light"] .card p, html[data-theme="light"] a.panel p{color:#43536B}
+html[data-theme="light"] a.panel .go{color:#0E7490}
+html[data-theme="light"] .panels a.panel::before{color:rgba(14,116,144,.25)}
+/* —— 淺色：憲章文件 —— */
+html[data-theme="light"] body[data-section="charter"] .prose > h2{border-top-color:rgba(28,43,69,.2);color:#16233C}
+html[data-theme="light"] body[data-section="charter"] .doc-toc{background:rgba(255,255,255,.7);border-color:rgba(28,43,69,.14)}
+html[data-theme="light"] body[data-section="charter"] .doc-toc a{color:#22314E}
+html[data-theme="light"] body[data-section="charter"] .prose > ul > li{border-left-color:rgba(14,116,144,.55)}
+html[data-theme="light"] body[data-section="charter"] .prose > ul > li > strong{color:#16233C}
+/* —— 淺色：廣場與表單 —— */
+html[data-theme="light"] body .forum article, html[data-theme="light"] body .forum-form{background:rgba(255,255,255,.75);border-color:rgba(28,43,69,.14)}
+html[data-theme="light"] body .fp-title{color:#16233C}
+html[data-theme="light"] body .fp-body{color:#2A3850}
+html[data-theme="light"] body .fp-meta, html[data-theme="light"] body .fp-reply-meta, html[data-theme="light"] body .fstat span{color:#71809A}
+html[data-theme="light"] body .forum-form input, html[data-theme="light"] body .forum-form textarea, html[data-theme="light"] body .join-form input, html[data-theme="light"] body .join-form textarea, html[data-theme="light"] body .join-form select{background:#fff;border-color:rgba(28,43,69,.22);color:#22314E}
+html[data-theme="light"] body .forum-form input::placeholder, html[data-theme="light"] body .forum-form textarea::placeholder{color:#8A99B0}
+html[data-theme="light"] body .fstat{border-color:rgba(28,43,69,.14)}
+html[data-theme="light"] body .ftab{color:#43536B;border-color:rgba(28,43,69,.2)}
+/* —— 淺色：首頁（變數翻轉＋深色封面區保護） —— */
+html[data-theme="light"] body[data-section="home"]{--bg:#F3EFE6;--bg2:#EAE4D3;--moon:#16233C;--dim:#43536B;--faint:#71809A;--line:rgba(28,43,69,.16)}
+html[data-theme="light"] body[data-section="home"] .hero h1{color:#F8FAFC}
+html[data-theme="light"] body[data-section="home"] .hero .sub{color:#C9D8EC}
+html[data-theme="light"] body[data-section="home"] .hero .meta{color:#95AAC6}
+html[data-theme="light"] body[data-section="home"] .pin .lines p{color:#8FA3C0}
+html[data-theme="light"] body[data-section="home"] .pin .lines p.on{color:#F8FAFC}
+html[data-theme="light"] body[data-section="home"] .finale h2{color:#F8FAFC}
+html[data-theme="light"] body[data-section="home"] .finale .bridge-word{color:#95AAC6}
+html[data-theme="light"] body[data-section="home"] .plain{background:linear-gradient(180deg,#F3EFE6,#EFE9DA 55%,#F3EFE6)}
+html[data-theme="light"] body[data-section="home"] .plain-eyebrow{color:#0E7490}
+html[data-theme="light"] body[data-section="home"] .plain-lead{color:#2A3850}
+html[data-theme="light"] body[data-section="home"] .plain-lead strong{color:#16233C}
+html[data-theme="light"] body[data-section="home"] .plain-card{background:linear-gradient(180deg,#FFFFFF,#FAF7EF);border-color:rgba(28,43,69,.14)}
+html[data-theme="light"] body[data-section="home"] .plain-num{color:#0E7490}
+html[data-theme="light"] body[data-section="home"] .plain-card p{color:#43536B}
+html[data-theme="light"] body[data-section="home"] .plain-more{color:#5A6B84}
+html[data-theme="light"] body[data-section="home"] .plain-more a{color:#0E7490}
+html[data-theme="light"] body[data-section="home"] .ritual input{background:#fff;border-color:rgba(28,43,69,.25);color:#16233C}
+html[data-theme="light"] body[data-section="home"] .status th{color:#71809A}
+html[data-theme="light"] body[data-section="home"] .status td.s-plan{color:#71809A}
+html[data-theme="light"] body[data-section="home"] .free-index a:hover{background:rgba(14,116,144,.07)}

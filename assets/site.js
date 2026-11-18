@@ -663,3 +663,14 @@
   if (reduced) { gl.uniform2f(uR, cv.width, cv.height); gl.uniform1f(uT, 12); gl.uniform2f(uM, 0, 0); gl.uniform1f(uD, .9); gl.drawArrays(gl.TRIANGLES, 0, 3); }
   else frame();
 })();
+
+/* a020 深淺模式切換 */
+(() => {
+  const btn = document.getElementById('themeBtn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('cw-theme', next); } catch (e) {}
+  });
+})();
