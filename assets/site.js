@@ -670,6 +670,8 @@
   if (!btn) return;
   btn.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.classList.add('theming');
+    setTimeout(() => document.documentElement.classList.remove('theming'), 650);
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem('cw-theme', next); } catch (e) {}
   });
