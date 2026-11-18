@@ -6,6 +6,8 @@ description: 免費取用的公開文件 —— 核心理念、白皮書、第�
 lead: 這頁放可以免費下載的文件——白皮書、理念說明和入門資料，想拿去分享或自己慢慢看都可以。
 ---
 
+![陽光灑進的公開檔案館，卷軸與文件整齊收在木架上，任人取閱](/assets/illustrations/resources-archive.jpg)
+
 ::: hero
 # 公開資料
 

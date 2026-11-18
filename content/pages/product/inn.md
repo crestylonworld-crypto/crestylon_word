@@ -6,6 +6,8 @@ description: INN 星際聯邦官方新聞網——AI 編輯部全天候運作的
 lead: INN 是已經上線的新聞站，由 AI 編輯部全天候整理新聞。這是凌極世界目前真的能點開來用的產品之一。
 ---
 
+![星際新聞觀測站：碟形天線向行星發出光訊號，中央懸浮著全像星圖](/assets/illustrations/inn-observatory.jpg)
+
 ::: hero
 # INN 星際聯邦官方新聞網
 
