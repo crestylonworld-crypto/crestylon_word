@@ -1044,3 +1044,18 @@ body:not([data-section="home"]) .bg-sec-in>h2::after{content:"";display:block;wi
 body[data-section="charter"] .bg-sec-in>h2{scroll-margin-top:110px}
 body[data-section="charter"] .bg-sec-in>h2::before{content:none}
 body.rv-on .bg-sec-in>h2{transform:none;opacity:1}
+
+/* ===== a029：底圖段落淺色保護＋手機加強 ===== */
+.bg-sec{color:#DCE7F5}
+html[data-theme="light"] .bg-sec a{color:#7DD3FC}
+html[data-theme="light"] .bg-sec blockquote{color:#CBD8EA;border-left-color:rgba(125,211,252,.55)}
+html[data-theme="light"] .bg-sec code{background:rgba(125,211,252,.14);color:#FDBA74}
+html[data-theme="light"] .bg-sec table th{color:#9DB2CC}
+html[data-theme="light"] .bg-sec table th,html[data-theme="light"] .bg-sec table td{border-bottom-color:rgba(190,215,245,.25)}
+html[data-theme="light"] .bg-sec hr{border-top-color:rgba(190,215,245,.25)}
+@media (max-width:760px){
+  .bg-sec{padding:54px 0;margin-top:52px;margin-bottom:52px}
+  .bg-sec .sec-bg{filter:saturate(.85) contrast(1.05) brightness(.42)}
+  .bg-sec .sec-shade{background:linear-gradient(180deg,var(--bg) 0%,rgba(7,13,26,.45) 22%,rgba(7,13,26,.45) 78%,var(--bg) 100%)}
+  body[data-section="home"] .sec-bg{filter:saturate(.82) contrast(1.06) brightness(.44)}
+}
