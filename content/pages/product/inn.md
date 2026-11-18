@@ -13,6 +13,8 @@ lead: INN 是已經上線的新聞站，由 AI 編輯部全天候整理新聞。
 
 ## STELLAR FEDERATION OFFICIAL NEWS NETWORK
 
+![小觀測站上方的夜空，星星之間牽著金色的訊號弧線，整片天是一張網](/assets/illustrations/inn-federation.jpg)
+
 每日更新 · DAILY
 
 AI 編輯部全天候運作的雙語新聞平台。
