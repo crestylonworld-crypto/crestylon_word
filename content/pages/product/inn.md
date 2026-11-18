@@ -30,6 +30,8 @@ INN 是凌極世界裡的新聞實驗：以正式客觀的語態報導星際社�
 
 ## FEATURES
 
+![觀測站內部：真空管收音機、拉著線的地圖、一摞訊號紀錄本與黃銅望遠鏡](/assets/illustrations/inn-features.jpg)
+
 ::: cards
 #### 雙語
 中英雙語新聞平台，同一事件，兩種語言的視角。
@@ -58,6 +60,8 @@ INN 的報導涵蓋八大領域，完整內容與最新報導以 INN 正式站�
 
 ::: cta
 ## 前往 INN
+
+![一艘掛著燈籠的小船劃過夜水，朝著山丘上發光的觀測站圓頂而去，水面拖著一條光路](/assets/illustrations/inn-journey.jpg)
 
 [立即閱讀](https://inn.crestylon.org) [瀏覽新聞檔案庫](https://inn.crestylon.org) [前往 INN](https://inn.crestylon.org)
 :::
