@@ -1094,3 +1094,16 @@ body[data-section="home"] .has-bg+.has-bg:has(+.has-bg)>.sec-shade{background:rg
   .bg-sec>.bg-sec>.sec-shade{background:linear-gradient(180deg,rgba(7,13,26,.45) 0%,rgba(7,13,26,.45) 78%,var(--bg) 100%)}
   .bg-sec>.bg-sec:has(>.bg-sec)>.sec-shade{background:rgba(7,13,26,.45)}
 }
+
+/* ===== a054：含 hero 的章節，遮罩頂部固定深色——淺色模式 var(--bg) 是紙色、又逢 WebGL 不可用時，標題會被洗白（使用者實機回報） ===== */
+.bg-sec:has(.hero-block)>.sec-shade{background:linear-gradient(180deg,#070D1A 0%,rgba(7,13,26,.32) 22%,rgba(7,13,26,.32) 78%,var(--bg) 100%)}
+.bg-sec:has(.hero-block):has(+.bg-sec)>.sec-shade{background:linear-gradient(180deg,#070D1A 0%,rgba(7,13,26,.32) 22%,rgba(7,13,26,.32) 100%)}
+@media (max-width:760px){
+  .bg-sec:has(.hero-block)>.sec-shade{background:linear-gradient(180deg,#070D1A 0%,rgba(7,13,26,.45) 22%,rgba(7,13,26,.45) 78%,var(--bg) 100%)}
+  .bg-sec:has(.hero-block):has(+.bg-sec)>.sec-shade{background:linear-gradient(180deg,#070D1A 0%,rgba(7,13,26,.45) 22%,rgba(7,13,26,.45) 100%)}
+}
+/* ===== a054-2：底圖段內的白話導讀卡維持深色玻璃（淺色版底色僅 9% 透明，壓在圖上字會糊） ===== */
+html[data-theme="light"] .bg-sec .lead-card{background:linear-gradient(180deg,rgba(56,189,248,.10),rgba(56,189,248,.04));border-color:rgba(125,211,252,.35);border-left-color:#38BDF8}
+html[data-theme="light"] .bg-sec .lead-eyebrow{color:#7DD3FC}
+html[data-theme="light"] .bg-sec .lead-text{color:#E8F1FC}
+html[data-theme="light"] .bg-sec .lead-text strong{color:#7DD3FC}
