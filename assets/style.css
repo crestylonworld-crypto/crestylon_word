@@ -1123,3 +1123,6 @@ body[data-section="home"] .hero::after{content:'';position:absolute;left:0;right
 
 /* ===== a056-2：底圖段內的卡片改實心磨砂（原玻璃底僅 5% 白，繁忙底圖會透進文字，使用者實機回報「好亂」） ===== */
 html:not([data-theme="light"]) body:not([data-section="home"]) .bg-sec .card{background:linear-gradient(180deg,rgba(13,22,40,.84),rgba(10,17,32,.88));-webkit-backdrop-filter:blur(10px) saturate(.9);backdrop-filter:blur(10px) saturate(.9);border-color:rgba(160,200,240,.34)}
+
+/* ===== a057：淺色模式下 bg-sec 內文回到淺色（.prose 的深墨色直接繼承進底圖段，壓在深色圖上看不見，使用者實機回報） ===== */
+html[data-theme="light"] .bg-sec{color:#DCE9F9;--moon-dim:#CBD8EA;--moon-faint:#9DB2CC}
