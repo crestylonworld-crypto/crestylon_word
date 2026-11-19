@@ -1028,7 +1028,7 @@ body[data-section="home"] .sec-bg{position:absolute;top:0;left:0;width:100%;heig
 body[data-section="home"] .bg-top .sec-bg{height:125vh}
 body[data-section="home"] .sec-shade{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(7,13,26,.34) 26%,rgba(7,13,26,.34) 74%,var(--bg) 100%)}
 body[data-section="home"] .bg-top .sec-shade{bottom:auto;height:125vh;background:linear-gradient(180deg,var(--bg) 0%,rgba(7,13,26,.34) 34%,var(--bg) 98%)}
-body[data-section="home"] .has-bg>*:not(.sec-bg):not(.sec-shade){position:relative;z-index:1}
+body[data-section="home"] .has-bg>*:not(.sec-bg):not(.sec-shade):not(.sec-blur){position:relative;z-index:1}
 html[data-theme="light"] body[data-section="home"] .has-bg{--moon:#F8FAFC;--dim:#CBD8EA;--faint:#9DB2CC;--line:rgba(190,215,245,.22)}
 
 /* ===== a028：內頁章節底圖（比照首頁 has-bg；h2 裝飾在此重建） ===== */
@@ -1058,4 +1058,39 @@ html[data-theme="light"] .bg-sec hr{border-top-color:rgba(190,215,245,.25)}
   .bg-sec .sec-bg{filter:saturate(.85) contrast(1.05) brightness(.42)}
   .bg-sec .sec-shade{background:linear-gradient(180deg,var(--bg) 0%,rgba(7,13,26,.45) 22%,rgba(7,13,26,.45) 78%,var(--bg) 100%)}
   body[data-section="home"] .sec-bg{filter:saturate(.82) contrast(1.06) brightness(.44)}
+}
+
+/* ===== a053：相鄰章節底圖改「虛化連結」——拿掉中間的實色帶，兩張圖交疊＋模糊溶解 ===== */
+.bg-sec{--seam:min(12vh,84px)}
+.bg-sec .sec-blur{display:none}
+.bg-sec+.bg-sec{margin-top:calc(-72px - var(--seam))}
+.bg-sec:has(+.bg-sec){padding-bottom:calc(76px + var(--seam))}
+.bg-sec+.bg-sec>.sec-bg{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 calc(var(--seam) + 48px));mask-image:linear-gradient(180deg,transparent 0,#000 calc(var(--seam) + 48px))}
+.bg-sec+.bg-sec>.sec-blur{display:block;position:absolute;top:0;left:0;right:0;height:calc(var(--seam) + 56px);z-index:0;background-size:cover;background-position:center 12%;filter:blur(16px) brightness(.55) saturate(.9);transform:scale(1.06);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 34%,#000 74%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 34%,#000 74%,transparent 100%);opacity:.9;pointer-events:none}
+.bg-sec:has(+.bg-sec)>.sec-shade{background:linear-gradient(180deg,var(--bg) 0%,rgba(7,13,26,.32) 22%,rgba(7,13,26,.32) 100%)}
+.bg-sec+.bg-sec>.sec-shade{background:linear-gradient(180deg,rgba(7,13,26,.32) 0%,rgba(7,13,26,.32) 78%,var(--bg) 100%)}
+.bg-sec+.bg-sec:has(+.bg-sec)>.sec-shade{background:rgba(7,13,26,.32)}
+.bg-sec>.bg-sec{margin-top:calc(-1 * var(--seam))}
+.bg-sec-in:has(+.bg-sec){padding-bottom:var(--seam)}
+.bg-sec>.bg-sec>.sec-bg{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 calc(var(--seam) + 48px));mask-image:linear-gradient(180deg,transparent 0,#000 calc(var(--seam) + 48px))}
+.bg-sec>.bg-sec>.sec-blur{display:block;position:absolute;top:0;left:0;right:0;height:calc(var(--seam) + 56px);z-index:0;background-size:cover;background-position:center 12%;filter:blur(16px) brightness(.55) saturate(.9);transform:scale(1.06);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 34%,#000 74%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 34%,#000 74%,transparent 100%);opacity:.9;pointer-events:none}
+.bg-sec>.bg-sec>.sec-shade{background:linear-gradient(180deg,rgba(7,13,26,.32) 0%,rgba(7,13,26,.32) 78%,var(--bg) 100%)}
+.bg-sec>.bg-sec:has(>.bg-sec)>.sec-shade{background:rgba(7,13,26,.32)}
+body[data-section="home"] .has-bg{--seam:min(8vh,56px)}
+body[data-section="home"] .has-bg .sec-blur{display:none}
+body[data-section="home"] .has-bg+.has-bg{margin-top:calc(-1 * var(--seam))}
+body[data-section="home"] .has-bg:has(+.has-bg){padding-bottom:var(--seam)}
+body[data-section="home"] .has-bg+.has-bg>.sec-bg{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 calc(var(--seam) + 48px));mask-image:linear-gradient(180deg,transparent 0,#000 calc(var(--seam) + 48px))}
+body[data-section="home"] .has-bg+.has-bg>.sec-blur{display:block;position:absolute;top:0;left:0;right:0;height:calc(var(--seam) + 56px);z-index:0;background-size:cover;background-position:center 12%;filter:blur(16px) brightness(.55) saturate(.85);transform:scale(1.06);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 34%,#000 74%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 34%,#000 74%,transparent 100%);opacity:.9;pointer-events:none}
+body[data-section="home"] .has-bg:has(+.has-bg)>.sec-shade{background:linear-gradient(180deg,var(--bg) 0%,rgba(7,13,26,.34) 26%,rgba(7,13,26,.34) 100%)}
+body[data-section="home"] .has-bg+.has-bg>.sec-shade{background:linear-gradient(180deg,rgba(7,13,26,.34) 0%,rgba(7,13,26,.34) 74%,var(--bg) 100%)}
+body[data-section="home"] .has-bg+.has-bg:has(+.has-bg)>.sec-shade{background:rgba(7,13,26,.34)}
+@media (max-width:760px){
+  .bg-sec+.bg-sec{margin-top:calc(-52px - var(--seam))}
+  .bg-sec:has(+.bg-sec){padding-bottom:calc(54px + var(--seam))}
+  .bg-sec:has(+.bg-sec)>.sec-shade{background:linear-gradient(180deg,var(--bg) 0%,rgba(7,13,26,.45) 22%,rgba(7,13,26,.45) 100%)}
+  .bg-sec+.bg-sec>.sec-shade{background:linear-gradient(180deg,rgba(7,13,26,.45) 0%,rgba(7,13,26,.45) 78%,var(--bg) 100%)}
+  .bg-sec+.bg-sec:has(+.bg-sec)>.sec-shade{background:rgba(7,13,26,.45)}
+  .bg-sec>.bg-sec>.sec-shade{background:linear-gradient(180deg,rgba(7,13,26,.45) 0%,rgba(7,13,26,.45) 78%,var(--bg) 100%)}
+  .bg-sec>.bg-sec:has(>.bg-sec)>.sec-shade{background:rgba(7,13,26,.45)}
 }
