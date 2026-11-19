@@ -313,7 +313,7 @@ function build() {
       return figs.map((m, i) => {
         const head = i === 0 ? chunk.slice(0, m.index) : '';
         const tail = chunk.slice(m.index + m[0].length, i + 1 < figs.length ? figs[i + 1].index : chunk.length);
-        return `<div class="bg-sec"><img class="sec-bg" src="${m[1]}" alt="" aria-hidden="true"><div class="sec-shade"></div><div class="bg-sec-in">${head}${tail}</div></div>`;
+        return `<div class="bg-sec"><img class="sec-bg" src="${m[1]}" alt="" aria-hidden="true"><div class="sec-shade"></div><div class="sec-blur" style="background-image:url('${m[1]}')" aria-hidden="true"></div><div class="bg-sec-in">${head}${tail}</div></div>`;
       }).join('');
     }).join('');
     let html = TPL.replaceAll('{{content}}', content);
