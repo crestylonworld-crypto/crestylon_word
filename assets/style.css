@@ -1107,3 +1107,13 @@ html[data-theme="light"] .bg-sec .lead-card{background:linear-gradient(180deg,rg
 html[data-theme="light"] .bg-sec .lead-eyebrow{color:#7DD3FC}
 html[data-theme="light"] .bg-sec .lead-text{color:#E8F1FC}
 html[data-theme="light"] .bg-sec .lead-text strong{color:#7DD3FC}
+
+/* ===== a055：hero 在底圖段內收掉過量上方留白（19vh 頂 padding 與段落 padding 疊加成空帶，使用者實機回報） ===== */
+.bg-sec:has(.hero-block){padding-top:26px}
+body:not([data-section="home"]) .bg-sec .hero-block{padding-top:6vh;padding-bottom:8vh}
+.bg-sec:has(.hero-block)>.sec-shade{background:linear-gradient(180deg,#070D1A 0%,rgba(7,13,26,.32) 12%,rgba(7,13,26,.32) 78%,var(--bg) 100%)}
+.bg-sec:has(.hero-block):has(+.bg-sec)>.sec-shade{background:linear-gradient(180deg,#070D1A 0%,rgba(7,13,26,.32) 12%,rgba(7,13,26,.32) 100%)}
+@media (max-width:760px){
+  .bg-sec:has(.hero-block)>.sec-shade{background:linear-gradient(180deg,#070D1A 0%,rgba(7,13,26,.45) 12%,rgba(7,13,26,.45) 78%,var(--bg) 100%)}
+  .bg-sec:has(.hero-block):has(+.bg-sec)>.sec-shade{background:linear-gradient(180deg,#070D1A 0%,rgba(7,13,26,.45) 12%,rgba(7,13,26,.45) 100%)}
+}
